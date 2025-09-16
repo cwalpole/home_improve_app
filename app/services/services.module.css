@@ -1,0 +1,78 @@
+/* app/services/services.module.css */
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.title {
+  font-size: clamp(20px, 2.6vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  grid-column: span 12;
+}
+
+.card {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  transition: border-color 0.15s ease, transform 0.12s ease,
+    box-shadow 0.12s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.cardTitle {
+  font-weight: 700;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.cardExcerpt {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Responsive columns */
+@media (min-width: 640px) {
+  .item {
+    grid-column: span 6;
+  }
+}
+@media (min-width: 960px) {
+  .item {
+    grid-column: span 4;
+  }
+}
+
+/* Empty state */
+.empty {
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+}

@@ -1,0 +1,14 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  background: white;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.card:hover { transform: translateY(-2px); border-color: #d1d5db; box-shadow: var(--shadow); }
+.title { font-weight: 700; }
+.excerpt { color: var(--muted); }
+.link { font-weight: 600; text-decoration: underline; }

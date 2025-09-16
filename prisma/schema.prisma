@@ -1,0 +1,78 @@
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Company {
+  id          Int     @id @default(autoincrement())
+  name        String
+  tagline     String?
+  phone       String?
+  email       String?
+  address     String?
+  city        String?
+  region      String?
+  postalCode  String?
+  country     String?
+  logoUrl     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String
+  excerpt     String?
+  content     String?   // rich text/HTML markdown-rendered
+  heroImage   String?
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  projects    Project[]
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String
+  excerpt     String?
+  content     String?
+  coverImage  String?
+  gallery     Json?     // array of URLs
+  location    String?
+  serviceId   Int?
+  service     Service?  @relation(fields: [serviceId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  published   Boolean   @default(true)
+}
+
+model Testimonial {
+  id          Int      @id @default(autoincrement())
+  name        String
+  role        String?
+  quote       String
+  company     String?
+  avatarUrl   String?
+  createdAt   DateTime  @default(now())
+  published   Boolean   @default(true)
+}
+
+model BlogPost {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String
+  excerpt     String?
+  content     String?
+  coverImage  String?
+  published   Boolean   @default(true)
+  publishedAt DateTime? 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}

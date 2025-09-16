@@ -1,0 +1,10 @@
+.main {
+  max-width: var(--maxw);
+  margin: 40px auto;
+  padding: 0 16px;
+}
+.main h1 {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+.main p { line-height: 1.6; }
