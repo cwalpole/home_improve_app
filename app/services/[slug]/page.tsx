@@ -3,7 +3,8 @@ import Image from "next/image";
 import styles from "./ServicePage.module.css";
 import JsonLd from "@/components/JsonLd";
 import type { Metadata } from "next";
-import { prisma } from "@/lib/prisma"; // <-- make sure you have the prisma singleton
+import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 type Props = { params: { slug: string } };
 
@@ -71,7 +72,8 @@ export default async function ServicePage({ params }: Props) {
       <div className={styles.hero}>
         <div className={styles.inner}>
           <div className={styles.breadcrumbs}>
-            <a href="/">Home</a> / <a href="/services">Services</a> / {s.title}
+            <Link href="/">Home</Link> / <Link href="/services">Services</Link>{" "}
+            / {s.title}
           </div>
           <h1 className={styles.title}>{s.title}</h1>
           {s.excerpt ? <p className={styles.excerpt}>{s.excerpt}</p> : null}

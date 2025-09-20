@@ -1,12 +1,13 @@
 "use client";
 import { useActionState } from "react";
-import { createOrUpdateService } from "./actions";
+import { createOrUpdateService, type ServiceActionState } from "./actions";
 import styles from "./form.module.css";
 
 export default function AdminServices() {
-  const [state, action] = useActionState(createOrUpdateService, {
-    ok: false,
-  } as any);
+  const [state, action] = useActionState<ServiceActionState, FormData>(
+    createOrUpdateService,
+    { ok: false }
+  );
 
   return (
     <main className={styles.wrap}>

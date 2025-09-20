@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import Section from "@/components/Section";
 import ServiceCard from "@/components/ServiceCard";
 import ProjectCard from "@/components/ProjectCard";
+import Link from "next/link";
 
 export const revalidate = 60; // ISR: re-generate periodically
 
@@ -28,12 +29,12 @@ export default async function HomePage() {
             city. On-time and on-budget.
           </p>
           <div className={styles.ctaRow}>
-            <a href="/contact" className={styles.ctaPrimary}>
+            <Link href="/contact" className={styles.ctaPrimary}>
               Get a quote
-            </a>
-            <a href="/projects" className={styles.ctaSecondary}>
+            </Link>
+            <Link href="/projects" className={styles.ctaSecondary}>
               See projects
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -44,7 +45,7 @@ export default async function HomePage() {
         id="services"
         title="Services"
         desc="End-to-end delivery across commercial and residential work."
-        right={<a href="/services">All services →</a>}
+        right={<Link href="/services">All services →</Link>}
       >
         <div className={styles.grid}>
           {services.map((s) => (
@@ -63,7 +64,7 @@ export default async function HomePage() {
         id="projects"
         title="Featured Projects"
         desc="A small selection of recent work. See the full gallery for more."
-        right={<a href="/projects">All projects →</a>}
+        right={<Link href="/projects">All projects →</Link>}
       >
         <div className={styles.grid}>
           {projects.map((p) => (
