@@ -29,7 +29,3 @@ docs/
 
 .next/cache/
 node_modules/.pnpm-store/
-
-# Prisma sources (not needed at runtime once build/migrate/generate have run)
-
-prisma/
