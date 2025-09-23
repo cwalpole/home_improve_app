@@ -1,0 +1,35 @@
+# VCS & editor
+
+.git/
+.github/
+.vscode/
+_.md
+_.MD
+\*.markdown
+
+# Typescript / config / dev stuff not needed at runtime
+
+tsconfig*.json
+eslint*
+.prettier*
+postcss.config.*
+tailwind.config.\*
+\*.map
+
+# Tests & tooling
+
+tests/
+**tests**/
+coverage/
+scripts/
+docs/
+.storybook/
+
+# Build caches
+
+.next/cache/
+node_modules/.pnpm-store/
+
+# Prisma sources (not needed at runtime once build/migrate/generate have run)
+
+prisma/

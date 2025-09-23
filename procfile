@@ -1,7 +1,5 @@
-# Run schema migrations on each deploy (safe if your migrations are additive)
+web: node .next/standalone/server.js
+
+# (optional belt-and-suspenders; you already run it in "build")
 
 release: npx prisma migrate deploy
-
-# Start Next.js on Heroku's provided $PORT
-
-web: next start -p $PORT

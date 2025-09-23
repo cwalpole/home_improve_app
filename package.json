@@ -8,9 +8,10 @@
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
     "build": "prisma migrate deploy && next build",
-    "start": "next start -p $PORT",
+    "start": "node .next/standalone/server.js",
     "lint": "eslint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "heroku-postbuild": "pnpm prune --prod && rm -rf node_modules .next/cache node_modules/.pnpm-store"
   },
   "dependencies": {
     "@prisma/client": "^6.16.2",
