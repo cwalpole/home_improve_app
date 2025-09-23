@@ -1,11 +1,13 @@
 {
   "name": "home-improve-app",
   "version": "0.1.0",
-  "private": true,
+  "engines": {
+    "node": ">=18 <21"
+  },
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
+    "build": "prisma migrate deploy && next build",
+    "start": "next start -p $PORT",
     "lint": "eslint",
     "postinstall": "prisma generate"
   },
