@@ -1,23 +1,37 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import styles from "./ServicePage.module.css";
-import JsonLd from "@/components/JsonLd";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import Link from "next/link";
+import JsonLd from "@/components/JsonLd";
+import styles from "./ServicePage.module.css";
 
-type Props = { params: { slug: string } };
+type RouteParams = { slug: string };
+
+export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const rows = await prisma.service.findMany({ select: { slug: true } });
-  return rows.map((r) => ({ slug: r.slug }));
+  try {
+    const rows = await prisma.service.findMany({ select: { slug: true } });
+    return rows.map((r) => ({ slug: r.slug }));
+  } catch {
+    // If DB isn't reachable during build, skip pre-rendering detail pages.
+    return [];
+  }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const s = await prisma.service.findUnique({ where: { slug: params.slug } });
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<RouteParams>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const s = await prisma.service.findUnique({ where: { slug } });
   if (!s) return {};
+
   const base = process.env.NEXT_PUBLIC_SITE_URL || "https://www.example.com";
   const url = `${base}/services/${s.slug}`;
+
   return {
     title: s.title,
     description: s.excerpt ?? undefined,
@@ -31,13 +45,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export const revalidate = 60;
-
-export default async function ServicePage({ params }: Props) {
-  const s = await prisma.service.findUnique({ where: { slug: params.slug } });
+export default async function ServicePage({
+  params,
+}: {
+  params: Promise<RouteParams>;
+}) {
+  const { slug } = await params;
+  const s = await prisma.service.findUnique({ where: { slug } });
   if (!s) notFound();
 
   const base = process.env.NEXT_PUBLIC_SITE_URL || "https://www.example.com";
+
   const breadcrumbs = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

@@ -1,74 +1,59 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import styles from "./ProjectPage.module.css";
-import { projects } from "@/lib/mockData";
-import JsonLd from "@/components/JsonLd";
-import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
+import { prisma } from "@/lib/prisma";
+import styles from "./ProjectPage.module.css";
+import type { Metadata } from "next";
 
-type Props = { params: { slug: string } };
+type RouteParams = { slug: string };
 
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const rows = await prisma.project.findMany({
+    select: { slug: true },
+    where: { published: true },
+  });
+  return rows.map((r) => ({ slug: r.slug }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const p = projects.find((x) => x.slug === params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<RouteParams>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const p = await prisma.project.findUnique({ where: { slug } });
   if (!p) return {};
-  const base = "https://www.example.com";
+
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.example.com";
   const url = `${base}/projects/${p.slug}`;
+
   return {
     title: p.title,
-    description: p.excerpt,
+    description: p.excerpt ?? undefined,
     alternates: { canonical: url },
     openGraph: {
       url,
       title: p.title,
-      description: p.excerpt,
-      images: p.cover ? [{ url: p.cover }] : undefined,
+      description: p.excerpt ?? undefined,
+      images: p.coverImage ? [{ url: p.coverImage }] : undefined,
     },
   };
 }
 
 export const revalidate = 60;
 
-export default function ProjectPage({ params }: Props) {
-  const p = projects.find((x) => x.slug === params.slug);
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<RouteParams>;
+}) {
+  const { slug } = await params;
+
+  const p = await prisma.project.findUnique({
+    where: { slug },
+    include: { service: { select: { title: true, slug: true } } },
+  });
   if (!p) notFound();
-
-  const breadcrumbs = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: "https://www.example.com",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Projects",
-        item: "https://www.example.com/projects",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: p.title,
-        item: `https://www.example.com/projects/${p.slug}`,
-      },
-    ],
-  };
-
-  const projectLd = {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: p.title,
-    description: p.excerpt,
-    locationCreated: p.location,
-    image: p.cover,
-  };
 
   return (
     <main>
@@ -84,23 +69,25 @@ export default function ProjectPage({ params }: Props) {
       </div>
 
       <section className={styles.wrap}>
-        <div className={styles.gallery}>
-          {p.cover ? (
-            <Image src={p.cover} alt={p.title} width={800} height={600} />
+        <div className={styles.media}>
+          {p.coverImage ? (
+            <Image src={p.coverImage} alt={p.title} width={1200} height={700} />
           ) : null}
         </div>
         <article className={styles.content}>
           {p.content ? (
             <div dangerouslySetInnerHTML={{ __html: p.content }} />
           ) : null}
-          {p.location ? (
-            <div className={styles.meta}>Location: {p.location}</div>
+          {p.service ? (
+            <p className={styles.meta}>
+              Service:{" "}
+              <Link href={`/services/${p.service.slug}`}>
+                {p.service.title}
+              </Link>
+            </p>
           ) : null}
         </article>
       </section>
-
-      <JsonLd data={breadcrumbs} />
-      <JsonLd data={projectLd} />
     </main>
   );
 }
