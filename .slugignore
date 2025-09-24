@@ -21,7 +21,6 @@ tailwind.config.\*
 tests/
 **tests**/
 coverage/
-scripts/
 docs/
 .storybook/
 
