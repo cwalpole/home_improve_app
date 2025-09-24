@@ -1,7 +1,19 @@
-.section { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+.section {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 16px;
+}
 .head {
-  display: flex; align-items: end; justify-content: space-between; gap: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 16px;
 }
-.title { font-size: clamp(20px, 2.6vw, 28px); }
-.desc { color: var(--muted); max-width: 680px; }
+.title {
+  font-size: clamp(20px, 2.6vw, 28px);
+}
+.desc {
+  color: var(--muted);
+  max-width: 680px;
+}
