@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 export default async function sitemap() {
-  const base = "https://www.acmebuilders.com";
+  const base = "https://www.gothome.ca";
   const [services, projects, posts] = await Promise.all([
     prisma.service.findMany({ select: { slug: true, updatedAt: true } }),
     prisma.project.findMany({
@@ -25,10 +25,10 @@ export default async function sitemap() {
       url: `${base}/services/${s.slug}`,
       lastModified: s.updatedAt,
     })),
-    ...projects.map((p) => ({
-      url: `${base}/projects/${p.slug}`,
-      lastModified: p.updatedAt,
-    })),
+    // ...projects.map((p) => ({
+    //   url: `${base}/projects/${p.slug}`,
+    //   lastModified: p.updatedAt,
+    // })),
     ...posts.map((b) => ({
       url: `${base}/blog/${b.slug}`,
       lastModified: b.updatedAt,

@@ -49,18 +49,19 @@ export default async function HomePage() {
       >
         <div className={styles.grid}>
           {services.map((s) => (
-            <div key={s.id} className={styles.col3}>
+            <div key={s.id} className={styles.col4}>
               <ServiceCard
                 title={s.title}
                 excerpt={s.excerpt ?? undefined}
                 href={`/services/${s.slug}`}
+                cover={s.heroImage ?? undefined}
               />
             </div>
           ))}
         </div>
       </Section>
 
-      <Section
+      {/* <Section
         id="projects"
         title="Featured Projects"
         desc="A small selection of recent work. See the full gallery for more."
@@ -78,7 +79,7 @@ export default async function HomePage() {
             </div>
           ))}
         </div>
-      </Section>
+      </Section> */}
     </main>
   );
 }
