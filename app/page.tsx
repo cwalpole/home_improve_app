@@ -3,19 +3,13 @@ import styles from "./home.module.css";
 import Hero from "@/components/Hero";
 import Section from "@/components/Section";
 import ServiceCard from "@/components/ServiceCard";
-import ProjectCard from "@/components/ProjectCard";
 import Link from "next/link";
 
 export const revalidate = 60; // ISR: re-generate periodically
 
 export default async function HomePage() {
-  const [services, projects] = await Promise.all([
+  const [services] = await Promise.all([
     prisma.service.findMany({ orderBy: { order: "asc" } }),
-    prisma.project.findMany({
-      where: { published: true },
-      orderBy: { createdAt: "desc" },
-      take: 6,
-    }),
   ]);
 
   return (
@@ -31,9 +25,6 @@ export default async function HomePage() {
           <div className={styles.ctaRow}>
             <Link href="/contact" className={styles.ctaPrimary}>
               Get a quote
-            </Link>
-            <Link href="/projects" className={styles.ctaSecondary}>
-              See projects
             </Link>
           </div>
         </div>

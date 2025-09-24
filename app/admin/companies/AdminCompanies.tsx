@@ -40,6 +40,7 @@ export default function AdminCompanies({ initialCompanies }: Props) {
   const onChange =
     (key: keyof Company) => (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       setEditing((prev: any) => (prev ? { ...prev, [key]: value } : prev));
     };
 
