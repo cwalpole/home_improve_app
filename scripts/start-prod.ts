@@ -1,12 +1,28 @@
 /* scripts/start-prod.ts */
 import { existsSync } from "node:fs";
 import { spawn } from "node:child_process";
+import path from "node:path";
 
-const hasStandalone = existsSync(".next/standalone/server.js");
+const standaloneDir = path.join(".next", "standalone");
+const hasStandalone = existsSync(path.join(standaloneDir, "server.js"));
+const hasBuild = existsSync(path.join(".next", "BUILD_ID"));
 
-const [cmd, args] = hasStandalone
-  ? (["node", [".next/standalone/server.js"]] as const)
-  : (["npx", ["next", "start", "-p", process.env.PORT || "3000"]] as const);
+if (!hasBuild) {
+  console.error("[start-prod] ERROR: No .next build found. Did the build run?");
+  process.exit(1);
+}
 
-const child = spawn(cmd, args, { stdio: "inherit" });
-child.on("exit", (code) => process.exit(code ?? 0));
+if (hasStandalone) {
+  // Run standalone server with .next/static & public copied under this cwd
+  console.log("[start-prod] launching standalone server");
+  process.chdir(standaloneDir);
+  spawn("node", ["server.js"], { stdio: "inherit" }).on("exit", (code) =>
+    process.exit(code ?? 0)
+  );
+} else {
+  // Fallback: next start (serves from project root .next)
+  console.log("[start-prod] standalone missing, falling back to next start");
+  spawn("npx", ["next", "start", "-p", process.env.PORT || "3000"], {
+    stdio: "inherit",
+  }).on("exit", (code) => process.exit(code ?? 0));
+}

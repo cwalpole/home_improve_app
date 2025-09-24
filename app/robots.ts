@@ -1,5 +1,5 @@
 export default function robots() {
-  const base = "https://www.acmebuilders.com";
+  const base = "https://www.gothome.ca";
   return {
     rules: [{ userAgent: "*", allow: "/" }],
     sitemap: `${base}/sitemap.xml`,

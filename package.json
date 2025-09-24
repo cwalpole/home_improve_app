@@ -10,8 +10,8 @@
     "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.17.0 --activate",
     "generate": "pnpm dlx prisma generate",
     "migrate:deploy": "pnpm dlx prisma migrate deploy",
-    "build": "pnpm run generate && pnpm run migrate:deploy && next build && tsc -p scripts/tsconfig.scripts.json",
-    "heroku-postbuild": "pnpm run generate && pnpm run migrate:deploy && next build && tsc -p scripts/tsconfig.scripts.json && pnpm prune --prod && rm -rf node_modules .next/cache node_modules/.pnpm-store",
+    "build": "pnpm run generate && next build && tsc -p scripts/tsconfig.scripts.json",
+    "heroku-postbuild": "pnpm run generate && next build && tsc -p scripts/tsconfig.scripts.json && mkdir -p .next/standalone/.next && cp -R .next/static .next/standalone/.next/static && if [ -d public ]; then cp -R public .next/standalone/public; fi && pnpm prune --prod && rm -rf node_modules .next/cache node_modules/.pnpm-store",
     "start": "node dist/scripts/start-prod.js",
     "dev": "next dev",
     "lint": "eslint"
