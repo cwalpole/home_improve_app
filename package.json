@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
-    "build": "prisma migrate deploy && next build",
-    "start": "node .next/standalone/server.js",
+    "build": "prisma migrate deploy && next build && tsc -p scripts/tsconfig.scripts.json",
+    "start": "node dist/scripts/start-prod.js",
     "lint": "eslint",
     "postinstall": "prisma generate",
     "heroku-postbuild": "pnpm prune --prod && rm -rf node_modules .next/cache node_modules/.pnpm-store"
