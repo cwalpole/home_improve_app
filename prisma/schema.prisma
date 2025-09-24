@@ -12,6 +12,8 @@ model Company {
   id          Int     @id @default(autoincrement())
   name        String
   tagline     String?
+  url         String?
+
   phone       String?
   email       String?
   address     String?
@@ -20,37 +22,73 @@ model Company {
   postalCode  String?
   country     String?
   logoUrl     String?
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  listings    CompanyServiceCity[] // opt-ins per service+city
 }
 
 model Service {
-  id          Int      @id @default(autoincrement())
-  slug        String   @unique
-  title       String
-  excerpt     String?
-  content     String?   // rich text/HTML markdown-rendered
-  heroImage   String?
-  order       Int       @default(0)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  projects    Project[]
+  id           Int       @id @default(autoincrement())
+  name         String    @unique   // e.g., "Plumbing", "Electrical"
+  slug         String    @unique
+
+  heroImage    String?
+  order        Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  serviceCities ServiceCity[]  // all cities where this service is shown
 }
 
-model Project {
-  id          Int      @id @default(autoincrement())
-  slug        String   @unique
-  title       String
-  excerpt     String?
-  content     String?
-  coverImage  String?
-  gallery     Json?     // array of URLs
-  location    String?
-  serviceId   Int?
-  service     Service?  @relation(fields: [serviceId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  published   Boolean   @default(true)
+model City {
+  id            Int     @id @default(autoincrement())
+  name          String
+  slug          String   @unique    // e.g., "calgary"
+  regionCode    String?     // e.g., "AB"
+  regionSlug    String? @db.VarChar(10) // "ab"
+  country       String  @default("Canada")
+
+  serviceCities ServiceCity[]
+
+  @@unique([name, regionCode, country], map: "city_name_region_country")
+  @@unique([regionSlug, slug])       // guarantees unique pair for routing
+  @@index([regionCode, country])
+  @@index([name])
+}
+
+model ServiceCity {
+  id         Int     @id @default(autoincrement())
+  serviceId  Int
+  cityId     Int
+
+  service    Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  city       City    @relation(fields: [cityId], references: [id], onDelete: Cascade)
+
+  listings   CompanyServiceCity[] // companies opted into this service+city
+
+  @@unique([serviceId, cityId])   // one slot per (service, city)
+  @@index([cityId])
+  @@index([serviceId])
+}
+
+model CompanyServiceCity {
+  companyId     Int
+  serviceCityId Int
+
+  // Useful listing metadata (optional):
+  displayName   String?      // override company name per city/service
+  isFeatured    Boolean  @default(false)
+  priceTier     String?      // "basic", "pro", etc.
+  approvedAt    DateTime?
+  createdAt     DateTime  @default(now())
+
+  company       Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  serviceCity   ServiceCity @relation(fields: [serviceCityId], references: [id], onDelete: Cascade)
+
+  @@id([companyId, serviceCityId])
+  @@index([serviceCityId])
 }
 
 model Testimonial {

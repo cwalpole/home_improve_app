@@ -1,0 +1,151 @@
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/.pnpm/next@15.5.3_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!./node_modules/.pnpm/next@15.5.3_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./app/admin/companies/AdminCompanies.module.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/* app/admin/companies/AdminCompanies.module.css */
+.AdminCompanies_wrap__yTo6O {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  min-height: calc(100dvh - 80px);
+}
+.AdminCompanies_sidebar__ldxdq {
+  border-right: 1px solid #e5e7eb;
+  padding: 16px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
+}
+.AdminCompanies_header__GEegj {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.AdminCompanies_primary__txw3_ {
+  background: #111827;
+  color: #fff;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.AdminCompanies_danger__mzfo_ {
+  background: #b91c1c;
+  color: #fff;
+  border: 0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.AdminCompanies_ghost__GxB8S {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.AdminCompanies_list__HoRfB {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+.AdminCompanies_item__bjYIB {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 8px;
+}
+.AdminCompanies_item__bjYIB:hover {
+  background: #f9fafb;
+}
+.AdminCompanies_row__sgIPf {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.AdminCompanies_avatar__btF4J {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-weight: 600;
+}
+.AdminCompanies_avatar__btF4J img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.AdminCompanies_meta__68Oye {
+  display: flex;
+  flex-direction: column;
+}
+.AdminCompanies_name__jGhcR {
+  font-weight: 600;
+}
+.AdminCompanies_sub__icHS_ {
+  color: #6b7280;
+  font-size: 12px;
+}
+.AdminCompanies_inlineForm__C42CX {
+  margin-left: 6px;
+}
+
+.AdminCompanies_editor__5Pn6H {
+  padding: 24px;
+}
+.AdminCompanies_form__yyHZY {
+  display: grid;
+  gap: 12px;
+  max-width: 720px;
+}
+
+/* ✅ scope element selectors under a local class */
+.AdminCompanies_form__yyHZY label {
+  display: grid;
+  gap: 6px;
+}
+.AdminCompanies_form__yyHZY input {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.AdminCompanies_grid2__fa3aN {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.AdminCompanies_actions__cOMxZ {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.AdminCompanies_error___2Ys_ {
+  color: #b91c1c;
+}
+.AdminCompanies_ok__uvTtw {
+  color: #065f46;
+}
+.AdminCompanies_placeholder__N_rZs {
+  color: #6b7280;
+}
+
+@media (max-width: 900px) {
+  .AdminCompanies_wrap__yTo6O {
+    grid-template-columns: 1fr;
+  }
+  .AdminCompanies_sidebar__ldxdq {
+    border-right: 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+}
+

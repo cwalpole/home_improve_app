@@ -12,15 +12,23 @@
       "static/css/app/page.css",
       "static/chunks/app/page.js"
     ],
-    "/sitemap.xml/route": [
+    "/services/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/sitemap.xml/route.js"
+      "static/css/app/services/page.css",
+      "static/chunks/app/services/page.js"
     ],
-    "/robots.txt/route": [
+    "/services/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/robots.txt/route.js"
+      "static/css/app/services/[slug]/page.css",
+      "static/chunks/app/services/[slug]/page.js"
+    ],
+    "/admin/companies/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/admin/companies/page.css",
+      "static/chunks/app/admin/companies/page.js"
     ]
   }
 }

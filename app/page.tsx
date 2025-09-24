@@ -30,8 +30,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <Hero />
-
       <Section
         id="services"
         title="Services"

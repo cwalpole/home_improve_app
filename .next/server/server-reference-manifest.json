@@ -1,5 +1,32 @@
 {
-  "node": {},
+  "node": {
+    "603e2729c9ec739971dfb036441f2473c83da42b14": {
+      "workers": {
+        "app/admin/companies/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.3_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fchadwalpole%2FWork%2Fhome-improve-app%2Fapp%2Fadmin%2Fcompanies%2Factions.ts%22%2C%5B%7B%22id%22%3A%22603e2729c9ec739971dfb036441f2473c83da42b14%22%2C%22exportedName%22%3A%22upsertCompany%22%2C%22filename%22%3A%22app%2Fadmin%2Fcompanies%2Factions.ts%22%7D%2C%7B%22id%22%3A%2260f15665d454a84a162e43b134ba24f8a8e45c3b17%22%2C%22exportedName%22%3A%22deleteCompany%22%2C%22filename%22%3A%22app%2Fadmin%2Fcompanies%2Factions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/companies/page": "action-browser"
+      },
+      "filename": "app/admin/companies/actions.ts",
+      "exportedName": "upsertCompany"
+    },
+    "60f15665d454a84a162e43b134ba24f8a8e45c3b17": {
+      "workers": {
+        "app/admin/companies/page": {
+          "moduleId": "(action-browser)/./node_modules/.pnpm/next@15.5.3_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fchadwalpole%2FWork%2Fhome-improve-app%2Fapp%2Fadmin%2Fcompanies%2Factions.ts%22%2C%5B%7B%22id%22%3A%22603e2729c9ec739971dfb036441f2473c83da42b14%22%2C%22exportedName%22%3A%22upsertCompany%22%2C%22filename%22%3A%22app%2Fadmin%2Fcompanies%2Factions.ts%22%7D%2C%7B%22id%22%3A%2260f15665d454a84a162e43b134ba24f8a8e45c3b17%22%2C%22exportedName%22%3A%22deleteCompany%22%2C%22filename%22%3A%22app%2Fadmin%2Fcompanies%2Factions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/companies/page": "action-browser"
+      },
+      "filename": "app/admin/companies/actions.ts",
+      "exportedName": "deleteCompany"
+    }
+  },
   "edge": {},
   "encryptionKey": "HdAr0MStjwU9IkTKXKEnV3ewFHlbG7azsFo8sVC8GL4="
 }

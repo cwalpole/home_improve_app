@@ -14,7 +14,8 @@
     "heroku-postbuild": "pnpm run generate && next build && tsc -p scripts/tsconfig.scripts.json && mkdir -p .next/standalone/.next && cp -R .next/static .next/standalone/.next/static && if [ -d public ]; then cp -R public .next/standalone/public; fi && pnpm prune --prod && rm -rf node_modules .next/cache node_modules/.pnpm-store",
     "start": "node dist/scripts/start-prod.js",
     "dev": "next dev",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:db": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.10",
@@ -37,6 +38,8 @@
     "eslint-config-next": "15.5.3",
     "prisma": "^6.16.2",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.5",
     "typescript": "^5"
   }
 }
