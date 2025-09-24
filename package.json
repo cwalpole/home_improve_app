@@ -7,7 +7,9 @@
   },
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
-    "build": "prisma migrate deploy && next build && tsc -p scripts/tsconfig.scripts.json",
+    "generate": "dotenv -e .env -- prisma generate",
+    "migrate:deploy": "dotenv -e .env -- prisma migrate deploy",
+    "build": "pnpm generate && pnpm migrate:deploy && next build && tsc -p scripts/tsconfig.scripts.json",
     "start": "node dist/scripts/start-prod.js",
     "lint": "eslint",
     "postinstall": "prisma generate",
