@@ -9,7 +9,6 @@ _.MD
 
 # Typescript / config / dev stuff not needed at runtime
 
-tsconfig*.json
 eslint*
 .prettier*
 postcss.config.*
