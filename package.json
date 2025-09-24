@@ -7,15 +7,14 @@
     "pnpm": "10.17.0"
   },
   "scripts": {
-    "dev": "next dev -p 3001 --turbopack",
+    "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.17.0 --activate",
     "generate": "pnpm dlx prisma generate",
     "migrate:deploy": "pnpm dlx prisma migrate deploy",
-    "build": "pnpm generate && pnpm migrate:deploy && next build && tsc -p scripts/tsconfig.scripts.json",
+    "build": "pnpm run generate && pnpm run migrate:deploy && next build && tsc -p scripts/tsconfig.scripts.json",
+    "heroku-postbuild": "pnpm run generate && pnpm run migrate:deploy && next build && tsc -p scripts/tsconfig.scripts.json && pnpm prune --prod && rm -rf node_modules .next/cache node_modules/.pnpm-store",
     "start": "node dist/scripts/start-prod.js",
-    "lint": "eslint",
-    "postinstall": "prisma generate",
-    "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.17.0 --activate",
-    "heroku-postbuild": "pnpm generate && pnpm migrate:deploy && next build && tsc -p scripts/tsconfig.scripts.json && pnpm prune --prod && rm -rf node_modules .next/cache node_modules/.pnpm-store"
+    "dev": "next dev",
+    "lint": "eslint"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.10",
