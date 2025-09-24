@@ -8,8 +8,8 @@
   },
   "scripts": {
     "dev": "next dev -p 3001 --turbopack",
-    "generate": "dotenv -e .env -- prisma generate",
-    "migrate:deploy": "dotenv -e .env -- prisma migrate deploy",
+    "generate": "pnpm dlx prisma generate",
+    "migrate:deploy": "pnpm dlx prisma migrate deploy",
     "build": "pnpm generate && pnpm migrate:deploy && next build && tsc -p scripts/tsconfig.scripts.json",
     "start": "node dist/scripts/start-prod.js",
     "lint": "eslint",
