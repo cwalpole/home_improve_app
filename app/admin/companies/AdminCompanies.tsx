@@ -4,6 +4,7 @@ import { useActionState, useState, ChangeEvent } from "react";
 import type { Company } from "@prisma/client";
 import { upsertCompany, deleteCompany, type ActionState } from "./actions";
 import styles from "./AdminCompanies.module.css";
+import Image from "next/image";
 
 type Props = { initialCompanies: Company[] };
 
@@ -65,7 +66,7 @@ export default function AdminCompanies({ initialCompanies }: Props) {
                 title="Edit"
               >
                 <div className={styles.avatar}>
-                  {c.logoUrl ? <img src={c.logoUrl} alt="" /> : c.name[0]}
+                  {c.logoUrl ? <Image src={c.logoUrl} alt="" /> : c.name[0]}
                 </div>
                 <div className={styles.meta}>
                   <div className={styles.name}>{c.name}</div>

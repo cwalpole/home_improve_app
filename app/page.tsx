@@ -1,16 +1,21 @@
+// app/page.tsx
 import { prisma } from "@/lib/prisma";
 import styles from "./home.module.css";
-import Hero from "@/components/Hero";
 import Section from "@/components/Section";
 import ServiceCard from "@/components/ServiceCard";
 import Link from "next/link";
 
 export const revalidate = 60; // ISR: re-generate periodically
 
+// If you want city-based links from the homepage, set your defaults here:
+const DEFAULT_REGION = "ab";
+const DEFAULT_CITY = "calgary";
+
 export default async function HomePage() {
-  const [services] = await Promise.all([
-    prisma.service.findMany({ orderBy: { order: "asc" } }),
-  ]);
+  const services = await prisma.service.findMany({
+    orderBy: [{ order: "asc" }, { name: "asc" }],
+    select: { id: true, name: true, slug: true, heroImage: true, order: true },
+  });
 
   return (
     <main className={styles.main}>
@@ -34,41 +39,26 @@ export default async function HomePage() {
         id="services"
         title="Services"
         desc="End-to-end delivery across commercial and residential work."
-        right={<Link href="/services">All services →</Link>}
+        // If you still use a generic /services index, change this href back to "/services"
+        right={
+          <Link href={`/${DEFAULT_REGION}/${DEFAULT_CITY}/services`}>
+            All services →
+          </Link>
+        }
       >
         <div className={styles.grid}>
           {services.map((s) => (
             <div key={s.id} className={styles.col4}>
               <ServiceCard
-                title={s.title}
-                excerpt={s.excerpt ?? undefined}
-                href={`/services/${s.slug}`}
+                title={s.name}
+                // omit excerpt since it's not in the new table; make it optional in ServiceCard props
+                href={`/${DEFAULT_REGION}/${DEFAULT_CITY}/services/${s.slug}`}
                 cover={s.heroImage ?? undefined}
               />
             </div>
           ))}
         </div>
       </Section>
-
-      {/* <Section
-        id="projects"
-        title="Featured Projects"
-        desc="A small selection of recent work. See the full gallery for more."
-        right={<Link href="/projects">All projects →</Link>}
-      >
-        <div className={styles.grid}>
-          {projects.map((p) => (
-            <div key={p.id} className={styles.col4}>
-              <ProjectCard
-                title={p.title}
-                excerpt={p.excerpt ?? undefined}
-                href={`/projects/${p.slug}`}
-                cover={p.coverImage ?? undefined}
-              />
-            </div>
-          ))}
-        </div>
-      </Section> */}
     </main>
   );
 }

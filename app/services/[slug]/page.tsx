@@ -15,7 +15,6 @@ export async function generateStaticParams() {
     const rows = await prisma.service.findMany({ select: { slug: true } });
     return rows.map((r) => ({ slug: r.slug }));
   } catch {
-    // If DB isn't reachable during build, skip pre-rendering detail pages.
     return [];
   }
 }
@@ -29,17 +28,15 @@ export async function generateMetadata({
   const s = await prisma.service.findUnique({ where: { slug } });
   if (!s) return {};
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://www.example.com";
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://www.gothome.ca";
   const url = `${base}/services/${s.slug}`;
 
   return {
-    title: s.title,
-    description: s.excerpt ?? undefined,
+    title: s.name,
     alternates: { canonical: url },
     openGraph: {
       url,
-      title: s.title,
-      description: s.excerpt ?? undefined,
+      title: s.name,
       images: s.heroImage ? [{ url: s.heroImage }] : undefined,
     },
   };
@@ -70,7 +67,7 @@ export default async function ServicePage({
       {
         "@type": "ListItem",
         position: 3,
-        name: s.title,
+        name: s.name,
         item: `${base}/services/${s.slug}`,
       },
     ],
@@ -79,9 +76,7 @@ export default async function ServicePage({
   const serviceLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: s.title,
-    description: s.excerpt ?? undefined,
-    areaServed: "Edmonton",
+    name: s.name,
     provider: { "@type": "LocalBusiness", name: "Acme Builders" },
   };
 
@@ -91,23 +86,20 @@ export default async function ServicePage({
         <div className={styles.inner}>
           <div className={styles.breadcrumbs}>
             <Link href="/">Home</Link> / <Link href="/services">Services</Link>{" "}
-            / {s.title}
+            / {s.name}
           </div>
-          <h1 className={styles.title}>{s.title}</h1>
-          {s.excerpt ? <p className={styles.excerpt}>{s.excerpt}</p> : null}
+          <h1 className={styles.title}>{s.name}</h1>
         </div>
       </div>
 
       <section className={styles.wrap}>
         <div className={styles.media}>
           {s.heroImage ? (
-            <Image src={s.heroImage} alt={s.title} width={1200} height={700} />
+            <Image src={s.heroImage} alt={s.name} width={1200} height={700} />
           ) : null}
         </div>
         <article className={styles.content}>
-          {s.content ? (
-            <div dangerouslySetInnerHTML={{ __html: s.content }} />
-          ) : null}
+          {/* optional content blocks later */}
         </article>
       </section>
 
