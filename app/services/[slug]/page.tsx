@@ -3,28 +3,31 @@ import { prisma } from "@/lib/prisma";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-type Props = { params: { slug: string } };
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+// ---- generateMetadata (optional) ----
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await props.params;
   const service = await prisma.service.findFirst({
-    where: { slug: params.slug },
+    where: { slug },
     select: { name: true },
   });
-
   const title = service ? `${service.name} — Home Services` : "Service";
   return {
     title,
-    alternates: {
-      // Global canonical stays city-agnostic
-      canonical: `/services/${params.slug}`,
-    },
+    alternates: { canonical: `/services/${slug}` },
     robots: { index: true, follow: true },
   };
 }
 
-export default async function ServicePage({ params }: Props) {
+// ---- Page component ----
+export default async function ServicePage(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await props.params;
+
   const service = await prisma.service.findFirst({
-    where: { slug: params.slug },
+    where: { slug },
     select: {
       name: true,
       slug: true,
