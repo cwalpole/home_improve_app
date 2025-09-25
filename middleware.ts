@@ -1,20 +1,30 @@
 // middleware.ts
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-// Run on admin + legacy services routes
+// ---- Config ----
+// Run on admin + global services + city services routes
 export const config = {
-  matcher: ["/admin/:path*", "/services", "/services/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/services",
+    "/services/:path*",
+    "/:city/services",
+    "/:city/services/:path*",
+  ],
 };
 
-// Change these to your defaults
-const DEFAULT_REGION = "ab";
 const DEFAULT_CITY = "calgary";
 
-export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+// Safe, light normalizer
+function normalizeCity(input?: string | null) {
+  return (input || "").toLowerCase().trim();
+}
 
-  // --- 1) Admin basic auth (unchanged) ---
+export function middleware(req: NextRequest) {
+  const url = req.nextUrl;
+  const { pathname } = url;
+
+  // --- 1) Admin Basic Auth ---
   if (pathname.startsWith("/admin")) {
     const creds = process.env.ADMIN_BASIC_AUTH; // "user:pass"
     if (!creds) return NextResponse.next();
@@ -29,28 +39,37 @@ export function middleware(req: NextRequest) {
     });
   }
 
-  // --- 2) Redirect legacy /services → /{region}/{city}/services[/*] ---
-  if (pathname === "/services" || pathname.startsWith("/services/")) {
-    const cookie = req.cookies.get("preferred-city")?.value; // e.g. "ab/calgary"
-    let [region, city] = (cookie ?? `${DEFAULT_REGION}/${DEFAULT_CITY}`).split(
-      "/"
-    );
-    if (!region || !city) {
-      region = DEFAULT_REGION;
-      city = DEFAULT_CITY;
-    }
+  // --- 2) City resolution for services routes (no redirects) ---
+  // Priority: ?city= → cookie → city segment (/{city}/services) → default
+  const res = NextResponse.next();
 
-    const rest =
-      pathname === "/services" ? "" : pathname.slice("/services/".length);
-
-    const url = new URL(
-      `/${region}/${city}/services${rest ? `/${rest}` : ""}`,
-      req.url
-    );
-    url.search = req.nextUrl.search; // preserve query string
-
-    return NextResponse.redirect(url, 308);
+  // If URL has ?city=, set cookie so global pages can pick it up
+  const cityFromQuery = normalizeCity(url.searchParams.get("city"));
+  if (cityFromQuery) {
+    res.cookies.set("preferred-city", cityFromQuery, {
+      httpOnly: false,
+      sameSite: "lax",
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 365, // 1 year
+    });
   }
 
-  return NextResponse.next();
+  // If path is /{city}/services...
+  let cityFromPath: string | undefined;
+  const cityPathMatch = pathname.match(/^\/([^\/]+)\/services(?:\/.*)?$/i);
+  if (cityPathMatch) {
+    cityFromPath = normalizeCity(cityPathMatch[1]);
+  }
+
+  const city =
+    cityFromQuery ||
+    normalizeCity(req.cookies.get("preferred-city")?.value) ||
+    cityFromPath ||
+    DEFAULT_CITY;
+
+  // Pass to server components / route handlers
+  res.headers.set("x-city", city);
+
+  return res;
 }

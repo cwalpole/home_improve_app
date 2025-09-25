@@ -1,110 +1,66 @@
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import type { Metadata } from "next";
+// app/services/[slug]/page.tsx
 import { prisma } from "@/lib/prisma";
-import JsonLd from "@/components/JsonLd";
-import styles from "./ServicePage.module.css";
+import type { Metadata } from "next";
+import Link from "next/link";
 
-type RouteParams = { slug: string };
+type Props = { params: { slug: string } };
 
-export const revalidate = 60;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const service = await prisma.service.findFirst({
+    where: { slug: params.slug },
+    select: { name: true },
+  });
 
-export async function generateStaticParams() {
-  try {
-    const rows = await prisma.service.findMany({ select: { slug: true } });
-    return rows.map((r) => ({ slug: r.slug }));
-  } catch {
-    return [];
-  }
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<RouteParams>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const s = await prisma.service.findUnique({ where: { slug } });
-  if (!s) return {};
-
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://www.gothome.ca";
-  const url = `${base}/services/${s.slug}`;
-
+  const title = service ? `${service.name} — Home Services` : "Service";
   return {
-    title: s.name,
-    alternates: { canonical: url },
-    openGraph: {
-      url,
-      title: s.name,
-      images: s.heroImage ? [{ url: s.heroImage }] : undefined,
+    title,
+    alternates: {
+      // Global canonical stays city-agnostic
+      canonical: `/services/${params.slug}`,
     },
+    robots: { index: true, follow: true },
   };
 }
 
-export default async function ServicePage({
-  params,
-}: {
-  params: Promise<RouteParams>;
-}) {
-  const { slug } = await params;
-  const s = await prisma.service.findUnique({ where: { slug } });
-  if (!s) notFound();
-
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://www.example.com";
-
-  const breadcrumbs = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: base },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Services",
-        item: `${base}/services`,
+export default async function ServicePage({ params }: Props) {
+  const service = await prisma.service.findFirst({
+    where: { slug: params.slug },
+    select: {
+      name: true,
+      slug: true,
+      serviceCities: {
+        select: { city: { select: { slug: true, name: true } } },
+        orderBy: { cityId: "asc" },
       },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: s.name,
-        item: `${base}/services/${s.slug}`,
-      },
-    ],
-  };
+    },
+  });
 
-  const serviceLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: s.name,
-    provider: { "@type": "LocalBusiness", name: "Acme Builders" },
-  };
+  if (!service) {
+    return (
+      <main>
+        <h1>Service not found</h1>
+      </main>
+    );
+  }
+
+  const cities = service.serviceCities.map((sc) => sc.city);
 
   return (
     <main>
-      <div className={styles.hero}>
-        <div className={styles.inner}>
-          <div className={styles.breadcrumbs}>
-            <Link href="/">Home</Link> / <Link href="/services">Services</Link>{" "}
-            / {s.name}
-          </div>
-          <h1 className={styles.title}>{s.name}</h1>
-        </div>
-      </div>
+      <h1>{service.name}</h1>
+      <p>Select a city to see top companies:</p>
 
-      <section className={styles.wrap}>
-        <div className={styles.media}>
-          {s.heroImage ? (
-            <Image src={s.heroImage} alt={s.name} width={1200} height={700} />
-          ) : null}
-        </div>
-        <article className={styles.content}>
-          {/* optional content blocks later */}
-        </article>
-      </section>
-
-      <JsonLd data={breadcrumbs} />
-      <JsonLd data={serviceLd} />
+      {cities.length === 0 ? (
+        <p>No cities available yet.</p>
+      ) : (
+        <ul>
+          {cities.map((c) => (
+            <li key={c.slug}>
+              <Link href={`/${c.slug}/services/${service.slug}`}>{c.name}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
   );
 }

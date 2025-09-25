@@ -4,25 +4,22 @@ import styles from "./home.module.css";
 import Section from "@/components/Section";
 import ServiceCard from "@/components/ServiceCard";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 export const revalidate = 60; // ISR: re-generate periodically
 
-// If you want city-based links from the homepage, set your defaults here:
-const DEFAULT_REGION = "ab";
 const DEFAULT_CITY = "calgary";
 
 export default async function HomePage() {
+  const preferredCity =
+    (await cookies()).get("preferred-city")?.value?.toLowerCase() ||
+    DEFAULT_CITY;
+
   let services: { id: number; name: string; slug: string }[] = [];
   try {
     services = await prisma.service.findMany({
       orderBy: [{ order: "asc" }, { name: "asc" }],
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        heroImage: true,
-        order: true,
-      },
+      select: { id: true, name: true, slug: true },
     });
   } catch {
     services = [];
@@ -50,20 +47,14 @@ export default async function HomePage() {
         id="services"
         title="Services"
         desc="End-to-end delivery across commercial and residential work."
-        // If you still use a generic /services index, change this href back to "/services"
-        right={
-          <Link href={`/${DEFAULT_REGION}/${DEFAULT_CITY}/services`}>
-            All services →
-          </Link>
-        }
+        right={<Link href="/services">All services →</Link>}
       >
         <div className={styles.grid}>
           {services.map((s) => (
             <div key={s.id} className={styles.col4}>
               <ServiceCard
                 title={s.name}
-                // omit excerpt since it's not in the new table; make it optional in ServiceCard props
-                href={`/${DEFAULT_REGION}/${DEFAULT_CITY}/services/${s.slug}`}
+                href={`/${preferredCity}/services/${s.slug}`} // SEO city page
                 cover={undefined}
               />
             </div>

@@ -1,37 +1,52 @@
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import styles from "./services.module.css";
+import AdminSection from "../components/AdminSection";
+import Row from "../components/Row";
+import styles from "../admin.module.css";
+import CreateServiceForm from "./CreateServiceForm";
+import UpdateServiceForm from "./UpdateServiceForm";
+import { deleteService } from "../actions/services";
 
-export default async function ServicesListPage() {
-  let services: { id: number; name: string; slug: string }[] = [];
-  try {
-    services = await prisma.service.findMany({
-      orderBy: [{ order: "asc" }, { name: "asc" }],
-    });
-  } catch {
-    services = []; // DB not initialized yet; render an empty state instead of crashing build
-  }
+export default async function ServicesPage() {
+  const items = await prisma.service.findMany({
+    orderBy: [{ order: "asc" }, { name: "asc" }],
+  });
+
   return (
-    <main className={styles.main}>
-      <div className={styles.header}>
-        <h1 className={styles.h1}>Services</h1>
-        <Link className={styles.newBtn} href="/admin/services/new">
-          + New Service
-        </Link>
-      </div>
-      <ul className={styles.list}>
-        {services.map((s) => (
-          <li key={s.id} className={styles.item}>
-            <Link href={`/admin/services/${s.id}/edit`} className={styles.link}>
-              {s.name}
-            </Link>
-            <code className={styles.slug}>{s.slug}</code>
-          </li>
+    <>
+      <AdminSection title="Create Service">
+        <CreateServiceForm />
+      </AdminSection>
+
+      <AdminSection title="Services">
+        {items.map((s) => (
+          <Row key={s.id}>
+            <div>
+              {s.name} <span style={{ opacity: 0.6 }}>(/{s.slug})</span>
+            </div>
+
+            <UpdateServiceForm
+              id={s.id}
+              name={s.name}
+              slug={s.slug}
+              order={s.order}
+            />
+
+            <form
+              action={async () => {
+                "use server";
+                await deleteService(s.id);
+              }}
+            >
+              <button
+                className={`${styles.btn} ${styles.secondary}`}
+                type="submit"
+              >
+                Delete
+              </button>
+            </form>
+          </Row>
         ))}
-      </ul>
-    </main>
+      </AdminSection>
+    </>
   );
 }

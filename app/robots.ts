@@ -1,8 +1,9 @@
-export default function robots() {
-  const base = "https://www.gothome.ca";
+// app/robots.ts
+import type { MetadataRoute } from "next";
+
+export default function robots(): MetadataRoute.Robots {
   return {
     rules: [{ userAgent: "*", allow: "/" }],
-    sitemap: `${base}/sitemap.xml`,
-    host: base,
+    sitemap: "https://gothome.ca/sitemap.xml",
   };
 }
