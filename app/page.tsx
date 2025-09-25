@@ -12,10 +12,21 @@ const DEFAULT_REGION = "ab";
 const DEFAULT_CITY = "calgary";
 
 export default async function HomePage() {
-  const services = await prisma.service.findMany({
-    orderBy: [{ order: "asc" }, { name: "asc" }],
-    select: { id: true, name: true, slug: true, heroImage: true, order: true },
-  });
+  let services: { id: number; name: string; slug: string }[] = [];
+  try {
+    services = await prisma.service.findMany({
+      orderBy: [{ order: "asc" }, { name: "asc" }],
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        heroImage: true,
+        order: true,
+      },
+    });
+  } catch {
+    services = [];
+  }
 
   return (
     <main className={styles.main}>
@@ -53,7 +64,7 @@ export default async function HomePage() {
                 title={s.name}
                 // omit excerpt since it's not in the new table; make it optional in ServiceCard props
                 href={`/${DEFAULT_REGION}/${DEFAULT_CITY}/services/${s.slug}`}
-                cover={s.heroImage ?? undefined}
+                cover={undefined}
               />
             </div>
           ))}

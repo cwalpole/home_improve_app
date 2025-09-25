@@ -1,11 +1,19 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import styles from "./services.module.css";
 
 export default async function ServicesListPage() {
-  const services = await prisma.service.findMany({
-    orderBy: [{ order: "asc" }, { name: "asc" }],
-  });
+  let services: { id: number; name: string; slug: string }[] = [];
+  try {
+    services = await prisma.service.findMany({
+      orderBy: [{ order: "asc" }, { name: "asc" }],
+    });
+  } catch {
+    services = []; // DB not initialized yet; render an empty state instead of crashing build
+  }
   return (
     <main className={styles.main}>
       <div className={styles.header}>

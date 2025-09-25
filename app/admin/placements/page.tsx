@@ -1,8 +1,9 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { prisma } from "@/lib/prisma";
 import { createPlacement } from "./actions";
 import styles from "./placements.module.css";
-
-export const revalidate = 60;
 
 export default async function PlacementsPage() {
   const [cities, services, companies] = await Promise.all([

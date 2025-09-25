@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,8 +10,6 @@ import JsonLd from "@/components/JsonLd";
 import styles from "./ServicePage.module.css";
 
 type RouteParams = { region: string; city: string; slug: string };
-
-export const revalidate = 60;
 
 // Pre-render real combos only
 export async function generateStaticParams() {
