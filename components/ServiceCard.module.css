@@ -1,25 +1,69 @@
 .card {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: white;
   display: grid;
-  grid-template-rows: auto 1fr;
-  transition: transform 0.12s ease, box-shadow 0.12s ease,
-    border-color 0.12s ease;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #1a1c22;
+  border-radius: 14px;
+  background: #0f1117;
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.06s ease;
 }
+
 .card:hover {
-  transform: translateY(-2px);
-  border-color: #d1d5db;
-  box-shadow: var(--shadow);
+  border-color: #2b3343;
+  transform: translateY(-1px);
 }
-.body {
-  padding: 12px 14px;
+
+.media {
+  position: relative;
+  width: 125px;
+  height: 125px;
+  margin: 0 auto; /* center the image block */
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0b0c0f;
+  border: 1px solid #1a1c22;
 }
-.title {
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* centered badge sitting on the bottom edge of the image */
+.badge {
+  position: absolute;
+  left: 50%;
+  bottom: 8px; /* lift slightly above the edge */
+  transform: translateX(-50%);
+  max-width: calc(100% - 12px); /* keep some side padding within the image */
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.9); /* semi-opaque dark */
+  border: 1px solid #1f2937;
+  color: #fff;
+  font-size: 12px;
   font-weight: 700;
-  margin-bottom: 4px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none; /* click-through to the link */
 }
-.excerpt {
-  color: var(--muted);
+
+.body {
+  display: grid;
+  gap: 4px;
+  text-align: center; /* center the text under the image */
+}
+
+.company {
+  font-size: 14px;
+  color: #cfd1d4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

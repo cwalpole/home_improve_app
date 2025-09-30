@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import NavBar from "@/components/NavBar";
 
-const siteName = "Acme Builders";
-const baseUrl = "https://www.example.com";
+import { Marcellus_SC } from "next/font/google";
+const marcellus = Marcellus_SC({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-brand",
+});
+
+const siteName = "Give It Charm";
+const baseUrl = "https://www.giveitcharm.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: `${siteName} | Construction & Renovations`,
+    default: `${siteName} | Services & Renovations`,
     template: `%s | ${siteName}`,
   },
   description:
-    "Premium construction, renovations, and design-build services. Licensed, insured, on-time and on-budget.",
+    "Making Homes Shine, One Service at a Time. Your Home, Our priority”",
   openGraph: { type: "website", siteName, url: baseUrl },
   alternates: { canonical: baseUrl },
   twitter: { card: "summary_large_image" },
@@ -24,7 +32,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={marcellus.variable}>
+        <NavBar />
+        {children}
+      </body>
     </html>
   );
 }

@@ -5,18 +5,42 @@
 }
 
 .hero {
-  min-height: 72vh;
+  position: relative;
+  min-height: 76vh; /* adjust to taste */
   display: grid;
   place-items: center;
-  padding: 80px 16px;
-  background: linear-gradient(180deg, var(--soft), #fff);
-  border-bottom: 1px solid var(--border);
+  padding: 64px 16px;
+
+  /* Background image */
+  background-image: url("/hero-img.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Subtle border on light themes (optional) */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+/* Dark/soft overlay for contrast */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0.25) 40%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+}
+
+/* Keep your existing container but make sure it sits above overlay */
 .heroInner {
-  max-width: var(--maxw);
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
   margin: 0 auto;
-  text-align: center;
+  text-align: center; /* centered looks great over a hero */
 }
 
 .eyebrow {
@@ -30,12 +54,19 @@
 }
 
 .title {
+  font-family: var(--font-brand), ui-serif, Georgia, serif;
+  font-weight: 400; /* Marcellus SC only has 400 */
+  letter-spacing: 0.2px;
   font-size: clamp(28px, 5vw, 56px);
   letter-spacing: -0.02em;
   margin-bottom: 10px;
 }
 
 .subtitle {
+  color: var(--brand);
+  font-family: var(--font-brand), ui-serif, Georgia, serif;
+  font-weight: 400; /* Marcellus SC only has 400 */
+  letter-spacing: 0.2px;
   font-size: clamp(14px, 2vw, 18px);
   max-width: 720px;
   margin: 0 auto 20px;
@@ -82,8 +113,13 @@
   margin-bottom: 16px;
 }
 
-.sectionTitle { font-size: clamp(20px, 2.6vw, 28px); }
-.sectionDesc { color: var(--muted); max-width: 680px; }
+.sectionTitle {
+  font-size: clamp(20px, 2.6vw, 28px);
+}
+.sectionDesc {
+  color: var(--muted);
+  max-width: 680px;
+}
 
 .grid {
   display: grid;
@@ -91,18 +127,78 @@
   gap: 16px;
 }
 
-.col3 { grid-column: span 12; }
-.col4 { grid-column: span 12; }
-.col6 { grid-column: span 12; }
+.col3 {
+  grid-column: span 12;
+}
+.col4 {
+  grid-column: span 12;
+}
+.col6 {
+  grid-column: span 12;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 48vh;
+    background-position: 50% 40%;
+    padding: 48px 14px;
+  }
+}
 
 @media (min-width: 640px) {
-  .col3 { grid-column: span 6; }
-  .col4 { grid-column: span 6; }
-  .col6 { grid-column: span 6; }
+  .col3 {
+    grid-column: span 6;
+  }
+  .col4 {
+    grid-column: span 6;
+  }
+  .col6 {
+    grid-column: span 6;
+  }
 }
 
 @media (min-width: 940px) {
-  .col3 { grid-column: span 3; }
-  .col4 { grid-column: span 4; }
-  .col6 { grid-column: span 6; }
+  .col3 {
+    grid-column: span 3;
+  }
+  .col4 {
+    grid-column: span 4;
+  }
+  .col6 {
+    grid-column: span 6;
+  }
+}
+
+/* 5-across responsive grid for services */
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px; /* adjust to taste */
+}
+
+/* Optional: if you want equal vertical spacing per card wrapper */
+.serviceItem {
+  min-width: 0; /* helps text ellipsis inside cards */
+}
+
+/* Breakpoints: step down columns as width shrinks */
+@media (max-width: 1280px) {
+  .serviceGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1024px) {
+  .serviceGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 768px) {
+  .serviceGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 480px) {
+  .serviceGrid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <style>
+      .ring1 { fill: none; stroke: #0f172a; stroke-width: 22; stroke-linecap: round; }
+      .ring2 { fill: none; stroke: #0f172a; stroke-width: 14; stroke-linecap: round; }
+      .star  { fill: #0f172a; }
+    </style>
+  </defs>
+
+  <!-- Outer ring with two small gaps using dash pattern -->
+  <circle class="ring1" cx="512" cy="512" r="342" stroke-dasharray="880 90 520 90" transform="rotate(-20 512 512)"/>
+  <!-- Inner ring with two small gaps -->
+  <circle class="ring2" cx="512" cy="512" r="282" stroke-dasharray="680 70 420 70" transform="rotate(15 512 512)"/>
+
+  <!-- Sparkles -->
+  <path class="star" d="M 780 300 l 12 40 40 12 -40 12 -12 40 -12 -40 -40 -12 40 -12 z" opacity="0.95"/>
+  <path class="star" d="M 330 740 l 10 34 34 10 -34 10 -10 34 -10 -34 -34 -10 34 -10 z" opacity="0.95"/>
+  <path class="star" d="M 600 520 l 8 28 28 8 -28 8 -8 28 -8 -28 -28 -8 28 -8 z" opacity="0.95"/>
+</svg>
