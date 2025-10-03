@@ -1,0 +1,14 @@
+.socials {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.icon svg {
+  opacity: 0.8;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.icon:hover svg {
+  opacity: 1;
+  transform: scale(1.1);
+}

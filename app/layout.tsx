@@ -3,6 +3,7 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 
 import { Marcellus_SC } from "next/font/google";
+import Footer from "@/components/Footer";
 const marcellus = Marcellus_SC({
   subsets: ["latin"],
   weight: "400",
@@ -35,6 +36,7 @@ export default function RootLayout({
       <body className={marcellus.variable}>
         <NavBar />
         {children}
+        <Footer />
       </body>
     </html>
   );
