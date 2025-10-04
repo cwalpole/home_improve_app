@@ -1,0 +1,29 @@
+.gridWrapper {
+  display: grid;
+  gap: 1rem;
+}
+
+/* odd rows: columns set inline via style (repeat(cols, 1fr)) */
+.rowStd {
+  display: grid;
+  gap: 1rem;
+}
+
+/* even rows: 2 columns */
+.rowFeatured {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* If only one featured card is present, center it across both columns */
+.rowFeatured > *:only-child {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(560px, 100%); /* optional max width */
+}
+
+.rowStd > *,
+.rowFeatured > * {
+  min-width: 0;
+}

@@ -9,6 +9,12 @@
   --maxw: 1100px;
   --radius: 14px;
   --shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+  --wall: #e8e0d8;
+  --panel-line: #d7cfc7;
+  --frame-radius: 10px; /* outer radius of .frame */
+  --frame-border: 2px; /* border width on .frame */
+  --mat: #f3efe9;
+  --ink: #0f172a;
 }
 
 * {

@@ -168,37 +168,3 @@
     grid-column: span 6;
   }
 }
-
-/* 5-across responsive grid for services */
-.serviceGrid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px; /* adjust to taste */
-}
-
-/* Optional: if you want equal vertical spacing per card wrapper */
-.serviceItem {
-  min-width: 0; /* helps text ellipsis inside cards */
-}
-
-/* Breakpoints: step down columns as width shrinks */
-@media (max-width: 1280px) {
-  .serviceGrid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-@media (max-width: 1024px) {
-  .serviceGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-@media (max-width: 768px) {
-  .serviceGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 480px) {
-  .serviceGrid {
-    grid-template-columns: 1fr;
-  }
-}

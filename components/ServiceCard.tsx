@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-
 import styles from "./ServiceCard.module.css";
 import ServiceImage from "./ServiceImage";
 
@@ -9,6 +8,7 @@ type Props = {
   service: { name: string; slug: string; heroImage?: string | null };
   companyName?: string | null;
   coverExt?: "jpg" | "png" | "webp";
+  isAd?: boolean; // featured rows pass this
 };
 
 export default function ServiceCard({
@@ -16,51 +16,67 @@ export default function ServiceCard({
   service,
   companyName,
   coverExt = "png",
+  isAd,
 }: Props) {
   const { name, slug, heroImage } = service;
 
   return (
     <Link
       href={href}
-      className={styles.card}
+      className={styles.linkWrapper}
       aria-label={`${name}${companyName ? ` — ${companyName}` : ""}`}
     >
-      <div className={styles.media}>
-        {heroImage ? (
-          <Image
-            src={heroImage}
-            alt={`${name} image`}
-            width={125}
-            height={125}
-            className={styles.img}
-            sizes="125px"
-          />
-        ) : (
-          <ServiceImage
-            slug={slug}
-            ext={coverExt}
-            alt={`${name} image`}
-            width={125}
-            height={125}
-            className={styles.img}
-          />
+      <article
+        className={`${styles.card} ${isAd ? styles.featured : ""}`}
+        aria-labelledby={`${slug}-title`}
+      >
+        {/* “Wall” with panel moulding */}
+        <div className={styles.wall}>
+          {/* Framed art */}
+          <div className={styles.frame}>
+            <div className={styles.mat}>
+              <div className={styles.art}>
+                (
+                <ServiceImage
+                  slug={slug}
+                  ext={coverExt}
+                  alt={`${name} image`}
+                  fill
+                  sizes="(max-width: 640px) 40vw, 220px"
+                  className={styles.img}
+                  isAd={isAd}
+                />
+                {/* Inside-caption for featured tiles */}
+                {isAd && (
+                  <div className={styles.captionInside} aria-hidden="false">
+                    <div id={`${slug}-title`} className={styles.captionTitle}>
+                      {name}
+                    </div>
+                    <div className={styles.captionCompany}>
+                      {companyName ?? "No company linked"}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* External title/meta for standard tiles only */}
+        {!isAd && (
+          <>
+            <h3 id={`${slug}-title`} className={styles.title}>
+              {name}
+            </h3>
+            <div
+              className={styles.company}
+              title={companyName || "No company linked"}
+            >
+              {companyName ?? "No company linked"}
+            </div>
+          </>
         )}
-
-        {/* centered badge along the bottom of the image */}
-        <div className={styles.badge} aria-hidden="true">
-          {name}
-        </div>
-      </div>
-
-      {/* text below the image */}
-      <div className={styles.body}>
-        <div
-          className={styles.company}
-          title={companyName || "No company linked"}
-        >
-          {companyName ?? "No company linked"}
-        </div>
-      </div>
+      </article>
     </Link>
   );
 }
