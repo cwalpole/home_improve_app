@@ -5,6 +5,7 @@ import Section from "@/components/Section";
 import Link from "next/link";
 import ServiceGrid from "@/components/ServiceGrid";
 import ServiceList from "@/components/ServiceList";
+import SwitchCity from "@/components/SwitchCity";
 
 export const revalidate = 60;
 
@@ -20,18 +21,25 @@ type GridItem = {
 };
 
 type PageProps = {
-  searchParams?: { view?: "grid" | "list" };
+  searchParams?: { view?: "grid" | "list"; city?: string };
 };
 
 export default async function HomePage({ searchParams }: PageProps) {
-  const view = (searchParams?.view ?? "grid") as "grid" | "list";
+  const sp = (await searchParams) ?? {};
+  const view = ((sp.view as string) ?? "grid") as "grid" | "list";
+  const selectedCitySlug = ((sp.city as string) ?? DEFAULT_CITY).toLowerCase();
 
-  // --- city lookup ---
-  const preferredCity = DEFAULT_CITY; // you can keep your cookie logic if you want
-  const city = await prisma.city.findUnique({
-    where: { slug: preferredCity },
-    select: { id: true, name: true, slug: true },
-  });
+  // --- fetch current city + all cities for the switcher ---
+  const [city, cities] = await Promise.all([
+    prisma.city.findUnique({
+      where: { slug: selectedCitySlug },
+      select: { id: true, name: true, slug: true },
+    }),
+    prisma.city.findMany({
+      select: { name: true, slug: true },
+      orderBy: { name: "asc" },
+    }),
+  ]);
 
   if (!city) {
     return (
@@ -57,7 +65,7 @@ export default async function HomePage({ searchParams }: PageProps) {
     );
   }
 
-  // --- fetch services + top listing/featured ---
+  // --- fetch services for selected city ---
   const services = await prisma.service.findMany({
     where: { serviceCities: { some: { cityId: city.id } } },
     orderBy: [{ order: "asc" }, { name: "asc" }],
@@ -103,16 +111,15 @@ export default async function HomePage({ searchParams }: PageProps) {
   const defaultFeatured: GridItem = {
     id: -1,
     name: "Your Ad Here",
-    slug: "default-ad", // ensure /public/ads/default-ad.jpg or use heroImage
+    slug: "default-ad",
     heroImage: null,
     companyName: null,
     featured: false,
   };
 
-  // helper to build toggle links preserving params
-  // stay on the current page and just flip the view param
-  const gridHref = `?view=grid`;
-  const listHref = `?view=list`;
+  // stay on the current page; preserve city while toggling view
+  const gridHref = `?city=${city.slug}&view=grid#services`;
+  const listHref = `?city=${city.slug}&view=list#services`;
 
   return (
     <main className={styles.main}>
@@ -127,47 +134,60 @@ export default async function HomePage({ searchParams }: PageProps) {
 
       <Section
         id="services"
-        title={`Services in ${city.name}`}
+        title={
+          <>
+            Services in {city.name} {/* NEW: Switch City control */}
+            <SwitchCity
+              current={{ name: city.name, slug: city.slug }}
+              cities={cities}
+              currentView={view}
+            />
+          </>
+        }
         desc="End-to-end delivery for residential work."
         right={
-          <div className={styles.viewSwitch}>
-            <Link
-              href={gridHref}
-              className={`${styles.viewBtn} ${
-                view === "grid" ? styles.active : ""
-              }`}
-              aria-current={view === "grid" ? "page" : undefined}
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
+          <div className={styles.links}>
+            <div className={styles.viewSwitch}>
+              <Link
+                href={gridHref}
+                className={`${styles.viewBtn} ${
+                  view === "grid" ? styles.active : ""
+                }`}
+                aria-current={view === "grid" ? "page" : undefined}
               >
-                <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z" />
-              </svg>
-              Grid
-            </Link>
-            <Link
-              href={listHref}
-              className={`${styles.viewBtn} ${
-                view === "list" ? styles.active : ""
-              }`}
-              aria-current={view === "list" ? "page" : undefined}
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z" />
+                </svg>
+                Grid
+              </Link>
+              <Link
+                href={listHref}
+                className={`${styles.viewBtn} ${
+                  view === "list" ? styles.active : ""
+                }`}
+                aria-current={view === "list" ? "page" : undefined}
               >
-                <path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z" />
-              </svg>
-              List
-            </Link>
-            <Link href={`/${city.slug}/services`} className={styles.allLink}>
-              All services →
-            </Link>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z" />
+                </svg>
+                List
+              </Link>
+            </div>
+            <div className={styles.allServices}>
+              <Link href={`/${city.slug}/services`} className={styles.allLink}>
+                All services →
+              </Link>
+            </div>
           </div>
         }
       >

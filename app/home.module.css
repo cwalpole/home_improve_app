@@ -168,6 +168,14 @@
   border-color: transparent;
 }
 
+.links {
+  display: flex;
+}
+.allServices {
+  text-align: right;
+  width: 100%;
+}
+
 .allLink {
   margin-left: 8px;
   text-decoration: none;

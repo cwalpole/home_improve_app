@@ -1,4 +1,3 @@
-import CityBadge from "@/components/CityBadge";
 import { findCityBySlug } from "@/lib/city";
 import { getServicesForCityId } from "@/lib/queries";
 import type { Metadata } from "next";
@@ -31,7 +30,6 @@ export default async function CityServicesPage(props: {
 
   return (
     <main>
-      <CityBadge />
       <h1>Home Services in {city.name}</h1>
       <ul>
         {services.map((s) => (
