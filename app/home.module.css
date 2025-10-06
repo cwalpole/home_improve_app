@@ -137,6 +137,42 @@
   grid-column: span 12;
 }
 
+.viewSwitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.viewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  color: #334155;
+  text-decoration: none;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+.viewBtn svg {
+  fill: currentColor;
+}
+.viewBtn:hover {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+.active {
+  background: #0f172a;
+  color: #fff;
+  border-color: transparent;
+}
+
+.allLink {
+  margin-left: 8px;
+  text-decoration: none;
+}
+
 @media (max-width: 640px) {
   .hero {
     min-height: 48vh;

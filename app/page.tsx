@@ -3,8 +3,8 @@ import { prisma } from "@/lib/prisma";
 import styles from "./home.module.css";
 import Section from "@/components/Section";
 import Link from "next/link";
-import { cookies } from "next/headers";
 import ServiceGrid from "@/components/ServiceGrid";
+import ServiceList from "@/components/ServiceList";
 
 export const revalidate = 60;
 
@@ -19,11 +19,15 @@ type GridItem = {
   featured: boolean;
 };
 
-export default async function HomePage() {
-  const preferredCity =
-    (await cookies()).get("preferred-city")?.value?.toLowerCase() ||
-    DEFAULT_CITY;
+type PageProps = {
+  searchParams?: { view?: "grid" | "list" };
+};
 
+export default async function HomePage({ searchParams }: PageProps) {
+  const view = (searchParams?.view ?? "grid") as "grid" | "list";
+
+  // --- city lookup ---
+  const preferredCity = DEFAULT_CITY; // you can keep your cookie logic if you want
   const city = await prisma.city.findUnique({
     where: { slug: preferredCity },
     select: { id: true, name: true, slug: true },
@@ -53,7 +57,7 @@ export default async function HomePage() {
     );
   }
 
-  // include isFeatured for top listing and heroImage on service
+  // --- fetch services + top listing/featured ---
   const services = await prisma.service.findMany({
     where: { serviceCities: { some: { cityId: city.id } } },
     orderBy: [{ order: "asc" }, { name: "asc" }],
@@ -79,6 +83,37 @@ export default async function HomePage() {
     },
   });
 
+  const normalized: GridItem[] = services.map((s) => {
+    const top = s.serviceCities?.[0]?.listings?.[0] ?? null;
+    const companyName = top?.displayName ?? top?.company?.name ?? null;
+    const featured = Boolean(top?.isFeatured);
+    return {
+      id: s.id,
+      name: s.name,
+      slug: s.slug,
+      heroImage: s.heroImage ?? null,
+      companyName,
+      featured,
+    };
+  });
+
+  const featuredItems = normalized.filter((x) => x.featured);
+  const allServices = normalized;
+
+  const defaultFeatured: GridItem = {
+    id: -1,
+    name: "Your Ad Here",
+    slug: "default-ad", // ensure /public/ads/default-ad.jpg or use heroImage
+    heroImage: null,
+    companyName: null,
+    featured: false,
+  };
+
+  // helper to build toggle links preserving params
+  // stay on the current page and just flip the view param
+  const gridHref = `?view=grid`;
+  const listHref = `?view=list`;
+
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
@@ -94,45 +129,64 @@ export default async function HomePage() {
         id="services"
         title={`Services in ${city.name}`}
         desc="End-to-end delivery for residential work."
-        right={<Link href={`/${city.slug}/services`}>All services →</Link>}
+        right={
+          <div className={styles.viewSwitch}>
+            <Link
+              href={gridHref}
+              className={`${styles.viewBtn} ${
+                view === "grid" ? styles.active : ""
+              }`}
+              aria-current={view === "grid" ? "page" : undefined}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z" />
+              </svg>
+              Grid
+            </Link>
+            <Link
+              href={listHref}
+              className={`${styles.viewBtn} ${
+                view === "list" ? styles.active : ""
+              }`}
+              aria-current={view === "list" ? "page" : undefined}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z" />
+              </svg>
+              List
+            </Link>
+            <Link href={`/${city.slug}/services`} className={styles.allLink}>
+              All services →
+            </Link>
+          </div>
+        }
       >
-        {(() => {
-          const normalized: GridItem[] = services.map((s) => {
-            const top = s.serviceCities?.[0]?.listings?.[0] ?? null;
-            const companyName = top?.displayName ?? top?.company?.name ?? null;
-            const featured = Boolean(top?.isFeatured);
-            return {
-              id: s.id,
-              name: s.name,
-              slug: s.slug,
-              heroImage: s.heroImage ?? null,
-              companyName,
-              featured,
-            };
-          });
-
-          const featuredItems = normalized.filter((x) => x.featured);
-          const allServices = normalized; // pass everything; grid filters duplicates
-
-          // Optional default featured card (only used when a row has one leftover)
-          const defaultFeatured: GridItem = {
-            id: -1,
-            name: "Sponsored",
-            slug: "default-ad", // add /public/ads/default-ad.jpg if you want a banner image
-            heroImage: null,
-            companyName: null,
-            featured: false,
-          };
-
-          return (
-            <ServiceGrid
-              citySlug={city.slug}
-              services={allServices}
-              featured={featuredItems} // can be [], [one], or more
-              defaultFeatured={defaultFeatured} // optional fallback
-            />
-          );
-        })()}
+        {view === "grid" ? (
+          <ServiceGrid
+            citySlug={city.slug}
+            services={allServices}
+            featured={featuredItems}
+            defaultFeatured={defaultFeatured}
+          />
+        ) : (
+          <ServiceList
+            citySlug={city.slug}
+            services={allServices}
+            featured={featuredItems}
+            defaultFeatured={defaultFeatured}
+            insertEvery={6}
+          />
+        )}
       </Section>
     </main>
   );
