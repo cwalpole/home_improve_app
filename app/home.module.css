@@ -6,19 +6,52 @@
 
 .hero {
   position: relative;
-  min-height: 76vh; /* adjust to taste */
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 76vh;
   display: grid;
   place-items: center;
   padding: 64px 16px;
+  background: none; /* bg now lives on .heroBg */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
 
-  /* Background image */
+/* Animated background layer */
+.heroBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background-image: url("/hero-img.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  /* Subtle border on light themes (optional) */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  transform: scale(1);
+  transform-origin: center;
+  will-change: transform;
+  animation: heroZoom 20s ease-in-out infinite alternate;
+}
+
+/* Keep content above */
+.heroInner {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes heroZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .heroBg {
+    animation: none;
+  }
 }
 
 /* Dark/soft overlay for contrast */

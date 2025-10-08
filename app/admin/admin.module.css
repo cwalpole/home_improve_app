@@ -132,3 +132,52 @@
   color: #cfd1d4;
   font-weight: 500;
 }
+
+/* collapsible city group */
+.cityGroup {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 10px;
+  background: #3b3b3c;
+  margin: 12px 0;
+  overflow: hidden;
+}
+
+/* clickable header */
+.citySummary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 12px;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* hide default marker and add our own caret */
+.citySummary::-webkit-details-marker {
+  display: none;
+}
+.citySummary::after {
+  content: "▸";
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0.8;
+  transition: transform 0.18s ease;
+  margin-left: 8px;
+}
+.cityGroup[open] .citySummary::after {
+  transform: rotate(90deg);
+}
+
+.citySlug {
+  opacity: 0.65;
+}
+.cityMeta {
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+.cityBody {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 8px 12px 12px;
+}

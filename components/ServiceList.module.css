@@ -139,6 +139,17 @@
   font-size: 0.95rem;
 }
 
+@media (min-width: 1024px) {
+  .listWrapper {
+    width: 1072px;
+    position: relative;
+    left: 50%;
+    transform: translateX(
+      -50%
+    ); /* center relative to the page, not the parent */
+  }
+}
+
 /* tighter banner on small screens */
 @media (max-width: 640px) {
   .adMedia {

@@ -23,6 +23,7 @@ export async function unmapServiceFromCity(id: number): Promise<void> {
 }
 
 // Company ↔ ServiceCity
+// Company ↔ ServiceCity
 export async function mapCompanyToServiceCity(
   formData: FormData
 ): Promise<void> {
@@ -34,11 +35,26 @@ export async function mapCompanyToServiceCity(
 
   if (!companyId || !serviceCityId) return;
 
+  // Guard: if this Service•City is already assigned to a (different) company, block it.
+  const existingForPair = await prisma.companyServiceCity.findFirst({
+    where: { serviceCityId },
+    select: { companyId: true },
+  });
+
+  if (existingForPair && existingForPair.companyId !== companyId) {
+    // If you prefer to fail silently, replace with `return;`
+    throw new Error(
+      "That Service • City is already assigned to a company. Unmap it first."
+    );
+  }
+
+  // Proceed (creates if new, updates if mapping the same company to the same pair)
   await prisma.companyServiceCity.upsert({
     where: { companyId_serviceCityId: { companyId, serviceCityId } },
     update: { displayName, isFeatured },
     create: { companyId, serviceCityId, displayName, isFeatured },
   });
+
   revalidatePath("/admin/mappings");
 }
 

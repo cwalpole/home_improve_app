@@ -46,7 +46,11 @@ export default function ServiceCard({
                   className={styles.img}
                   isAd={isAd}
                 />
-                {/* Inside-caption for featured tiles */}
+                {isAd && (
+                  <div className={styles.sponsoredBadge} aria-hidden="false">
+                    Sponsored
+                  </div>
+                )}
                 {isAd && (
                   <div className={styles.captionInside} aria-hidden="false">
                     <div id={`${slug}-title`} className={styles.captionTitle}>

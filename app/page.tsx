@@ -110,7 +110,7 @@ export default async function HomePage({ searchParams }: PageProps) {
 
   const defaultFeatured: GridItem = {
     id: -1,
-    name: "Your Ad Here",
+    name: "Your Company Here",
     slug: "default-ad",
     heroImage: null,
     companyName: null,
@@ -124,6 +124,7 @@ export default async function HomePage({ searchParams }: PageProps) {
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
+        <div className={styles.heroBg} aria-hidden="true" />
         <div className={styles.heroInner}>
           <div className={styles.title}>Your Home, Our priority</div>
           <div className={styles.subtitle}>
