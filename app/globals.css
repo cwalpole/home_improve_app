@@ -4,6 +4,7 @@
   --muted: #6b7280;
   --brand: #0f172a; /* deep slate */
   --brand-2: #0ea5e9; /* accent (optional) */
+  --brand-bg: rgba(233, 239, 247, 0.92);
   --border: #e5e7eb;
   --soft: #f8fafc;
   --maxw: 1100px;
@@ -16,6 +17,8 @@
   --frame-border: 2px; /* border width on .frame */
   --mat: #f3efe9;
   --ink: #0f172a;
+  --ink-2: #475569;
+  --ring: rgba(15, 23, 42, 0.12);
 }
 
 * {
