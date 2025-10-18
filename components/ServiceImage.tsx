@@ -11,7 +11,6 @@ type Props = {
   alt?: string;
   /** File extension to try first for the per-service asset */
   ext?: "jpg" | "png" | "webp";
-  isAd?: boolean;
 } & Omit<ImageProps, "src" | "alt">;
 
 export default function ServiceImage({
@@ -19,13 +18,9 @@ export default function ServiceImage({
   fallback = "/services/default.png",
   ext = "png",
   alt,
-  isAd,
   ...imgProps
 }: Props) {
-  console.log(`${isAd} - ${slug}.${ext}`);
-  const [src, setSrc] = useState(
-    isAd ? `/ads/${slug}.${ext}` : `/services/${slug}.${ext}`
-  );
+  const [src, setSrc] = useState(`/services/${slug}.${ext}`);
 
   return (
     <Image

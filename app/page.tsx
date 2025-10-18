@@ -105,7 +105,6 @@ export default async function HomePage({ searchParams }: PageProps) {
     };
   });
 
-  const featuredItems = normalized.filter((x) => x.featured);
   const allServices = normalized;
 
   const defaultFeatured: GridItem = {
@@ -193,20 +192,9 @@ export default async function HomePage({ searchParams }: PageProps) {
         }
       >
         {view === "grid" ? (
-          <ServiceGrid
-            citySlug={city.slug}
-            services={allServices}
-            featured={featuredItems}
-            defaultFeatured={defaultFeatured}
-          />
+          <ServiceGrid citySlug={city.slug} services={allServices} />
         ) : (
-          <ServiceList
-            citySlug={city.slug}
-            services={allServices}
-            featured={featuredItems}
-            defaultFeatured={defaultFeatured}
-            insertEvery={6}
-          />
+          <ServiceList citySlug={city.slug} services={allServices} />
         )}
       </Section>
     </main>

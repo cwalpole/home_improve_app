@@ -1,9 +1,4 @@
-/* page spacing + the 20px top margin you asked for earlier */
-.wrapper {
-  margin-top: 20px;
-}
-
-/* ---------- Featured section ---------- */
+/* Container */
 .featuredSection {
   border: 1px solid #e5e7eb;
   background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
@@ -17,7 +12,9 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 12px;
+  gap: 8px; /* prevents squish on medium widths */
+  flex-wrap: wrap; /* allows natural wrapping when needed */
+  margin-bottom: 10px;
 }
 
 .featuredTitle {
@@ -33,7 +30,7 @@
   margin: 0;
 }
 
-/* Two columns (wider than standard) — collapse on small screens */
+/* 2 columns by default; 1 on small screens (matches your list layout) */
 .featuredGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(380px, 1fr));
@@ -78,7 +75,6 @@
 .featuredImg {
   object-fit: cover;
 }
-
 .featuredBody {
   min-width: 0;
 }
@@ -111,79 +107,17 @@
   border: 1px solid #fde68a;
 }
 
-/* ---------- Standard section ---------- */
-.sectionHeader {
-  margin: 6px 0 10px;
-}
-
-.sectionTitle {
-  font-size: 16px;
-  font-weight: 700;
-  color: #111827;
-  margin: 0;
-}
-
-/* Wider columns as requested earlier */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(360px, 1fr));
-  gap: 20px;
-}
-
+/* Stack title + subtitle on mobile */
 @media (max-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .featuredHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
-}
-
-.card {
-  display: grid;
-  grid-template-columns: 112px 1fr;
-  gap: 12px;
-  align-items: center;
-  padding: 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background: #fff;
-  text-decoration: none;
-  transition: transform 120ms ease, box-shadow 120ms ease,
-    border-color 120ms ease;
-}
-
-.card:hover {
-  transform: translateY(-1px);
-  border-color: #d1d5db;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
-}
-
-.media {
-  position: relative;
-  width: 112px;
-  height: 112px;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.img {
-  object-fit: cover;
-}
-.body {
-  min-width: 0;
-}
-
-.title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #111827;
-  line-height: 1.25;
-  margin-bottom: 2px;
-}
-
-.company {
-  font-size: 13px;
-  color: #6b7280;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  .featuredTitle {
+    margin: 0; /* remove extra spacing */
+  }
+  .featuredSub {
+    margin: 0;
+  }
 }
