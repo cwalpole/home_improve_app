@@ -20,11 +20,11 @@ type GridItem = {
   featured: boolean;
 };
 
-type PageProps = {
-  searchParams?: { view?: "grid" | "list"; city?: string };
+type HomePageProps = {
+  searchParams?: Promise<{ view?: "grid" | "list"; city?: string }>;
 };
 
-export default async function HomePage({ searchParams }: PageProps) {
+export default async function HomePage({ searchParams }: HomePageProps) {
   const sp = (await searchParams) ?? {};
   const view = ((sp.view as string) ?? "grid") as "grid" | "list";
   const selectedCitySlug = ((sp.city as string) ?? DEFAULT_CITY).toLowerCase();
