@@ -7,18 +7,37 @@ import { revalidatePath } from "next/cache";
 export async function mapServiceToCity(formData: FormData): Promise<void> {
   const serviceId = Number(formData.get("serviceId"));
   const cityId = Number(formData.get("cityId"));
+  const contentHtmlRaw = String(formData.get("contentHtml") || "").trim();
+  const contentHtml = contentHtmlRaw ? contentHtmlRaw : null;
   if (!serviceId || !cityId) return;
 
   await prisma.serviceCity.upsert({
     where: { serviceId_cityId: { serviceId, cityId } },
-    update: {},
-    create: { serviceId, cityId },
+    update: { contentHtml },
+    create: { serviceId, cityId, contentHtml },
   });
   revalidatePath("/admin/mappings");
 }
 
 export async function unmapServiceFromCity(id: number): Promise<void> {
   await prisma.serviceCity.delete({ where: { id } });
+  revalidatePath("/admin/mappings");
+}
+
+export async function updateServiceCityContent(
+  formData: FormData
+): Promise<void> {
+  const serviceCityId = Number(formData.get("serviceCityId"));
+  const contentHtmlRaw = String(formData.get("contentHtml") || "").trim();
+  const contentHtml = contentHtmlRaw ? contentHtmlRaw : null;
+
+  if (!serviceCityId) return;
+
+  await prisma.serviceCity.update({
+    where: { id: serviceCityId },
+    data: { contentHtml },
+  });
+
   revalidatePath("/admin/mappings");
 }
 

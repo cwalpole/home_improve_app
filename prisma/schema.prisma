@@ -62,6 +62,7 @@ model ServiceCity {
   id         Int     @id @default(autoincrement())
   serviceId  Int
   cityId     Int
+  contentHtml String?  @db.Text
 
   service    Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
   city       City    @relation(fields: [cityId], references: [id], onDelete: Cascade)

@@ -5,6 +5,7 @@ export type ServiceDetail = {
   name: string;
   slug: string;
   heroImage: string | null;
+  contentHtml: string | null;
   listings: {
     displayName: string | null;
     isFeatured: boolean;
@@ -55,6 +56,7 @@ export async function getServiceDetailForCityId(
       serviceCities: {
         where: { cityId },
         select: {
+          contentHtml: true,
           listings: {
             orderBy: [{ isFeatured: "desc" }, { createdAt: "asc" }],
             select: {
@@ -70,11 +72,13 @@ export async function getServiceDetailForCityId(
 
   if (!service) return null;
 
-  const listings = service.serviceCities[0]?.listings ?? [];
+  const serviceCity = service.serviceCities[0];
+  const listings = serviceCity?.listings ?? [];
   const shaped: ServiceDetail = {
     name: service.name,
     slug: service.slug,
     heroImage: service.heroImage,
+    contentHtml: serviceCity?.contentHtml ?? null,
     listings,
   };
   return shaped;

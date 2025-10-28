@@ -7,7 +7,9 @@ import {
   unmapServiceFromCity,
   mapCompanyToServiceCity,
   unmapCompanyFromServiceCity,
+  updateServiceCityContent,
 } from "../actions/mappings";
+import HtmlEditor from "../components/HtmlEditor";
 
 export default async function MappingsPage() {
   const [cities, services, serviceCities, companies] = await Promise.all([
@@ -79,6 +81,13 @@ export default async function MappingsPage() {
               </option>
             ))}
           </select>
+          <HtmlEditor
+            id="service-city-create-content"
+            name="contentHtml"
+            label="Service Page Content"
+            placeholder="Paste or write HTML content that should appear on the service page."
+            helpText="Supports headings, paragraphs, lists, and links. Leave blank to use the default template."
+          />
           <button className={styles.btn}>Map</button>
         </form>
       </AdminSection>
@@ -152,76 +161,113 @@ export default async function MappingsPage() {
               <div className={styles.cityBody}>
                 {items
                   .sort((a, b) => a.service.name.localeCompare(b.service.name))
-                  .map((sc) => (
-                    <div
-                      key={sc.id}
-                      className={styles.section}
-                      style={{ margin: "10px 0 14px" }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          marginBottom: 8,
-                        }}
-                      >
-                        <strong>
-                          {sc.service.name}{" "}
-                          <span style={{ opacity: 0.65 }}>
-                            ({sc.service.slug})
-                          </span>
-                        </strong>
+                  .map((sc) => {
+                    const hasCustomContent =
+                      !!(sc.contentHtml && sc.contentHtml.trim());
 
-                        <form
-                          action={async () => {
-                            "use server";
-                            await unmapServiceFromCity(sc.id);
+                    return (
+                      <div
+                        key={sc.id}
+                        className={styles.section}
+                        style={{ margin: "10px 0 14px" }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: 8,
+                            gap: 12,
                           }}
                         >
-                          <button
-                            className={`${styles.btn} ${styles.secondary}`}
-                            type="submit"
-                          >
-                            Unmap Service↔City
-                          </button>
-                        </form>
-                      </div>
+                          <strong>
+                            {sc.service.name}{" "}
+                            <span style={{ opacity: 0.65 }}>
+                              ({sc.service.slug})
+                            </span>
+                          </strong>
 
-                      {sc.listings.length === 0 ? (
-                        <p style={{ opacity: 0.7, marginTop: 4 }}>
-                          No companies mapped.
-                        </p>
-                      ) : (
-                        sc.listings.map((l) => (
-                          <Row key={`${l.companyId}-${sc.id}`}>
-                            <div>
-                              {l.displayName || l.company.name}{" "}
-                              {l.isFeatured && (
-                                <span style={{ opacity: 0.6 }}>• Featured</span>
-                              )}
-                            </div>
-                            <form
-                              action={async () => {
-                                "use server";
-                                await unmapCompanyFromServiceCity(
-                                  l.companyId,
-                                  sc.id
-                                );
-                              }}
+                          <form
+                            action={async () => {
+                              "use server";
+                              await unmapServiceFromCity(sc.id);
+                            }}
+                          >
+                            <button
+                              className={`${styles.btn} ${styles.secondary}`}
+                              type="submit"
                             >
-                              <button
-                                className={`${styles.btn} ${styles.secondary}`}
-                                type="submit"
+                              Unmap Service↔City
+                            </button>
+                          </form>
+                        </div>
+
+                        <form
+                          action={updateServiceCityContent}
+                          className={styles.contentForm}
+                        >
+                          <input
+                            type="hidden"
+                            name="serviceCityId"
+                            value={sc.id}
+                          />
+                          <HtmlEditor
+                            id={`service-city-${sc.id}-content`}
+                            name="contentHtml"
+                            label="Service Page Content"
+                            defaultValue={sc.contentHtml ?? ""}
+                            placeholder="Paste or write HTML content that should appear on the service page."
+                            helpText="Remove all content to fall back to the default template."
+                          />
+                          <div className={styles.formActions}>
+                            <button className={styles.btn} type="submit">
+                              Save Content
+                            </button>
+                            <span className={styles.formHint}>
+                              {hasCustomContent
+                                ? "Custom content overrides the default template."
+                                : "Currently using the default template."}
+                            </span>
+                          </div>
+                        </form>
+
+                        {sc.listings.length === 0 ? (
+                          <p style={{ opacity: 0.7, marginTop: 4 }}>
+                            No companies mapped.
+                          </p>
+                        ) : (
+                          sc.listings.map((l) => (
+                            <Row key={`${l.companyId}-${sc.id}`}>
+                              <div>
+                                {l.displayName || l.company.name}{" "}
+                                {l.isFeatured && (
+                                  <span style={{ opacity: 0.6 }}>
+                                    • Featured
+                                  </span>
+                                )}
+                              </div>
+                              <form
+                                action={async () => {
+                                  "use server";
+                                  await unmapCompanyFromServiceCity(
+                                    l.companyId,
+                                    sc.id
+                                  );
+                                }}
                               >
-                                Remove
-                              </button>
-                            </form>
-                          </Row>
-                        ))
-                      )}
-                    </div>
-                  ))}
+                                <button
+                                  className={`${styles.btn} ${styles.secondary}`}
+                                  type="submit"
+                                >
+                                  Remove
+                                </button>
+                              </form>
+                            </Row>
+                          ))
+                        )}
+                      </div>
+                    );
+                  })}
               </div>
             </details>
           ))}

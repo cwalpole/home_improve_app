@@ -93,6 +93,27 @@
   margin: 0 auto;
   padding: 6px 16px 24px;
 }
+.richText {
+  display: grid;
+  gap: 16px;
+  color: var(--ink-2);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.richText h2,
+.richText h3,
+.richText h4 {
+  color: var(--ink);
+  margin: 0;
+}
+.richText ul,
+.richText ol {
+  padding-left: 1.4rem;
+}
+.richText a {
+  color: var(--brand-primary, #2563eb);
+  text-decoration: underline;
+}
 .h2 {
   font-size: 1.4rem;
   margin: 0 0 12px;

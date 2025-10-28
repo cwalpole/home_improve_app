@@ -65,6 +65,15 @@ export default async function CityServiceDetailPage(props: {
         </div>
       </section>
 
+      {data.contentHtml ? (
+        <section className={styles.section}>
+          <div
+            className={styles.richText}
+            dangerouslySetInnerHTML={{ __html: data.contentHtml }}
+          />
+        </section>
+      ) : null}
+
       {/* SINGLE PROVIDER */}
       <section className={styles.section}>
         <h2 className={styles.h2}>Featured provider</h2>
