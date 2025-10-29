@@ -153,8 +153,8 @@ export default async function CityServiceDetailPage(props: {
           citySlug={city.slug}
           service={data.name}
           serviceSlug={slug}
-          providerCompanyId={listing?.company.name ?? null}
-          serviceCityId={(listing as any)?.serviceCityId ?? null}
+          providerCompanyId={listing?.companyId ?? null}
+          serviceCityId={listing?.serviceCityId ?? null}
         />
       </section>
 

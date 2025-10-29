@@ -8,7 +8,7 @@ type Props = {
   citySlug: string;
   service: string;
   serviceSlug: string;
-  providerCompanyId: string | null;
+  providerCompanyId: number | null;
   serviceCityId: number | null;
 };
 
@@ -56,11 +56,15 @@ export default function ContactForm({
         <input
           type="hidden"
           name="providerCompanyId"
-          value={providerCompanyId}
+          value={String(providerCompanyId)}
         />
       )}
       {serviceCityId != null && (
-        <input type="hidden" name="serviceCityId" value={serviceCityId} />
+        <input
+          type="hidden"
+          name="serviceCityId"
+          value={String(serviceCityId)}
+        />
       )}
 
       <div className={styles.formRow}>

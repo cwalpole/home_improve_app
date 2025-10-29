@@ -107,15 +107,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   const allServices = normalized;
 
-  const defaultFeatured: GridItem = {
-    id: -1,
-    name: "Your Company Here",
-    slug: "default-ad",
-    heroImage: null,
-    companyName: null,
-    featured: false,
-  };
-
   // stay on the current page; preserve city while toggling view
   const gridHref = `?city=${city.slug}&view=grid#services`;
   const listHref = `?city=${city.slug}&view=list#services`;

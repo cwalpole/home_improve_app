@@ -3,8 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import ServiceCard from "./ServiceCard";
 import styles from "./ServiceGrid.module.css";
-import ServiceImage from "./ServiceImage";
-import Link from "next/link";
 import FeaturedPicks from "./FeaturedPicks";
 
 export type Item = {

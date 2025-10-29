@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   // Accept both FormData and JSON (we’ll just log for now)
-  let payload: Record<string, any> = {};
+  let payload: unknown = {};
   const contentType = req.headers.get("content-type") || "";
 
   try {
@@ -11,7 +11,11 @@ export async function POST(req: Request) {
       contentType.includes("application/x-www-form-urlencoded")
     ) {
       const fd = await req.formData();
-      fd.forEach((v, k) => (payload[k] = v));
+      const formPayload: Record<string, FormDataEntryValue> = {};
+      fd.forEach((value, key) => {
+        formPayload[key] = value;
+      });
+      payload = formPayload;
     } else if (contentType.includes("application/json")) {
       payload = await req.json();
     }

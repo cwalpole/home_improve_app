@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import styles from "./ServiceCard.module.css";
 import ServiceImage from "./ServiceImage";
 
@@ -29,7 +28,6 @@ export default function ServiceCard({
           <div className={styles.frame}>
             <div className={styles.mat}>
               <div className={styles.art}>
-                (
                 <ServiceImage
                   slug={slug}
                   ext={coverExt}

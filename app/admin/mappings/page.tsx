@@ -140,7 +140,7 @@ export default async function MappingsPage() {
             >
           >((acc, sc) => {
             const key = sc.city.id;
-            if (!acc[key]) acc[key] = { city: sc.city, items: [] as any };
+            if (!acc[key]) acc[key] = { city: sc.city, items: [] };
             acc[key].items.push(sc);
             return acc;
           }, {})
@@ -162,8 +162,9 @@ export default async function MappingsPage() {
                 {items
                   .sort((a, b) => a.service.name.localeCompare(b.service.name))
                   .map((sc) => {
-                    const hasCustomContent =
-                      !!(sc.contentHtml && sc.contentHtml.trim());
+                    const hasCustomContent = !!(
+                      sc.contentHtml && sc.contentHtml.trim()
+                    );
 
                     return (
                       <div

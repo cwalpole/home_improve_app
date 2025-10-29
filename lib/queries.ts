@@ -1,16 +1,20 @@
 // lib/queries.ts
 import prisma from "./prisma";
 
+export type ServiceListing = {
+  displayName: string | null;
+  isFeatured: boolean;
+  companyId: number;
+  serviceCityId: number;
+  company: { name: string; url: string | null; logoUrl: string | null };
+};
+
 export type ServiceDetail = {
   name: string;
   slug: string;
   heroImage: string | null;
   contentHtml: string | null;
-  listings: {
-    displayName: string | null;
-    isFeatured: boolean;
-    company: { name: string; url: string | null; logoUrl: string | null };
-  }[];
+  listings: ServiceListing[];
 };
 
 export type CityServiceItem = {
@@ -62,6 +66,8 @@ export async function getServiceDetailForCityId(
             select: {
               displayName: true,
               isFeatured: true,
+              companyId: true,
+              serviceCityId: true,
               company: { select: { name: true, url: true, logoUrl: true } },
             },
           },

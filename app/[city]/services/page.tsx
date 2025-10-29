@@ -3,8 +3,6 @@ import { getServicesForCityId } from "@/lib/queries";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-type Props = { params: { city: string } };
-
 export async function generateMetadata(props: {
   params: Promise<{ city: string }>;
 }): Promise<Metadata> {
