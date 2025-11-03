@@ -9,7 +9,6 @@ export default function UpdateServiceForm(props: {
   id: number;
   name: string;
   slug: string;
-  order: number;
 }) {
   const [state, formAction] = useActionState(updateService, initial);
 
@@ -26,13 +25,6 @@ export default function UpdateServiceForm(props: {
         name="slug"
         defaultValue={props.slug}
         placeholder="URL (e.g., plumbing)"
-        className={styles.input}
-      />
-      <input
-        name="order"
-        defaultValue={props.order}
-        type="number"
-        placeholder="Order"
         className={styles.input}
       />
       <button className={styles.btn}>Save</button>

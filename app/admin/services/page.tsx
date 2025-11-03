@@ -1,52 +1,41 @@
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 import AdminSection from "../components/AdminSection";
-import Row from "../components/Row";
 import styles from "../admin.module.css";
-import CreateServiceForm from "./CreateServiceForm";
-import UpdateServiceForm from "./UpdateServiceForm";
-import { deleteService } from "../actions/services";
+import CreateServiceModal from "./CreateServiceModal";
+import { unstable_noStore as noStore } from "next/cache";
 
 export default async function ServicesPage() {
-  const items = await prisma.service.findMany({
-    orderBy: [{ order: "asc" }, { name: "asc" }],
+  noStore();
+  const services = await prisma.service.findMany({
+    orderBy: { name: "asc" },
+    select: { id: true, name: true, slug: true },
   });
 
   return (
-    <>
-      <AdminSection title="Create Service">
-        <CreateServiceForm />
-      </AdminSection>
-
-      <AdminSection title="Services">
-        {items.map((s) => (
-          <Row key={s.id}>
-            <div>
-              {s.name} <span style={{ opacity: 0.6 }}>(/{s.slug})</span>
-            </div>
-
-            <UpdateServiceForm
-              id={s.id}
-              name={s.name}
-              slug={s.slug}
-              order={s.order}
-            />
-
-            <form
-              action={async () => {
-                "use server";
-                await deleteService(s.id);
-              }}
-            >
-              <button
-                className={`${styles.btn} ${styles.secondary}`}
-                type="submit"
+    <AdminSection title="Services" right={<CreateServiceModal />}>
+      {services.length ? (
+        <ul className={styles.companyList}>
+          {services.map((service) => (
+            <li key={service.id} className={styles.companyListItem}>
+              <Link
+                href={`/admin/services/${service.id}`}
+                className={styles.companyCard}
               >
-                Delete
-              </button>
-            </form>
-          </Row>
-        ))}
-      </AdminSection>
-    </>
+                <span className={styles.companyCardBody}>
+                  <span className={styles.companyName}>{service.name}</span>
+                  <span className={styles.companyUrl}>/{service.slug}</span>
+                </span>
+                <span className={styles.companyChevron}>→</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className={styles.emptyMessage}>
+          No services yet. Add your first service to begin mapping providers.
+        </p>
+      )}
+    </AdminSection>
   );
 }

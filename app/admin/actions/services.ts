@@ -13,10 +13,9 @@ export async function createService(
   const slug = String(fd.get("slug") || "")
     .trim()
     .toLowerCase();
-  const order = Number(fd.get("order") || 0);
   if (!name || !slug) return { ok: false, error: "Name and slug are required" };
 
-  await prisma.service.create({ data: { name, slug, order } });
+  await prisma.service.create({ data: { name, slug } });
   revalidatePath("/admin/services");
   return { ok: true, error: null };
 }
@@ -30,10 +29,9 @@ export async function updateService(
   const slug = String(fd.get("slug") || "")
     .trim()
     .toLowerCase();
-  const order = Number(fd.get("order") || 0);
   if (!id || !name || !slug) return { ok: false, error: "Missing fields" };
 
-  await prisma.service.update({ where: { id }, data: { name, slug, order } });
+  await prisma.service.update({ where: { id }, data: { name, slug } });
   revalidatePath("/admin/services");
   return { ok: true, error: null };
 }

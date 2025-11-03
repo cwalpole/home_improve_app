@@ -3,6 +3,8 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
+export type MappingActionState = { ok: boolean; error: string | null };
+
 // Service ↔ City
 export async function mapServiceToCity(formData: FormData): Promise<void> {
   const serviceId = Number(formData.get("serviceId"));
@@ -11,17 +13,26 @@ export async function mapServiceToCity(formData: FormData): Promise<void> {
   const contentHtml = contentHtmlRaw ? contentHtmlRaw : null;
   if (!serviceId || !cityId) return;
 
-  await prisma.serviceCity.upsert({
+  const mapping = await prisma.serviceCity.upsert({
     where: { serviceId_cityId: { serviceId, cityId } },
     update: { contentHtml },
     create: { serviceId, cityId, contentHtml },
+    select: { id: true },
   });
   revalidatePath("/admin/mappings");
+  revalidatePath("/admin/serviceCityMappings");
+  revalidatePath("/admin/companyServiceCityMappings");
+  if (mapping?.id) {
+    revalidatePath(`/admin/serviceCityMappings/${mapping.id}`);
+  }
 }
 
 export async function unmapServiceFromCity(id: number): Promise<void> {
   await prisma.serviceCity.delete({ where: { id } });
   revalidatePath("/admin/mappings");
+  revalidatePath("/admin/serviceCityMappings");
+  revalidatePath("/admin/companyServiceCityMappings");
+  revalidatePath(`/admin/serviceCityMappings/${id}`);
 }
 
 export async function updateServiceCityContent(
@@ -39,6 +50,8 @@ export async function updateServiceCityContent(
   });
 
   revalidatePath("/admin/mappings");
+  revalidatePath("/admin/serviceCityMappings");
+  revalidatePath(`/admin/serviceCityMappings/${serviceCityId}`);
 }
 
 // Company ↔ ServiceCity
@@ -75,6 +88,8 @@ export async function mapCompanyToServiceCity(
   });
 
   revalidatePath("/admin/mappings");
+  revalidatePath("/admin/companyServiceCityMappings");
+  revalidatePath(`/admin/companyServiceCityMappings/${serviceCityId}/${companyId}`);
 }
 
 export async function unmapCompanyFromServiceCity(
@@ -85,4 +100,29 @@ export async function unmapCompanyFromServiceCity(
     where: { companyId_serviceCityId: { companyId, serviceCityId } },
   });
   revalidatePath("/admin/mappings");
+  revalidatePath("/admin/companyServiceCityMappings");
+  revalidatePath(`/admin/companyServiceCityMappings/${serviceCityId}/${companyId}`);
+}
+
+export async function updateCompanyServiceCityFeatured(
+  prev: MappingActionState,
+  formData: FormData
+): Promise<MappingActionState> {
+  const companyId = Number(formData.get("companyId"));
+  const serviceCityId = Number(formData.get("serviceCityId"));
+  const isFeatured = String(formData.get("isFeatured") || "false") === "true";
+
+  if (!companyId || !serviceCityId) {
+    return { ok: false, error: "Missing fields" };
+  }
+
+  await prisma.companyServiceCity.update({
+    where: { companyId_serviceCityId: { companyId, serviceCityId } },
+    data: { isFeatured },
+  });
+
+  revalidatePath("/admin/companyServiceCityMappings");
+  revalidatePath(`/admin/companyServiceCityMappings/${serviceCityId}/${companyId}`);
+
+  return { ok: true, error: null };
 }

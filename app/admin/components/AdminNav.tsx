@@ -13,8 +13,11 @@ export default function AdminNav() {
       <Link href="/admin/companies" className={styles.link}>
         Companies
       </Link>
-      <Link href="/admin/mappings" className={styles.link}>
-        Mappings
+      <Link href="/admin/serviceCityMappings" className={styles.link}>
+        Service ↔ City
+      </Link>
+      <Link href="/admin/companyServiceCityMappings" className={styles.link}>
+        Company ↔ ServiceCity
       </Link>
     </nav>
   );

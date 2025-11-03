@@ -66,6 +66,78 @@
   flex-wrap: wrap;
 }
 
+.filterControls {
+  align-items: center;
+}
+
+.filterControls .select {
+  height: 36px;
+  min-height: 36px;
+  font-size: 0.95rem;
+  padding: 0 14px;
+}
+
+.filterControls button,
+.filterControls a {
+  height: 36px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  font-size: 0.95rem;
+}
+
+.toggleWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #cfd1d4;
+}
+
+.toggleSwitch {
+  position: relative;
+  width: 44px;
+  height: 22px;
+}
+
+.toggleSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #1f2634;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+  border: 1px solid #2a3140;
+}
+
+.toggleSlider::before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  top: 2px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.toggleSwitch input:checked + .toggleSlider {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.toggleSwitch input:checked + .toggleSlider::before {
+  transform: translateX(20px);
+}
+
 .input,
 .select {
   background: #0b0c0f;
