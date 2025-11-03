@@ -7,6 +7,8 @@ import styles from "./SwitchCity.module.css";
 
 type City = { name: string; slug: string };
 
+const STORAGE_KEY = "home-improve:selected-city";
+
 export default function SwitchCity({
   current,
   cities,
@@ -37,13 +39,16 @@ export default function SwitchCity({
             {cities.map((c) => (
               <li key={c.slug}>
                 <Link
-                  href={`?city=${encodeURIComponent(
-                    c.slug
-                  )}&view=${currentView}#services`}
+                  href={`/${c.slug}?view=${currentView}#services`}
                   className={`${styles.cityItem} ${
                     c.slug === current.slug ? styles.current : ""
                   }`}
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    setOpen(false);
+                    if (typeof window !== "undefined") {
+                      window.localStorage.setItem(STORAGE_KEY, c.slug);
+                    }
+                  }}
                 >
                   {c.name}
                 </Link>
