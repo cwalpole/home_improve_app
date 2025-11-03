@@ -121,7 +121,6 @@ export default async function CityHomePage(props: {
             <SwitchCity
               current={{ name: city.name, slug: city.slug }}
               cities={cities}
-              currentView={view}
             />
           </>
         }
