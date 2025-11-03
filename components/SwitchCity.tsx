@@ -12,11 +12,9 @@ const STORAGE_KEY = "home-improve:selected-city";
 export default function SwitchCity({
   current,
   cities,
-  currentView = "grid",
 }: {
   current: City;
   cities: City[];
-  currentView?: "grid" | "list";
 }) {
   const [open, setOpen] = useState(false);
 
