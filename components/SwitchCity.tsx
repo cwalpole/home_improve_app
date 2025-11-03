@@ -39,7 +39,7 @@ export default function SwitchCity({
             {cities.map((c) => (
               <li key={c.slug}>
                 <Link
-                  href={`/${c.slug}?view=${currentView}#services`}
+                  href={`/${c.slug}#services`}
                   className={`${styles.cityItem} ${
                     c.slug === current.slug ? styles.current : ""
                   }`}
