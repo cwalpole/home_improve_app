@@ -55,21 +55,18 @@ export default function CityGate({ cities }: { cities: City[] }) {
                 providers to your area.
               </p>
             </header>
-            <label className={styles.field}>
-              <span className={styles.fieldLabel}>City</span>
-              <select
-                className={styles.select}
-                value={selection}
-                onChange={(e) => setSelection(e.target.value)}
-              >
-                <option value="">Select a city…</option>
-                {cities.map((city) => (
-                  <option key={city.slug} value={city.slug}>
-                    {city.name}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <select
+              className={styles.select}
+              value={selection}
+              onChange={(e) => setSelection(e.target.value)}
+            >
+              <option value="">Select a city…</option>
+              {cities.map((city) => (
+                <option key={city.slug} value={city.slug}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
             <button
               type="button"
               className={styles.confirmBtn}
