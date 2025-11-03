@@ -1,51 +1,36 @@
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 import AdminSection from "../components/AdminSection";
-import Row from "../components/Row";
 import styles from "../admin.module.css";
-import CreateCityForm from "./CreateCityForm";
-import UpdateCityForm from "./UpdateCityForm";
-import { deleteCityById } from "../actions/cities";
+import CreateCityModal from "./CreateCityModal";
 
 export default async function CitiesPage() {
-  const items = await prisma.city.findMany({ orderBy: { name: "asc" } });
+  const cities = await prisma.city.findMany({ orderBy: { name: "asc" } });
 
   return (
-    <>
-      <AdminSection title="Create City">
-        <CreateCityForm />
-      </AdminSection>
-
-      <AdminSection title="Cities">
-        {items.map((c) => (
-          <Row key={c.id}>
-            <div>
-              {c.name} <span style={{ opacity: 0.6 }}>(/{c.slug})</span>
-            </div>
-
-            <UpdateCityForm
-              id={c.id}
-              name={c.name}
-              slug={c.slug}
-              regionCode={c.regionCode}
-            />
-
-            {/* Delete form — inline server action (your requested style) */}
-            <form
-              action={async () => {
-                "use server";
-                await deleteCityById(c.id);
-              }}
-            >
-              <button
-                className={`${styles.btn} ${styles.secondary}`}
-                type="submit"
+    <AdminSection title="Cities" right={<CreateCityModal />}>
+      {cities.length ? (
+        <ul className={styles.companyList}>
+          {cities.map((city) => (
+            <li key={city.id} className={styles.companyListItem}>
+              <Link
+                href={`/admin/cities/${city.id}`}
+                className={styles.companyCard}
               >
-                Delete
-              </button>
-            </form>
-          </Row>
-        ))}
-      </AdminSection>
-    </>
+                <span className={styles.companyCardBody}>
+                  <span className={styles.companyName}>{city.name}</span>
+                  <span className={styles.companyUrl}>/{city.slug}</span>
+                </span>
+                <span className={styles.companyChevron}>→</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className={styles.emptyMessage}>
+          No cities yet. Add your first city to begin mapping services.
+        </p>
+      )}
+    </AdminSection>
   );
 }

@@ -1,46 +1,38 @@
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 import AdminSection from "../components/AdminSection";
-import Row from "../components/Row";
 import styles from "../admin.module.css";
-import CreateCompanyForm from "./CreateCompanyForm";
-import UpdateCompanyForm from "./UpdateCompanyForm";
-import { deleteCompany } from "../actions/companies";
+import CreateCompanyModal from "./CreateCompanyModal";
 
 export default async function CompaniesPage() {
-  const items = await prisma.company.findMany({ orderBy: { name: "asc" } });
+  const companies = await prisma.company.findMany({ orderBy: { name: "asc" } });
 
   return (
-    <>
-      <AdminSection title="Create Company">
-        <CreateCompanyForm />
-      </AdminSection>
-
-      <AdminSection title="Companies">
-        {items.map((c) => (
-          <Row key={c.id}>
-            <div>
-              {c.name}{" "}
-              <span style={{ opacity: 0.6 }}>{c.url ? `(${c.url})` : ""}</span>
-            </div>
-
-            <UpdateCompanyForm id={c.id} name={c.name} url={c.url} />
-
-            <form
-              action={async () => {
-                "use server";
-                await deleteCompany(c.id);
-              }}
-            >
-              <button
-                className={`${styles.btn} ${styles.secondary}`}
-                type="submit"
+    <AdminSection title="Companies" right={<CreateCompanyModal />}>
+      {companies.length ? (
+        <ul className={styles.companyList}>
+          {companies.map((company) => (
+            <li key={company.id} className={styles.companyListItem}>
+              <Link
+                href={`/admin/companies/${company.id}`}
+                className={styles.companyCard}
               >
-                Delete
-              </button>
-            </form>
-          </Row>
-        ))}
-      </AdminSection>
-    </>
+                <span className={styles.companyCardBody}>
+                  <span className={styles.companyName}>{company.name}</span>
+                  {company.url ? (
+                    <span className={styles.companyUrl}>{company.url}</span>
+                  ) : null}
+                </span>
+                <span className={styles.companyChevron}>→</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className={styles.emptyMessage}>
+          No companies yet. Add your first partner to get started.
+        </p>
+      )}
+    </AdminSection>
   );
 }

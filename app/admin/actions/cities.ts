@@ -53,11 +53,13 @@ export async function updateCity(
     data: { name, slug, regionCode, regionSlug },
   });
   revalidatePath("/admin/cities");
+  revalidatePath(`/admin/cities/${id}`);
   return { ok: true, error: null };
 }
 
 export async function deleteCityById(id: number): Promise<{ ok: boolean }> {
   await prisma.city.delete({ where: { id } });
   revalidatePath("/admin/cities");
+  revalidatePath(`/admin/cities/${id}`);
   return { ok: true };
 }

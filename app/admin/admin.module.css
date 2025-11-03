@@ -88,6 +88,14 @@
   background: #374151;
 }
 
+.btn.danger {
+  background: #dc2626;
+}
+
+.btn.danger:hover {
+  background: #b91c1c;
+}
+
 .editorWrapper {
   flex: 1 1 100%;
   display: grid;
@@ -262,6 +270,118 @@
   font-weight: 800;
   line-height: 1;
   color: #ffffff;
+}
+
+.companyList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.companyListItem {
+  margin: 0;
+}
+
+.companyCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #1f2634;
+  background: #111520;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.companyCard:hover {
+  border-color: #2563eb;
+  background: #162032;
+  transform: translateY(-1px);
+}
+
+.companyCardBody {
+  display: grid;
+  gap: 4px;
+}
+
+.companyName {
+  font-weight: 600;
+}
+
+.companyUrl {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.companyChevron {
+  font-size: 1.25rem;
+  opacity: 0.6;
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 12, 15, 0.76);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  z-index: 100;
+}
+
+.modalPanel {
+  width: min(440px, 100%);
+  background: #0f1117;
+  border: 1px solid #1a1c22;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
+  display: grid;
+  gap: 16px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.modalClose {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.modalClose:hover {
+  color: #ffffff;
+}
+
+.modalDescription {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.detailCard {
+  display: grid;
+  gap: 16px;
+}
+
+.emptyMessage {
+  margin: 0;
+  color: #9ca3af;
+  font-style: italic;
 }
 
 /* Right column: the label */

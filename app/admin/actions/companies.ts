@@ -29,11 +29,13 @@ export async function updateCompany(
 
   await prisma.company.update({ where: { id }, data: { name, url } });
   revalidatePath("/admin/companies");
+  revalidatePath(`/admin/companies/${id}`);
   return { ok: true, error: null };
 }
 
 export async function deleteCompany(id: number): Promise<{ ok: boolean }> {
   await prisma.company.delete({ where: { id } });
   revalidatePath("/admin/companies");
+  revalidatePath(`/admin/companies/${id}`);
   return { ok: true };
 }
