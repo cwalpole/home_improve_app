@@ -3,12 +3,11 @@ import AdminSection from "../../components/AdminSection";
 import styles from "../../admin.module.css";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import HtmlEditor from "../../components/HtmlEditor";
 import {
   unmapServiceFromCity,
-  updateServiceCityContent,
 } from "../../actions/mappings";
 import { unstable_noStore as noStore } from "next/cache";
+import ServiceCityContentForm from "../ServiceCityContentForm";
 
 export default async function ServiceCityMappingDetailPage(props: {
   params: Promise<{ id: string }>;
@@ -50,22 +49,10 @@ export default async function ServiceCityMappingDetailPage(props: {
           </div>
         </div>
 
-        <form action={updateServiceCityContent} className={styles.contentForm}>
-          <input type="hidden" name="serviceCityId" value={mapping.id} />
-          <HtmlEditor
-            id={`service-city-${mapping.id}-content-detail`}
-            name="contentHtml"
-            label="Service page content"
-            defaultValue={mapping.contentHtml ?? ""}
-            placeholder="Paste or write HTML content that should appear on the service page."
-            helpText="Remove all content to fall back to the default template."
-          />
-          <div className={styles.formActions}>
-            <button className={styles.btn} type="submit">
-              Save content
-            </button>
-          </div>
-        </form>
+        <ServiceCityContentForm
+          mappingId={mapping.id}
+          defaultContent={mapping.contentHtml}
+        />
 
         <form
           action={async () => {

@@ -450,6 +450,123 @@
   gap: 16px;
 }
 
+.companyDetailGrid {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .companyDetailGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+    align-items: start;
+  }
+}
+
+.companyFormCard {
+  background: #0f1117;
+  border: 1px solid #1a1c22;
+  border-radius: 14px;
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.companyFormIntro {
+  display: grid;
+  gap: 4px;
+}
+
+.companyFormTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.companyFormHint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.companyField {
+  display: grid;
+  gap: 6px;
+}
+
+.companyFieldLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #cfd1d4;
+}
+
+.statusPositive {
+  color: #86efac;
+  font-size: 0.85rem;
+}
+
+.statusNegative {
+  color: #f87171;
+  font-size: 0.85rem;
+}
+
+.logoForm {
+  display: grid;
+  gap: 12px;
+}
+
+.companyLogoPreview {
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  border: 1px dashed rgba(148, 163, 184, 0.24);
+  border-radius: 12px;
+  background: #111520;
+}
+
+.companyLogoImage {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+}
+
+.companyDangerZone {
+  grid-column: 1 / -1;
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(127, 29, 29, 0.2);
+}
+
+.companyDangerCopy {
+  display: grid;
+  gap: 4px;
+}
+
+.companyDangerTitle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fca5a5;
+}
+
+.companyDangerHint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #fca5a5;
+  opacity: 0.9;
+}
+
+.companyDangerAction {
+  display: flex;
+  align-items: center;
+}
+
 .emptyMessage {
   margin: 0;
   color: #9ca3af;

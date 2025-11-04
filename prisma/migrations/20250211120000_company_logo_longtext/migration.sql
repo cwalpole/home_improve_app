@@ -1,0 +1,2 @@
+ALTER TABLE `Company`
+  MODIFY `logoUrl` LONGTEXT NULL;

@@ -21,7 +21,7 @@ model Company {
   region      String?
   postalCode  String?
   country     String?
-  logoUrl     String?
+  logoUrl     String?  @db.LongText
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

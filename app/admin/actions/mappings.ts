@@ -36,13 +36,16 @@ export async function unmapServiceFromCity(id: number): Promise<void> {
 }
 
 export async function updateServiceCityContent(
+  prevState: MappingActionState,
   formData: FormData
-): Promise<void> {
+): Promise<MappingActionState> {
   const serviceCityId = Number(formData.get("serviceCityId"));
   const contentHtmlRaw = String(formData.get("contentHtml") || "").trim();
   const contentHtml = contentHtmlRaw ? contentHtmlRaw : null;
 
-  if (!serviceCityId) return;
+  if (!serviceCityId) {
+    return { ok: false, error: "Missing mapping id" };
+  }
 
   await prisma.serviceCity.update({
     where: { id: serviceCityId },
@@ -52,9 +55,9 @@ export async function updateServiceCityContent(
   revalidatePath("/admin/mappings");
   revalidatePath("/admin/serviceCityMappings");
   revalidatePath(`/admin/serviceCityMappings/${serviceCityId}`);
+  return { ok: true, error: null };
 }
 
-// Company ↔ ServiceCity
 // Company ↔ ServiceCity
 export async function mapCompanyToServiceCity(
   formData: FormData
