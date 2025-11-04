@@ -42,31 +42,174 @@ export default async function CityServiceDetailPage(props: {
 
   return (
     <main className={styles.main}>
-      {/* HERO (unchanged) */}
       <section className={styles.hero}>
-        <div className={styles.heroShade} aria-hidden="true" />
-        <div className={styles.heroInner}>
-          <span className={styles.eyebrow}>Licensed • Insured • Warranty</span>
-          <h1 className={styles.title}>
-            {data.name} Service in {city.name}
-          </h1>
-          <p className={styles.subtitle}>
-            Trusted local pros for {data.name.toLowerCase()} — fast quotes,
-            clear pricing, and quality workmanship.
-          </p>
-          <div className={styles.ctaRow}>
-            <a href="#contact" className={styles.ctaPrimary}>
-              Get a free quote
-            </a>
-            <Link href={`/${city.slug}/services`} className={styles.ctaGhost}>
-              Browse all services
-            </Link>
+        <div className={styles.heroGradient} aria-hidden="true" />
+        <div className={styles.heroContent}>
+          <div className={styles.heroCopy}>
+            <span className={styles.eyebrow}>Licensed • Insured • Warranty</span>
+            <h1 className={styles.title}>
+              {data.name} experts serving {city.name}
+            </h1>
+            <p className={styles.lead}>
+              Partner with vetted specialists who deliver premium{" "}
+              {data.name.toLowerCase()} results, flexible scheduling, and clear
+              communication from the first call to final walk-through.
+            </p>
+
+            <div className={styles.heroStats}>
+              <div className={styles.stat}>
+                <span className={styles.statValue}>4.9★</span>
+                <span className={styles.statLabel}>Average homeowner rating</span>
+              </div>
+              <div className={styles.stat}>
+                <span className={styles.statValue}>48 hr</span>
+                <span className={styles.statLabel}>Typical quote turnaround</span>
+              </div>
+              <div className={styles.stat}>
+                <span className={styles.statValue}>100%</span>
+                <span className={styles.statLabel}>Local, background-checked crews</span>
+              </div>
+            </div>
+
+            <div className={styles.ctaRow}>
+              <a href="#contact" className={styles.ctaPrimary}>
+                Book your free quote
+              </a>
+              <Link href={`/${city.slug}/services`} className={styles.ctaGhost}>
+                Browse all services
+              </Link>
+            </div>
           </div>
+
+          <aside className={styles.heroAside}>
+            <div className={styles.heroAsideCard}>
+              <h3>Popular {data.name.toLowerCase()} projects in {city.name}</h3>
+              <ul>
+                <li>Complete {data.name.toLowerCase()} packages</li>
+                <li>Emergency call-outs & repairs</li>
+                <li>Maintenance plans and seasonal care</li>
+              </ul>
+              <p>
+                Not sure where to start? Share a few details and we&apos;ll tailor
+                recommendations for your home.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section className={styles.providerSection}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.sectionEyebrow}>Featured provider</span>
+          <h2 className={styles.sectionTitle}>Meet your local specialist</h2>
+          <p className={styles.sectionLead}>
+            We partner with trusted pros who know {city.name} homes inside and out.
+          </p>
+        </div>
+        {listing ? (
+          <article className={styles.providerCard}>
+            <div className={styles.providerBadge}>Preferred partner</div>
+            <div className={styles.providerHeader}>
+              {listing.company.logoUrl ? (
+                <div className={styles.providerLogoImageWrap}>
+                  <Image
+                    src={listing.company.logoUrl}
+                    alt={`${listing.displayName || listing.company.name} logo`}
+                    fill
+                    sizes="220px"
+                    className={styles.providerLogoImage}
+                  />
+                </div>
+              ) : null}
+              <div>
+                <h3 className={styles.providerName}>
+                  {listing.displayName || listing.company.name}
+                </h3>
+                <p className={styles.providerMeta}>
+                  Serving {city.name} • Licensed & insured • Local team you can reach
+                  directly
+                </p>
+              </div>
+            </div>
+
+            <ul className={styles.providerPoints}>
+              <li>Upfront proposals and detailed progress updates</li>
+              <li>Respectful crews that keep your home tidy</li>
+              <li>Work backed by a satisfaction guarantee</li>
+            </ul>
+
+            <div className={styles.providerActions}>
+              <a href="#contact" className={styles.ctaPrimary}>
+                Start your project
+              </a>
+              {listing.company.url && (
+                <a
+                  href={normalizeExternalUrl(listing.company.url)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.ctaGhost}
+                >
+                  Visit website
+                </a>
+              )}
+            </div>
+          </article>
+        ) : (
+          <div className={styles.providerFallback}>
+            <p>
+              We’re currently onboarding a trusted {data.name.toLowerCase()} partner
+              in {city.name}. Share your project details and we’ll match you within
+              24 hours.
+            </p>
+            <a href="#contact" className={styles.ctaPrimary}>
+              Tell us about your project
+            </a>
+          </div>
+        )}
+      </section>
+
+      <section className={styles.highlights}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.sectionEyebrow}>Why homeowners trust us</span>
+          <h2 className={styles.sectionTitle}>
+            A smoother {data.name.toLowerCase()} experience from hello to handover
+          </h2>
+          <p className={styles.sectionLead}>
+            We curate the best local teams in {city.name}, so you can focus on the
+            results instead of the research.
+          </p>
+        </div>
+        <div className={styles.highlightGrid}>
+          {[
+            {
+              title: "Vetted local pros",
+              copy: `Every specialist is licensed, insured, and hand-reviewed for ${data.name.toLowerCase()} work in ${city.name}.`,
+            },
+            {
+              title: "Crystal-clear pricing",
+              copy: "Expect transparent estimates, detailed scopes, and easy scheduling without the back-and-forth.",
+            },
+            {
+              title: "Service that stands out",
+              copy: "Dedicated project support, proactive communication, and workmanship we stand behind.",
+            },
+          ].map((card) => (
+            <article key={card.title} className={styles.highlightCard}>
+              <h3>{card.title}</h3>
+              <p>{card.copy}</p>
+            </article>
+          ))}
         </div>
       </section>
 
       {data.contentHtml ? (
-        <section className={styles.section}>
+        <section className={styles.story}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionEyebrow}>In-depth guide</span>
+            <h2 className={styles.sectionTitle}>
+              {city.name}&apos;s take on {data.name.toLowerCase()}
+            </h2>
+          </div>
           <div
             className={styles.richText}
             dangerouslySetInnerHTML={{ __html: data.contentHtml }}
@@ -74,88 +217,67 @@ export default async function CityServiceDetailPage(props: {
         </section>
       ) : null}
 
-      {/* SINGLE PROVIDER */}
-      <section className={styles.section}>
-        <h2 className={styles.h2}>Featured provider</h2>
-
-        {listing ? (
-          <article className={styles.provider}>
-            <div className={styles.providerBadge}>Preferred</div>
-
-            <div className={styles.providerMedia}>
-              {listing.company.logoUrl ? (
-                <div className={styles.providerLogoWrap}>
-                  <Image
-                    src={listing.company.logoUrl}
-                    alt={`${listing.displayName || listing.company.name} logo`}
-                    fill
-                    sizes="120px"
-                    className={styles.providerLogo}
-                  />
-                </div>
-              ) : (
-                <div className={styles.providerLogoFallback}>
-                  {(listing.displayName || listing.company.name)
-                    .split(/\s+/)
-                    .map((w) => w[0]!)
-                    .slice(0, 2)
-                    .join("")
-                    .toUpperCase()}
-                </div>
-              )}
-            </div>
-
-            <div className={styles.providerBody}>
-              <div className={styles.providerName}>
-                {listing.displayName || listing.company.name}
+      <section className={styles.process}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.sectionEyebrow}>How it works</span>
+          <h2 className={styles.sectionTitle}>Simple steps to a finished project</h2>
+        </div>
+        <ol className={styles.stepList}>
+          {[
+            {
+              title: "Share your vision",
+              copy: `Tell us about your ${data.name.toLowerCase()} goals and timeline. It takes less than two minutes.`,
+            },
+            {
+              title: "Receive a tailored plan",
+              copy: "We pair you with the right crew, outline the scope, and schedule a site visit if needed.",
+            },
+            {
+              title: "Relax while we get it done",
+              copy: "Your dedicated pro keeps you updated, respects your home, and delivers the finish you expect.",
+            },
+          ].map((step, index) => (
+            <li key={step.title}>
+              <span className={styles.stepNumber}>{index + 1}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
               </div>
-              <div className={styles.providerMeta}>
-                Serving {city.name} • Licensed & insured • Fast scheduling
-              </div>
-              <div className={styles.providerCtas}>
-                <a href="#contact" className={styles.ctaPrimary}>
-                  Get a free quote
-                </a>
-                {listing.company.url && (
-                  <a
-                    href={normalizeExternalUrl(listing.company.url)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.ctaGhost}
-                  >
-                    Visit website
-                  </a>
-                )}
-              </div>
-            </div>
-          </article>
-        ) : (
-          <p className={styles.muted}>
-            We’re onboarding a trusted provider for {data.name.toLowerCase()} in{" "}
-            {city.name}. Tell us about your project and we’ll match you.
-          </p>
-        )}
+            </li>
+          ))}
+        </ol>
       </section>
 
-      {/* CONTACT FORM (pass IDs so leads route to the single provider) */}
-      <section id="contact" className={styles.section}>
-        <h2 className={styles.h2}>Get your free quote</h2>
-        <p className={styles.muted}>
-          Tell us a bit about your project. We’ll connect you with{" "}
-          {listing
-            ? listing.displayName || listing.company.name
-            : "a vetted local pro"}
-          .
-        </p>
+      <section id="contact" className={styles.contactSection}>
+        <div className={styles.contactInner}>
+          <div className={styles.contactCopy}>
+            <span className={styles.sectionEyebrow}>Get your free quote</span>
+            <h2 className={styles.sectionTitle}>
+              Ready to start your {data.name.toLowerCase()} project?
+            </h2>
+            <p className={styles.sectionLead}>
+              Tell us a few details and we’ll connect you with{" "}
+              {listing
+                ? listing.displayName || listing.company.name
+                : "a vetted local pro"}{" "}
+              for a fast, friendly estimate.
+            </p>
+            <ul className={styles.contactPerks}>
+              <li>No-obligation, personalized quotes</li>
+              <li>Friendly follow-up—no spam</li>
+              <li>Local experts who respect your home</li>
+            </ul>
+          </div>
 
-        <ContactForm
-          city={city.name}
-          citySlug={city.slug}
-          service={data.name}
-          serviceSlug={slug}
-          providerCompanyId={listing?.companyId ?? null}
-          serviceCityId={listing?.serviceCityId ?? null}
-        />
+          <ContactForm
+            city={city.name}
+            citySlug={city.slug}
+            service={data.name}
+            serviceSlug={slug}
+            providerCompanyId={listing?.companyId ?? null}
+            serviceCityId={listing?.serviceCityId ?? null}
+          />
+        </div>
       </section>
 
       <script
