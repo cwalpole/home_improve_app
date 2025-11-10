@@ -27,7 +27,7 @@ export default function SwitchCity({
         aria-expanded={open}
         aria-haspopup="listbox"
       >
-        · Switch City ·
+        Switch City
       </button>
 
       {open && (
