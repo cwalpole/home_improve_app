@@ -16,6 +16,7 @@ export default function ServiceCard({
   coverExt = "png",
 }: Props) {
   const { name, slug } = service;
+  const companyDisplay = companyName ?? "Feature Your Company";
 
   return (
     <Link
@@ -45,12 +46,9 @@ export default function ServiceCard({
           <h3 id={`${slug}-title`} className={styles.title}>
             {name}
           </h3>
-          <div
-            className={styles.company}
-            title={companyName || "No company linked"}
-          >
-            {companyName ?? "No company linked"}
-          </div>
+          <p className={styles.company} title={companyDisplay}>
+            {companyDisplay}
+          </p>
         </>
       </article>
     </Link>

@@ -3,7 +3,7 @@
   margin-top: 3rem;
   padding: 1rem;
   background: #f9fafb;
-  color: #374151;
+  color: #1e293b;
   font-size: 0.8rem;
 }
 
@@ -32,13 +32,13 @@
   align-items: center;
   gap: 0.4rem;
   font-weight: 600;
-  color: #111827;
+  color: #1e293b;
 }
 
 .brandName {
-  font-family: var(--font-brand), ui-serif, Georgia, serif;
-  font-weight: 400; /* Marcellus SC only has 400 */
-  letter-spacing: 0.2px;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   font-size: 0.95rem;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .nav a:hover {
-  color: #0f172a;
+  color: #1e293b;
 }
 
 .meta {

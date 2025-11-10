@@ -28,9 +28,6 @@ export default function ServiceList({ citySlug, services }: Props) {
       a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
     );
 
-  console.log("services", services);
-  console.log("featured", featured);
-
   return (
     <div className={styles.wrapper}>
       <FeaturedPicks citySlug={citySlug} items={featured} />
@@ -40,32 +37,35 @@ export default function ServiceList({ citySlug, services }: Props) {
           <h3 className={styles.sectionTitle}>All services</h3>
         </header>
         <div className={styles.grid}>
-          {standard.map((svc) => (
-            <Link
-              key={svc.id}
-              href={`/${citySlug}/services/${svc.slug}`}
-              className={styles.card}
-              aria-label={`${svc.name}${
-                svc.companyName ? ` — ${svc.companyName}` : ""
-              }`}
-            >
-              <div className={styles.media}>
-                <ServiceImage
-                  slug={svc.slug}
-                  alt={`${svc.name} image`}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 400px"
-                  className={styles.img}
-                />
-              </div>
-              <div className={styles.body}>
-                <div className={styles.title}>{svc.name}</div>
-                <div className={styles.company}>
-                  {svc.companyName ?? "No company linked"}
+          {standard.map((svc) => {
+            const companyDisplay = svc.companyName ?? "Feature Your Company";
+            return (
+              <Link
+                key={svc.id}
+                href={`/${citySlug}/services/${svc.slug}`}
+                className={styles.card}
+                aria-label={`${svc.name}${
+                  svc.companyName ? ` — ${svc.companyName}` : ""
+                }`}
+              >
+                <div className={styles.media}>
+                  <ServiceImage
+                    slug={svc.slug}
+                    alt={`${svc.name} image`}
+                    fill
+                    sizes="(max-width: 640px) 50vw, 400px"
+                    className={styles.img}
+                  />
                 </div>
-              </div>
-            </Link>
-          ))}
+                <div className={styles.body}>
+                  <div className={styles.title}>{svc.name}</div>
+                  <p className={styles.company} title={companyDisplay}>
+                    {companyDisplay}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </div>

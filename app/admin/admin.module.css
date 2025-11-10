@@ -130,8 +130,8 @@
 }
 
 .toggleSwitch input:checked + .toggleSlider {
-  background-color: #2563eb;
-  border-color: #2563eb;
+  background-color: #4c5d73;
+  border-color: #4c5d73;
 }
 
 .toggleSwitch input:checked + .toggleSlider::before {
@@ -148,7 +148,7 @@
 }
 
 .btn {
-  background: #2563eb;
+  background: #2f3f54;
   border: none;
   color: white;
   padding: 8px 12px;
@@ -222,8 +222,8 @@
 }
 
 .editorButtonActive {
-  background: #2563eb;
-  border-color: #2563eb;
+  background: #4c5d73;
+  border-color: #4c5d73;
   color: #ffffff;
 }
 
@@ -240,8 +240,8 @@
 
 .editorContent:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35);
+  border-color: #4c5d73;
+  box-shadow: 0 0 0 1px rgba(76, 93, 115, 0.35);
 }
 
 .editorContent :global(p:first-child) {
@@ -249,7 +249,7 @@
 }
 
 .editorContent :global(p.is-editor-empty::before) {
-  color: #6b7280;
+  color: #1e293b;
   opacity: 0.7;
 }
 
@@ -267,7 +267,7 @@
 }
 
 .editorContent :global(a) {
-  color: #60a5fa;
+  color: #9fb0c6;
   text-decoration: underline;
 }
 
@@ -370,7 +370,7 @@
 }
 
 .companyCard:hover {
-  border-color: #2563eb;
+  border-color: #4c5d73;
   background: #162032;
   transform: translateY(-1px);
 }

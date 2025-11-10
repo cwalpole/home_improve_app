@@ -1,9 +1,9 @@
 :root {
   --bg: #ffffff;
-  --fg: #0b1220;
-  --muted: #6b7280;
-  --brand: #0f172a; /* deep slate */
-  --brand-2: #0ea5e9; /* accent (optional) */
+  --fg: #1e293b;
+  --muted: #1e293b;
+  --brand: #1e293b; /* deep slate */
+  --brand-2: #4c5d73; /* blue-grey accent */
   --brand-bg: rgba(233, 239, 247, 0.92);
   --border: #e5e7eb;
   --soft: #f8fafc;
@@ -16,8 +16,9 @@
   --frame-radius: 10px; /* outer radius of .frame */
   --frame-border: 2px; /* border width on .frame */
   --mat: #f3efe9;
-  --ink: #0f172a;
-  --ink-2: #475569;
+  --ink: #1e293b;
+  --ink-2: #1e293b;
+  --link: #1e293b;
   --ring: rgba(15, 23, 42, 0.12);
 }
 

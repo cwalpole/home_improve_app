@@ -1,23 +1,42 @@
 .section {
-  font-family: var(--font-brand), ui-serif, Georgia, serif;
-  font-weight: 400; /* Marcellus SC only has 400 */
-  letter-spacing: 0.2px;
-  max-width: var(--maxw);
-
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 24px 48px;
+  display: grid;
+  gap: 28px;
 }
-.head {
+
+.sectionHead {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
-  justify-content: space-between;
   gap: 16px;
-  margin-bottom: 16px;
+  justify-content: space-between;
 }
-.title {
-  font-size: clamp(20px, 2.6vw, 28px);
+
+.sectionTitle {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.3rem);
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.01em;
 }
-.desc {
-  color: var(--muted);
-  max-width: 680px;
+
+.sectionDesc {
+  margin: 12px 0 0;
+  max-width: 640px;
+  color: #3b5c93;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 0 18px 42px;
+  }
+
+  .sectionHead {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

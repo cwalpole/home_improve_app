@@ -16,15 +16,15 @@
   inset: 0;
   background: radial-gradient(
       120% 120% at 10% -20%,
-      rgba(59, 130, 246, 0.55),
-      rgba(59, 130, 246, 0) 60%
+      rgba(47, 63, 84, 0.55),
+      rgba(47, 63, 84, 0) 60%
     ),
     radial-gradient(
       120% 120% at 90% -10%,
-      rgba(14, 165, 233, 0.45),
-      rgba(14, 165, 233, 0) 60%
+      rgba(124, 136, 156, 0.4),
+      rgba(124, 136, 156, 0) 60%
     ),
-    linear-gradient(135deg, #0f172a, #111827);
+    linear-gradient(135deg, #3b4c77, #8ca8e3);
   pointer-events: none;
 }
 
@@ -119,13 +119,13 @@
 
 .ctaPrimary {
   color: #0b1120;
-  background: #38bdf8;
-  box-shadow: 0 16px 40px rgba(56, 189, 248, 0.25);
+  background: linear-gradient(135deg, #c5ceda, #a5b2c4);
+  box-shadow: 0 16px 40px rgba(31, 45, 61, 0.18);
 }
 
 .ctaPrimary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 44px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 18px 44px rgba(31, 45, 61, 0.24);
 }
 
 .ctaPrimary:disabled {
@@ -201,21 +201,21 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: #64748b;
+  color: #1e293b;
 }
 
 .sectionTitle {
   margin: 0;
   font-size: clamp(1.9rem, 3vw, 2.4rem);
   font-weight: 700;
-  color: var(--ink, #111827);
+  color: var(--ink, #1e293b);
   letter-spacing: -0.02em;
 }
 
 .sectionLead {
   margin: 0;
   font-size: 1.05rem;
-  color: var(--ink-2, #475569);
+  color: var(--ink-2, #1e293b);
   line-height: 1.7;
 }
 
@@ -246,12 +246,12 @@
 .highlightCard h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: var(--ink, #111827);
+  color: var(--ink, #1e293b);
 }
 
 .highlightCard p {
   margin: 0;
-  color: var(--ink-2, #475569);
+  color: var(--ink-2, #1e293b);
   line-height: 1.6;
 }
 
@@ -271,7 +271,7 @@
   background: linear-gradient(145deg, #f8fafc, #ffffff);
   border: 1px solid rgba(148, 163, 184, 0.18);
   box-shadow: 0 22px 45px rgba(15, 23, 42, 0.08);
-  color: var(--ink-2, #475569);
+  color: var(--ink-2, #1e293b);
   font-size: 1rem;
   line-height: 1.75;
 }
@@ -279,7 +279,7 @@
 .richText h2,
 .richText h3,
 .richText h4 {
-  color: var(--ink, #111827);
+  color: var(--ink, #1e293b);
   margin: 0;
 }
 
@@ -289,7 +289,7 @@
 }
 
 .richText a {
-  color: #2563eb;
+  color: #1e293b;
   text-decoration: underline;
 }
 
@@ -307,8 +307,8 @@
   gap: 22px;
   padding: 32px;
   border-radius: 24px;
-  background: linear-gradient(135deg, rgba(14, 116, 144, 0.08), #ffffff);
-  border: 1px solid rgba(14, 116, 144, 0.18);
+  background: linear-gradient(135deg, rgba(47, 63, 84, 0.08), #ffffff);
+  border: 1px solid rgba(47, 63, 84, 0.18);
   box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
 }
 
@@ -318,8 +318,8 @@
   right: 20px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(14, 116, 144, 0.12);
-  color: #0f172a;
+  background: rgba(47, 63, 84, 0.15);
+  color: #1e293b;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -355,13 +355,13 @@
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--ink, #111827);
+  color: var(--ink, #1e293b);
 }
 
 .providerMeta {
   margin: 6px 0 0;
   font-size: 0.95rem;
-  color: var(--ink-2, #475569);
+  color: var(--ink-2, #1e293b);
 }
 
 .providerPoints {
@@ -370,7 +370,7 @@
   list-style: none;
   display: grid;
   gap: 10px;
-  color: var(--ink-2, #475569);
+  color: var(--ink-2, #1e293b);
   font-size: 0.98rem;
 }
 
@@ -382,7 +382,7 @@
 
 .providerPoints li::before {
   content: "•";
-  color: #0ea5e9;
+  color: #6f7b8f;
   font-size: 1.4rem;
   line-height: 1;
   transform: translateY(-2px);
@@ -397,15 +397,15 @@
 .providerFallback {
   padding: 32px;
   border-radius: 24px;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), #ffffff);
-  border: 1px solid rgba(79, 70, 229, 0.2);
+  background: linear-gradient(135deg, rgba(47, 63, 84, 0.08), #ffffff);
+  border: 1px solid rgba(47, 63, 84, 0.2);
   box-shadow: 0 20px 44px rgba(15, 23, 42, 0.12);
   display: grid;
   gap: 16px;
   max-width: 720px;
   margin: 0 auto;
   text-align: center;
-  color: var(--ink-2, #475569);
+  color: var(--ink-2, #1e293b);
 }
 
 /* --------------- Process --------------- */
@@ -413,7 +413,7 @@
   padding: 72px 0;
   background: radial-gradient(
       120% 120% at 50% 0%,
-      rgba(56, 189, 248, 0.14),
+      rgba(76, 93, 115, 0.16),
       rgba(255, 255, 255, 0) 55%
     ),
     linear-gradient(180deg, #f8fafc, #ffffff);
@@ -447,12 +447,12 @@
 .stepList h3 {
   margin: 0;
   font-size: 1.15rem;
-  color: var(--ink, #111827);
+  color: var(--ink, #1e293b);
 }
 
 .stepList p {
   margin: 6px 0 0;
-  color: var(--ink-2, #475569);
+  color: var(--ink-2, #1e293b);
   line-height: 1.6;
 }
 
@@ -462,7 +462,7 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  background: linear-gradient(135deg, #c5ceda, #a5b2c4);
   color: #0b1120;
   font-weight: 700;
   font-size: 1.15rem;
@@ -470,7 +470,7 @@
 
 /* --------------- Contact --------------- */
 .contactSection {
-  background: linear-gradient(135deg, #0f172a, #0b1120);
+  background: linear-gradient(135deg, #3b4c77, #0b1120);
   color: #f8fafc;
   padding: 90px 0;
 }
@@ -526,7 +526,7 @@
 .contactPerks li::before {
   content: "✓";
   font-weight: 700;
-  color: #38bdf8;
+  color: #6f7b8f;
   margin-top: 2px;
 }
 
@@ -538,7 +538,7 @@
   border: 1px solid rgba(148, 163, 184, 0.35);
   box-shadow: 0 26px 52px rgba(15, 23, 42, 0.22);
   padding: 28px;
-  color: var(--ink, #111827);
+  color: var(--ink, #1e293b);
 }
 
 .formRow {
@@ -560,7 +560,7 @@
 .label {
   display: grid;
   gap: 8px;
-  color: var(--ink, #111827);
+  color: var(--ink, #1e293b);
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -573,15 +573,15 @@
   background: #ffffff;
   padding: 12px 14px;
   font: inherit;
-  color: var(--ink, #111827);
+  color: var(--ink, #1e293b);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .input:focus,
 .textarea:focus {
   outline: none;
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+  border-color: #4c5d73;
+  box-shadow: 0 0 0 3px rgba(76, 93, 115, 0.25);
 }
 
 .textarea {
@@ -597,7 +597,7 @@
 }
 
 .formNote {
-  color: var(--ink-2, #475569);
+  color: var(--ink-2, #1e293b);
   font-size: 0.88rem;
 }
 

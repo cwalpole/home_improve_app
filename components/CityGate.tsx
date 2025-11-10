@@ -16,6 +16,60 @@ export default function CityGate({ cities }: { cities: City[] }) {
   const [state, setState] = useState<State>("checking");
   const [selection, setSelection] = useState<string>("");
 
+  const highlights = [
+    {
+      title: "Curated local pros",
+      copy: "Licensed, insured specialists vetted for craftsmanship, communication, and care.",
+    },
+    {
+      title: "Personal project concierge",
+      copy: "We match you with the right team, coordinate timelines, and keep you in the loop.",
+    },
+    {
+      title: "Transparent pricing",
+      copy: "Expect clear quotes, realistic timelines, and zero surprises from first call to finish.",
+    },
+  ];
+
+  const steps = [
+    {
+      number: "01",
+      title: "Tell us about your home",
+      copy: "Share your project wish list and schedule so we understand what a great outcome looks like.",
+    },
+    {
+      number: "02",
+      title: "Meet your perfect pro",
+      copy: "We connect you with a trusted local crew, align on scope, and tailor the plan to your space.",
+    },
+    {
+      number: "03",
+      title: "Relax — we handle the rest",
+      copy: "Enjoy consistent updates, tidy job sites, and workmanship backed by our quality promise.",
+    },
+  ];
+
+  const testimonials = [
+    {
+      quote:
+        "The team respected our home, stuck to the schedule, and the project manager checked in every step of the way.",
+      name: "Taylor M.",
+      city: "Calgary",
+    },
+    {
+      quote:
+        "Faster responses and better quality than any contractor I’ve hired before. I’m already planning the next project.",
+      name: "Priya S.",
+      city: "Edmonton",
+    },
+    {
+      quote:
+        "They made a big reno feel easy. Transparent pricing, gorgeous results, and zero stress.",
+      name: "Jordan K.",
+      city: "Vancouver",
+    },
+  ];
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const stored = window.localStorage.getItem(STORAGE_KEY);
@@ -37,11 +91,140 @@ export default function CityGate({ cities }: { cities: City[] }) {
     <main className={homeStyles.main}>
       <section className={homeStyles.hero}>
         <div className={homeStyles.heroBg} aria-hidden="true" />
-        <div className={homeStyles.heroInner}>
-          <div className={homeStyles.title}>Your Home, Our priority</div>
-          <div className={homeStyles.subtitle}>
-            Making Homes Shine, One Service at a Time
+        <div className={homeStyles.heroContent}>
+          <div className={homeStyles.heroCopy}>
+            <h1 className={homeStyles.heroTitle}>
+              Perfectly finished projects, locally crafted for your home
+            </h1>
+            <p className={homeStyles.heroLead}>
+              Match with vetted specialists across renovations, repairs, and
+              seasonal upkeep. We handle the legwork so you can enjoy a
+              smoother, better-looking home.
+            </p>
+            <div className={homeStyles.heroActions}>
+              <button
+                type="button"
+                className={homeStyles.heroPrimary}
+                onClick={() => {
+                  setSelection("");
+                  setState("prompt");
+                }}
+              >
+                View local services
+              </button>
+              <a href="#how-it-works" className={homeStyles.heroSecondary}>
+                See how it works
+              </a>
+            </div>
           </div>
+          <dl className={homeStyles.heroStats}>
+            <div>
+              <dt>4.9 ★ rating</dt>
+              <dd>Average homeowner feedback across partnered cities.</dd>
+            </div>
+            <div>
+              <dt>48 hour quotes</dt>
+              <dd>Get tailored plans fast, aligned with your schedule.</dd>
+            </div>
+            <div>
+              <dt>Local experts</dt>
+              <dd>Licensed, insured crews ready for every project size.</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section className={homeStyles.trustStrip}>
+        <div className={homeStyles.trustInner}>
+          <p>
+            Great homes start with great partners. We blend craftsmanship,
+            communication, and care for every project.
+          </p>
+        </div>
+      </section>
+
+      <section className={homeStyles.highlights}>
+        <div className={homeStyles.sectionIntro}>
+          <span className={homeStyles.sectionEyebrow}>The home advantage</span>
+          <h2>Everything you need for projects done right</h2>
+          <p>
+            From the first conversation to the final walk-through, we design a
+            better renovation and maintenance experience.
+          </p>
+        </div>
+        <div className={homeStyles.highlightGrid}>
+          {highlights.map((item) => (
+            <article key={item.title} className={homeStyles.highlightCard}>
+              <h3>{item.title}</h3>
+              <p>{item.copy}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="how-it-works" className={homeStyles.process}>
+        <div className={homeStyles.sectionIntro}>
+          <span className={homeStyles.sectionEyebrow}>How it works</span>
+          <h2>Relax — we’ll guide every step</h2>
+          <p>
+            We simplify the process with transparent planning, proactive
+            updates, and pros who respect your home.
+          </p>
+        </div>
+        <ol className={homeStyles.processList}>
+          {steps.map((step) => (
+            <li key={step.number} className={homeStyles.processItem}>
+              <span className={homeStyles.processNumber}>{step.number}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className={homeStyles.testimonials}>
+        <div className={homeStyles.sectionIntro}>
+          <span className={homeStyles.sectionEyebrow}>Happy homeowners</span>
+          <h2>Stories from projects we’re proud of</h2>
+          <p>
+            Real people, real renovations. We’re lucky to partner with
+            homeowners who expect more.
+          </p>
+        </div>
+        <div className={homeStyles.testimonialGrid}>
+          {testimonials.map((testimonial) => (
+            <figure
+              key={testimonial.name}
+              className={homeStyles.testimonialCard}
+            >
+              <blockquote>“{testimonial.quote}”</blockquote>
+              <figcaption>
+                {testimonial.name} · {testimonial.city}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section className={homeStyles.closingCta}>
+        <div className={homeStyles.closingContent}>
+          <h2>Let’s make your next project effortless</h2>
+          <p>
+            Share your city, tell us what you’re planning, and we’ll curate the
+            right team with a plan tailored to your home.
+          </p>
+          <button
+            type="button"
+            className={homeStyles.heroPrimary}
+            onClick={() => {
+              setSelection("");
+              setState("prompt");
+            }}
+          >
+            Get matched with a pro
+          </button>
         </div>
       </section>
 

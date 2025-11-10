@@ -3,9 +3,8 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  backdrop-filter: saturate(1.2) blur(6px);
-  background: rgba(233, 239, 247, 0.92); /* soft light grey-blue */
-  border-bottom: 1px solid #ccd7e6;
+  background: linear-gradient(135deg, #e2e8f0, #ffffff);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
 }
 
 /* Layout */
@@ -43,17 +42,16 @@
   justify-content: center;
 }
 .link {
-  /*color: #334155;  slate-700 on light bg */
+  color: #1e293b;
   text-decoration: none;
   padding: 6px 10px;
   border-radius: 8px;
-
-  font-family: var(--font-brand), ui-serif, Georgia, serif;
-  font-weight: 400; /* Marcellus SC only has 400 */
-  letter-spacing: 0.2px;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 .link:hover {
-  color: #0f172a; /* slate-900 */
+  color: #1e293b; /* slate-900 */
   background: #dfe8f4; /* lighter hover */
 }
 
@@ -69,13 +67,13 @@
 .searchInput {
   background: #ffffff;
   border: 1px solid #c7d2e5;
-  color: #0f172a;
+  color: #1e293b;
   padding: 7px 10px;
   border-radius: 10px;
   width: 220px;
 }
 .searchInput::placeholder {
-  color: #64748b;
+  color: #1e293b;
 } /* slate-500 */
 
 .socials {
@@ -83,13 +81,13 @@
   gap: 10px;
 }
 .icon {
-  color: #475569; /* slate-600 */
+  color: #1e293b; /* slate-600 */
   display: inline-flex;
   padding: 6px;
   border-radius: 8px;
 }
 .icon:hover {
-  color: #0f172a;
+  color: #1e293b;
   background: #dfe8f4;
 }
 
@@ -106,7 +104,7 @@
 .burger span {
   display: block;
   height: 2px;
-  background: #0f172a;
+  background: #1e293b;
   margin: 6px 0;
   border-radius: 2px;
 }
@@ -124,12 +122,12 @@
 }
 .drawerLink {
   display: block;
-  color: #334155;
+  color: #1e293b;
   padding: 10px 0;
   text-decoration: none;
 }
 .drawerLink:hover {
-  color: #0f172a;
+  color: #1e293b;
 }
 .drawerSearch {
   margin-top: 6px;

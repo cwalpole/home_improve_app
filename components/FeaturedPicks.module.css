@@ -20,13 +20,13 @@
 .featuredTitle {
   font-size: 18px;
   font-weight: 700;
-  color: #0f172a;
+  color: #1e293b;
   margin: 0;
 }
 
 .featuredSub {
   font-size: 13px;
-  color: #64748b;
+  color: #1e293b;
   margin: 0;
 }
 
@@ -82,13 +82,13 @@
 .featuredName {
   font-size: 17px;
   font-weight: 700;
-  color: #0f172a;
+  color: #1e293b;
   margin-bottom: 4px;
 }
 
 .featuredCompany {
   font-size: 13px;
-  color: #475569;
+  color: #1e293b;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
