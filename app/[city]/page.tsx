@@ -173,6 +173,30 @@ export default async function CityHomePage(props: {
     },
   ];
 
+  const blogPosts = [
+    {
+      title: `Seasonal checklist for ${city.name} homeowners`,
+      excerpt:
+        "From gutter maintenance to HVAC tune-ups, here’s how to keep your home feeling fresh year-round.",
+      date: "May 28, 2024",
+      category: "Guides",
+    },
+    {
+      title: "Inside a whole-home refresh with our lead designer",
+      excerpt:
+        "We sat down with Avery Chang to walk through material selections, color palettes, and layout wins.",
+      date: "June 4, 2024",
+      category: "Spotlight",
+    },
+    {
+      title: "3 questions to ask every contractor before signing",
+      excerpt:
+        "Protect your timeline and budget with these conversation starters from our project concierge team.",
+      date: "June 12, 2024",
+      category: "Tips",
+    },
+  ];
+
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
@@ -194,14 +218,6 @@ export default async function CityHomePage(props: {
               </a>
             </div>
           </div>
-          <dl className={styles.heroStats}>
-            {heroStats.map((stat) => (
-              <div key={stat.title}>
-                <dt>{stat.title}</dt>
-                <dd>{stat.desc}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
       </section>
 
@@ -301,6 +317,47 @@ export default async function CityHomePage(props: {
           <a href="#services" className={styles.heroPrimary}>
             Explore services
           </a>
+        </div>
+      </section>
+
+      <section className={styles.blogSection}>
+        <div className={styles.sectionIntro}>
+          <span className={styles.sectionEyebrow}>From the blog</span>
+          <h2>Ideas, insights, and inspiration</h2>
+          <p>
+            Stories from our team and community to help you plan smarter and
+            love your home even more.
+          </p>
+        </div>
+        <div className={styles.blogGrid}>
+          {blogPosts.map((post) => (
+            <article key={post.title} className={styles.blogCard}>
+              <div className={styles.blogMeta}>
+                <span>{post.category}</span>
+                <span>{post.date}</span>
+              </div>
+              <h3>{post.title}</h3>
+              <p>{post.excerpt}</p>
+              <a className={styles.blogLink} href="/blog">
+                Read article →
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.partnerCta}>
+        <div className={styles.partnerContent}>
+          <span className={styles.sectionEyebrow}>Partner with us</span>
+          <h2>Want to join the {city.name} provider network?</h2>
+          <p>
+            We’re always looking for licensed, insured crews who care about
+            craftsmanship and communication. Tell us about your services and
+            we’ll reach out with next steps.
+          </p>
+          <Link href="/contact" className={styles.heroPrimary}>
+            Reach the partnerships team
+          </Link>
         </div>
       </section>
     </main>

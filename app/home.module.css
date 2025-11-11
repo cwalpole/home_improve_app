@@ -8,10 +8,12 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  min-height: 82vh;
+  min-height: 70vh;
   padding: clamp(96px, 16vw, 140px) 24px clamp(72px, 12vw, 120px);
   color: #f8fafc;
   border-bottom: 1px solid rgba(15, 23, 42, 0.15);
+  display: flex;
+  align-items: center;
 }
 
 .heroBg {
@@ -57,6 +59,7 @@
   gap: 18px;
   text-align: center;
   justify-items: center;
+  margin-top: -60px;
 }
 
 .heroEyebrow {
@@ -275,6 +278,60 @@
   line-height: 1.6;
 }
 
+.blogSection {
+  display: grid;
+  gap: 24px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.blogGrid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.blogCard {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 24px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+  display: grid;
+  gap: 10px;
+}
+
+.blogCard h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #0f172a;
+}
+
+.blogCard p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.blogMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.65);
+}
+
+.blogLink {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-weight: 600;
+  color: #0f172a;
+  text-decoration: none;
+}
+
 .process {
   display: grid;
   gap: 32px;
@@ -411,6 +468,34 @@
 }
 
 .closingContent .heroPrimary {
+  justify-self: center;
+}
+
+.partnerCta {
+  padding: clamp(48px, 8vw, 72px) 24px;
+  background: linear-gradient(135deg, rgba(226, 232, 240, 0.8), #ffffff);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 28px;
+  max-width: 1180px;
+  margin: 0 auto;
+  box-shadow: 0 26px 52px rgba(15, 23, 42, 0.12);
+}
+
+.partnerContent {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  display: grid;
+  gap: 16px;
+}
+
+.partnerContent p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.8;
+}
+
+.partnerContent .heroPrimary {
   justify-self: center;
 }
 
