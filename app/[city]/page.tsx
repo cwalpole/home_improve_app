@@ -4,6 +4,7 @@ import Section from "@/components/Section";
 import Link from "next/link";
 import ServiceList from "@/components/ServiceList";
 import SwitchCity from "@/components/SwitchCity";
+import { Marcellus_SC } from "next/font/google";
 
 type GridItem = {
   id: number;
@@ -39,7 +40,9 @@ export default async function CityHomePage(props: {
           <div className={styles.heroContent}>
             <div className={styles.heroCopy}>
               <span className={styles.heroEyebrow}>City not found</span>
-              <h1 className={styles.heroTitle}>Let’s get you to the right spot</h1>
+              <h1 className={styles.heroTitle}>
+                Let’s get you to the right spot
+              </h1>
               <p className={styles.heroLead}>
                 We couldn’t locate that city. Head back to the home page to pick
                 another location and explore services tailored to your area.
@@ -106,30 +109,30 @@ export default async function CityHomePage(props: {
 
   const heroStats = [
     {
-      title: "4.9 ★ rating",
+      title: "4.9 ★ Rating",
       desc: "Average homeowner feedback across partnered cities.",
     },
     {
-      title: "48 hour quotes",
+      title: "48 Hour Quotes",
       desc: "Get tailored plans fast, aligned with your schedule.",
     },
     {
-      title: "Local experts",
+      title: "Local Experts",
       desc: "Licensed, insured crews ready for every project size.",
     },
   ];
 
   const highlights = [
     {
-      title: "Neighborhood expertise",
+      title: "Neighborhood Expertise",
       copy: `We partner with professionals who live and work in ${city.name}, so your project benefits from local knowledge.`,
     },
     {
-      title: "Curated service lineup",
+      title: "Curated Service Lineup",
       copy: "From emergency repairs to dream renovations, discover vetted specialists ready when you are.",
     },
     {
-      title: "Seamless coordination",
+      title: "Seamless Coordination",
       copy: "We streamline planning, updates, and timelines so you can relax while the work gets done.",
     },
   ];
@@ -176,13 +179,11 @@ export default async function CityHomePage(props: {
         <div className={styles.heroBg} aria-hidden="true" />
         <div className={styles.heroContent}>
           <div className={styles.heroCopy}>
-            <h1 className={styles.heroTitle}>
-              Perfectly finished projects, locally crafted for your home
+            <h1 className={`${styles.heroTitle} ${marcellus.className}`}>
+              Your Home, Our priority
             </h1>
-            <p className={styles.heroLead}>
-              Match with vetted specialists across renovations, repairs, and
-              seasonal upkeep. We handle the legwork so you can enjoy a smoother,
-              better-looking home.
+            <p className={`${styles.heroLead} ${marcellus.className}`}>
+              Making Homes Shine, One Service at a Time
             </p>
             <div className={styles.heroActions}>
               <a href="#services" className={styles.heroPrimary}>
@@ -215,11 +216,13 @@ export default async function CityHomePage(props: {
 
       <section className={styles.highlights}>
         <div className={styles.sectionIntro}>
-          <span className={styles.sectionEyebrow}>Why homeowners choose us</span>
+          <span className={styles.sectionEyebrow}>
+            Why homeowners choose us
+          </span>
           <h2>Everything you need to get projects done right</h2>
           <p>
-            From emergency fixes to dream renovations, we bring curated expertise
-            and concierge-level support to {city.name}.
+            From emergency fixes to dream renovations, we bring curated
+            expertise and concierge-level support to {city.name}.
           </p>
         </div>
         <div className={styles.highlightGrid}>
@@ -234,19 +237,16 @@ export default async function CityHomePage(props: {
 
       <Section
         id="services"
-        title={
-          <>
-            Services in {city.name}
-            <SwitchCity current={{ name: city.name, slug: city.slug }} cities={cities} />
-          </>
-        }
+        title={city.name}
+        titleEyebrow="Provided Services"
         desc="Explore the categories locals trust most across the city."
-        right={
-          <Link href={`/${city.slug}/services`} className={styles.sectionLink}>
-            All services →
-          </Link>
-        }
       >
+        <div className={styles.switchRow}>
+          <SwitchCity
+            current={{ name: city.name, slug: city.slug }}
+            cities={cities}
+          />
+        </div>
         <ServiceList citySlug={city.slug} services={allServices} />
       </Section>
 
@@ -255,8 +255,8 @@ export default async function CityHomePage(props: {
           <span className={styles.sectionEyebrow}>How it works</span>
           <h2>Local pros, smooth delivery</h2>
           <p>
-            We coordinate estimates, scheduling, and updates while you stay focused
-            on the results.
+            We coordinate estimates, scheduling, and updates while you stay
+            focused on the results.
           </p>
         </div>
         <ol className={styles.processList}>
@@ -277,8 +277,8 @@ export default async function CityHomePage(props: {
           <span className={styles.sectionEyebrow}>Loved by locals</span>
           <h2>What {city.name} homeowners are saying</h2>
           <p>
-            We’re proud to help neighbors transform their spaces with trusted pros
-            who deliver on promises.
+            We’re proud to help neighbors transform their spaces with trusted
+            pros who deliver on promises.
           </p>
         </div>
         <div className={styles.testimonialGrid}>
@@ -295,8 +295,8 @@ export default async function CityHomePage(props: {
         <div className={styles.closingContent}>
           <h2>Ready to start your next {city.name} project?</h2>
           <p>
-            Pick a service, tell us what you need, and we’ll connect you with the
-            right team sooner than you think.
+            Pick a service, tell us what you need, and we’ll connect you with
+            the right team sooner than you think.
           </p>
           <a href="#services" className={styles.heroPrimary}>
             Explore services
@@ -306,3 +306,7 @@ export default async function CityHomePage(props: {
     </main>
   );
 }
+const marcellus = Marcellus_SC({
+  subsets: ["latin"],
+  weight: "400",
+});

@@ -4,12 +4,18 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import homeStyles from "@/app/home.module.css";
 import styles from "./CityGate.module.css";
+import { Marcellus_SC } from "next/font/google";
 
 type City = { name: string; slug: string };
 
 const STORAGE_KEY = "home-improve:selected-city";
 
 type State = "checking" | "prompt";
+
+const marcellus = Marcellus_SC({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export default function CityGate({ cities }: { cities: City[] }) {
   const router = useRouter();
@@ -93,13 +99,11 @@ export default function CityGate({ cities }: { cities: City[] }) {
         <div className={homeStyles.heroBg} aria-hidden="true" />
         <div className={homeStyles.heroContent}>
           <div className={homeStyles.heroCopy}>
-            <h1 className={homeStyles.heroTitle}>
-              Perfectly finished projects, locally crafted for your home
+            <h1 className={`${homeStyles.heroTitle} ${marcellus.className}`}>
+              Your Home, Our priority
             </h1>
-            <p className={homeStyles.heroLead}>
-              Match with vetted specialists across renovations, repairs, and
-              seasonal upkeep. We handle the legwork so you can enjoy a
-              smoother, better-looking home.
+            <p className={`${homeStyles.heroLead} ${marcellus.className}`}>
+              Making Homes Shine, One Service at a Time
             </p>
             <div className={homeStyles.heroActions}>
               <button

@@ -1,8 +1,3 @@
-/* page spacing + the 20px top margin you asked for earlier */
-.wrapper {
-  margin-top: 20px;
-}
-
 /* ---------- Featured section ---------- */
 .featuredSection {
   border: 1px solid #e5e7eb;

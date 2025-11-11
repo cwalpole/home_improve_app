@@ -48,12 +48,15 @@
   margin: 0 auto;
   display: grid;
   gap: clamp(32px, 6vw, 48px);
+  justify-content: center;
 }
 
 .heroCopy {
-  max-width: 620px;
+  max-width: 800px;
   display: grid;
   gap: 18px;
+  text-align: center;
+  justify-items: center;
 }
 
 .heroEyebrow {
@@ -68,6 +71,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #1e293b;
+  justify-self: center;
 }
 
 .heroTitle {
@@ -89,6 +93,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
+  justify-content: center;
 }
 
 .heroPrimary,
@@ -229,6 +234,11 @@
   box-shadow: 0 10px 22px rgba(71, 85, 105, 0.18);
 }
 
+.switchRow {
+  display: flex;
+  justify-content: center;
+}
+
 .highlights {
   display: grid;
   gap: 36px;
@@ -246,7 +256,7 @@
 .highlightCard {
   background: #ffffff;
   border-radius: 24px;
-  padding: 28px;
+  padding: 26px;
   border: 1px solid rgba(148, 163, 184, 0.25);
   box-shadow: 0 22px 46px rgba(15, 23, 42, 0.1);
   display: grid;

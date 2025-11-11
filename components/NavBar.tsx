@@ -6,9 +6,12 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./NavBar.module.css";
 import SocialIcons from "./SocialIcons";
+import { usePathname } from "next/navigation";
 
 export default function NavBar() {
   const [open, setOpen] = useState(false);
+  const [citySlug, setCitySlug] = useState<string | null>(null);
+  const pathname = usePathname();
 
   // Close mobile menu on route change or hash scroll
   useEffect(() => {
@@ -21,21 +24,32 @@ export default function NavBar() {
     };
   }, []);
 
-  // Smooth-scroll to #services if already on home; otherwise go home#services
-  function handleServicesClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    const onHome = window.location.pathname === "/";
-    if (onHome) {
-      e.preventDefault();
-      const el = document.getElementById("services");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        setOpen(false);
-      } else {
-        // Fallback to hash if element not present yet
-        window.location.hash = "services";
-      }
+  useEffect(() => {
+    const staticPrefixes = new Set([
+      "",
+      "services",
+      "blog",
+      "admin",
+      "api",
+      "contact",
+      "privacy",
+      "terms",
+      "search",
+    ]);
+    const segments = pathname.split("/").filter(Boolean);
+    if (!segments.length) {
+      setCitySlug(null);
+      return;
     }
-  }
+    const candidate = segments[0];
+    if (staticPrefixes.has(candidate)) {
+      setCitySlug(null);
+      return;
+    }
+    setCitySlug(candidate);
+  }, [pathname]);
+
+  const servicesHref = citySlug ? `/${citySlug}/services` : "/services";
 
   return (
     <header className={styles.sticky}>
@@ -52,11 +66,7 @@ export default function NavBar() {
         </Link>
 
         <div className={styles.menu}>
-          <Link
-            href="/#services"
-            onClick={handleServicesClick}
-            className={styles.link}
-          >
+          <Link href={servicesHref} className={styles.link}>
             Services
           </Link>
           <Link href="/blog" className={styles.link}>
@@ -93,11 +103,7 @@ export default function NavBar() {
 
         {/* Mobile drawer */}
         <div className={`${styles.drawer} ${open ? styles.drawerOpen : ""}`}>
-          <Link
-            href="/#services"
-            onClick={handleServicesClick}
-            className={styles.drawerLink}
-          >
+          <Link href={servicesHref} className={styles.drawerLink}>
             Services
           </Link>
           <Link href="/blog" className={styles.drawerLink}>

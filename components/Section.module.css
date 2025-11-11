@@ -8,10 +8,37 @@
 
 .sectionHead {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
+  flex-direction: column;
   gap: 16px;
-  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.sectionIntro {
+  max-width: 720px;
+}
+
+.sectionTitleRow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sectionEyebrow {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(30, 41, 59, 0.7);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.sectionTitleAside {
+  display: inline-flex;
+  align-items: center;
 }
 
 .sectionTitle {
@@ -30,13 +57,15 @@
   line-height: 1.65;
 }
 
+.sectionActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
 @media (max-width: 640px) {
   .section {
     padding: 0 18px 42px;
-  }
-
-  .sectionHead {
-    flex-direction: column;
-    align-items: flex-start;
   }
 }

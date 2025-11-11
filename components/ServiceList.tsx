@@ -30,13 +30,10 @@ export default function ServiceList({ citySlug, services }: Props) {
     );
 
   return (
-    <div className={styles.wrapper}>
+    <div>
       <FeaturedPicks citySlug={citySlug} items={featured} />
 
       <section className={styles.section} aria-label="All services">
-        <header className={styles.sectionHeader}>
-          <h3 className={styles.sectionTitle}>All services</h3>
-        </header>
         <div className={styles.grid}>
           {standard.map((svc) => {
             const companyDisplay = svc.companyName ?? "Future Provider";
