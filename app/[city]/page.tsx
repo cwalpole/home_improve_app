@@ -107,21 +107,6 @@ export default async function CityHomePage(props: {
     };
   });
 
-  const heroStats = [
-    {
-      title: "4.9 ★ Rating",
-      desc: "Average homeowner feedback across partnered cities.",
-    },
-    {
-      title: "48 Hour Quotes",
-      desc: "Get tailored plans fast, aligned with your schedule.",
-    },
-    {
-      title: "Local Experts",
-      desc: "Licensed, insured crews ready for every project size.",
-    },
-  ];
-
   const highlights = [
     {
       title: "Neighborhood Expertise",
@@ -338,9 +323,9 @@ export default async function CityHomePage(props: {
               </div>
               <h3>{post.title}</h3>
               <p>{post.excerpt}</p>
-              <a className={styles.blogLink} href="/blog">
+              <Link className={styles.blogLink} href="/blog">
                 Read article →
-              </a>
+              </Link>
             </article>
           ))}
         </div>

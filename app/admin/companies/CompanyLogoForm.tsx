@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Image from "next/image";
 import styles from "../admin.module.css";
 import { updateCompanyLogo, type ActionState } from "../actions/companies";
 
@@ -23,10 +24,13 @@ export default function CompanyLogoForm({ companyId, logoUrl }: Props) {
         </p>
       </div>
       <div className={styles.companyLogoPreview}>
-        <img
+        <Image
           src={logoUrl || "/logo-placeholder.png"}
           alt="Company logo"
+          width={160}
+          height={160}
           className={styles.companyLogoImage}
+          unoptimized
         />
       </div>
       <input type="hidden" name="companyId" value={companyId} />

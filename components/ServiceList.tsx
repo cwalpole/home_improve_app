@@ -21,7 +21,6 @@ type Props = {
 
 export default function ServiceList({ citySlug, services }: Props) {
   const featured = services.filter((s) => !!s.featured);
-  const cityLabel = citySlug.replace(/-/g, " ");
   const standard = services
     .filter((s) => !s.featured)
     .slice()

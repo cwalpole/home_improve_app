@@ -76,21 +76,6 @@ export default function CityGate({ cities }: { cities: City[] }) {
     },
   ];
 
-  const heroStats = [
-    {
-      title: "4.9 ★ rating",
-      desc: "Average homeowner feedback across partnered cities.",
-    },
-    {
-      title: "48 hour quotes",
-      desc: "Get tailored plans fast, aligned with your schedule.",
-    },
-    {
-      title: "Local experts",
-      desc: "Licensed, insured crews ready for every project size.",
-    },
-  ];
-
   useEffect(() => {
     if (typeof window === "undefined") return;
     const stored = window.localStorage.getItem(STORAGE_KEY);
