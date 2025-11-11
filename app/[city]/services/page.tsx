@@ -48,6 +48,28 @@ export default async function CityServicesPage(props: {
                 : `We’re onboarding trusted partners in ${city.name}. Tell us about your project and we’ll match you with the right pro as soon as they launch.`}
             </p>
           </div>
+          {hasServices ? (
+            <div className={styles.quickLinks}>
+              <div className={styles.quickHead}>
+                <h2 className={styles.quickTitle}>Quick links</h2>
+                <p className={styles.quickDesc}>
+                  Already know what you need? Jump straight to a service page and
+                  request your quote.
+                </p>
+              </div>
+              <div className={styles.quickList}>
+                {alphabetical.map((service) => (
+                  <Link
+                    key={`quick-${service.slug}`}
+                    href={`/${cityParam}/services/${service.slug}`}
+                    className={styles.quickChip}
+                  >
+                    {service.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       </section>
 
@@ -88,31 +110,10 @@ export default async function CityServicesPage(props: {
                       href={`/${cityParam}/services/${service.slug}`}
                       className={styles.cardLink}
                     >
-                      View details
+                      View
                     </Link>
                   </div>
                 </article>
-              ))}
-            </div>
-          </section>
-
-          <section className={styles.quickLinks}>
-            <div className={styles.quickHead}>
-              <h2 className={styles.quickTitle}>Quick links</h2>
-              <p className={styles.quickDesc}>
-                Already know what you need? Jump straight to a service page and
-                request your quote.
-              </p>
-            </div>
-            <div className={styles.quickList}>
-              {alphabetical.map((service) => (
-                <Link
-                  key={`quick-${service.slug}`}
-                  href={`/${cityParam}/services/${service.slug}`}
-                  className={styles.quickChip}
-                >
-                  {service.name}
-                </Link>
               ))}
             </div>
           </section>

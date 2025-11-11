@@ -57,8 +57,20 @@ export default function FeaturedPicks({
               {svc.companyName && (
                 <div className={styles.featuredCompany}>{svc.companyName}</div>
               )}
+              {svc.companyName ? (
+                <p className={styles.featuredHelper}>
+                  Our Trusted Professional
+                </p>
+              ) : (
+                <p className={styles.featuredHelperAlt}>
+                  Join our network of experts
+                </p>
+              )}
+              <span className={styles.featuredLink}>
+                <span aria-hidden="true">→</span>
+              </span>
               <span className={styles.featuredBadge} aria-hidden="true">
-                Featured
+                Featured Expert
               </span>
             </div>
           </Link>

@@ -36,10 +36,10 @@
 }
 
 .brandName {
-  font-family: inherit;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  font-size: 0.95rem;
+  font-family: var(--font-brand), ui-serif, Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  font-size: 1rem;
 }
 
 .nav {

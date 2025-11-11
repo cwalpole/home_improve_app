@@ -47,21 +47,22 @@
   position: relative;
   display: grid;
   grid-template-columns: 120px 1fr;
-  gap: 12px;
-  padding: 14px;
-  border: 1px solid #dbe0e6;
-  border-radius: 14px;
-  background: #ffffff;
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.98), rgba(229, 234, 243, 0.95));
   text-decoration: none;
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
-  transition: transform 120ms ease, box-shadow 120ms ease,
-    border-color 120ms ease;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+  transition: transform 150ms ease, box-shadow 150ms ease,
+    border-color 150ms ease;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  overflow: hidden;
 }
 
 .featuredCard:hover {
-  transform: translateY(-2px);
-  border-color: #cbd5e1;
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.09);
+  transform: translateY(-4px);
+  box-shadow: 0 32px 70px rgba(15, 23, 42, 0.2);
 }
 
 .featuredMedia {
@@ -69,42 +70,89 @@
   width: 120px;
   height: 120px;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .featuredImg {
   object-fit: cover;
+  transition: transform 160ms ease;
 }
+
+.featuredCard:hover .featuredImg {
+  transform: scale(1.05);
+}
+
 .featuredBody {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  height: 100%;
+  color: #1e293b;
 }
 
 .featuredName {
-  font-size: 17px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 4px;
+  font-size: 1.1rem;
+  font-weight: 650;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .featuredCompany {
-  font-size: 13px;
-  color: #1e293b;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(15, 23, 42, 0.75);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.featuredHelper,
+.featuredHelperAlt {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(15, 23, 42, 0.65);
+}
+
+.featuredHelperAlt {
+  font-style: italic;
+}
+
+.featuredLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 0.92rem;
+  margin-top: auto;
+  align-self: flex-end;
+}
+
+.featuredLink span:last-child {
+  transition: transform 150ms ease;
+}
+
+.featuredCard:hover .featuredLink span:last-child {
+  transform: translateX(4px);
+}
+
 .featuredBadge {
   position: absolute;
-  top: 10px;
+  top: 12px;
   right: 10px;
   font-size: 11px;
   font-weight: 700;
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 999px;
-  background: #fef3c7; /* warm highlight */
-  color: #92400e;
-  border: 1px solid #fde68a;
+  background: rgba(15, 23, 42, 0.75);
+  color: #f8fafc;
+  border: 1px solid rgba(248, 250, 252, 0.35);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* Stack title + subtitle on mobile */

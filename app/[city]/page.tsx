@@ -356,7 +356,7 @@ export default async function CityHomePage(props: {
             we’ll reach out with next steps.
           </p>
           <Link href="/contact" className={styles.heroPrimary}>
-            Reach the partnerships team
+            Become a Partner
           </Link>
         </div>
       </section>

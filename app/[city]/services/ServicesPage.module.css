@@ -11,25 +11,19 @@
   overflow: hidden;
   padding: clamp(72px, 12vw, 132px) 16px clamp(60px, 10vw, 110px);
   isolation: isolate;
+  color: #f8fafc;
 }
 
 .heroGradient {
   position: absolute;
-  inset: -120px -80px auto -80px;
-  height: clamp(480px, 60vw, 640px);
-  background: radial-gradient(
-      60% 50% at 20% 20%,
-      rgba(76, 93, 115, 0.28) 0%,
-      rgba(76, 93, 115, 0) 100%
-    ),
-    radial-gradient(
-      70% 65% at 80% 30%,
-      rgba(15, 23, 42, 0.28) 0%,
-      rgba(15, 23, 42, 0) 100%
-    ),
-    linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(255, 255, 255, 0.9));
-  filter: blur(8px);
-  opacity: 0.9;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(95, 135, 188, 0.88) 0%,
+    rgba(59, 88, 139, 0.62) 48%,
+    rgba(95, 135, 188, 0.88) 100%
+  );
+  opacity: 0.95;
   z-index: 0;
 }
 
@@ -55,8 +49,9 @@
   gap: 6px;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.07);
-  color: var(--brand);
+  background: rgba(15, 23, 42, 0.3);
+  color: #f8fafc;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.35);
   font-size: 13px;
   width: fit-content;
   text-transform: uppercase;
@@ -68,13 +63,13 @@
   font-size: clamp(32px, 4.6vw, 56px);
   font-weight: 650;
   letter-spacing: -0.02em;
-  color: var(--brand);
+  color: #f8fafc;
   margin: 0;
 }
 
 .subtitle {
   max-width: 680px;
-  color: var(--ink-2);
+  color: rgba(226, 232, 240, 0.88);
   font-size: clamp(16px, 1.2vw, 19px);
   line-height: 1.6;
   margin: 0;
@@ -175,7 +170,8 @@
   align-items: center;
   gap: 6px;
   font-weight: 600;
-  color: var(--brand-2);
+  color: #3b5c93;
+  justify-self: end;
 }
 
 .cardLink::after {
@@ -189,28 +185,32 @@
 }
 
 .quickLinks {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 0 16px;
+  margin-top: clamp(24px, 4vw, 36px);
+  padding: clamp(16px, 4vw, 26px);
   display: grid;
-  gap: 24px;
+  gap: 20px;
+  border-radius: 20px;
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(6px);
 }
 
 .quickHead {
   display: grid;
-  gap: 6px;
+  gap: 8px;
 }
 
 .quickTitle {
   margin: 0;
   font-size: clamp(22px, 2.8vw, 30px);
-  color: var(--brand);
+  color: #f8fafc;
   font-weight: 650;
 }
 
 .quickDesc {
   margin: 0;
-  color: var(--ink-2);
+  color: rgba(226, 232, 240, 0.85);
   max-width: 560px;
 }
 
@@ -224,15 +224,15 @@
   display: inline-flex;
   padding: 8px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--brand);
+  border: 1px solid rgba(248, 250, 252, 0.4);
+  background: rgba(248, 250, 252, 0.92);
+  color: #0b1120;
   font-weight: 500;
   transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
 .quickChip:hover {
-  border-color: rgba(15, 23, 42, 0.24);
-  background: rgba(76, 93, 115, 0.16);
+  border-color: rgba(15, 23, 42, 0.35);
+  background: rgba(248, 250, 252, 1);
   transform: translateY(-1px);
 }

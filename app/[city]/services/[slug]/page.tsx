@@ -46,7 +46,6 @@ export default async function CityServiceDetailPage(props: {
         <div className={styles.heroGradient} aria-hidden="true" />
         <div className={styles.heroContent}>
           <div className={styles.heroCopy}>
-            <span className={styles.eyebrow}>Licensed • Insured • Warranty</span>
             <h1 className={styles.title}>
               {data.name} experts serving {city.name}
             </h1>
@@ -55,21 +54,6 @@ export default async function CityServiceDetailPage(props: {
               {data.name.toLowerCase()} results, flexible scheduling, and clear
               communication from the first call to final walk-through.
             </p>
-
-            <div className={styles.heroStats}>
-              <div className={styles.stat}>
-                <span className={styles.statValue}>4.9★</span>
-                <span className={styles.statLabel}>Average homeowner rating</span>
-              </div>
-              <div className={styles.stat}>
-                <span className={styles.statValue}>48 hr</span>
-                <span className={styles.statLabel}>Typical quote turnaround</span>
-              </div>
-              <div className={styles.stat}>
-                <span className={styles.statValue}>100%</span>
-                <span className={styles.statLabel}>Local, background-checked crews</span>
-              </div>
-            </div>
 
             <div className={styles.ctaRow}>
               <a href="#contact" className={styles.ctaPrimary}>
@@ -83,15 +67,17 @@ export default async function CityServiceDetailPage(props: {
 
           <aside className={styles.heroAside}>
             <div className={styles.heroAsideCard}>
-              <h3>Popular {data.name.toLowerCase()} projects in {city.name}</h3>
+              <h3>
+                Popular {data.name.toLowerCase()} projects in {city.name}
+              </h3>
               <ul>
                 <li>Complete {data.name.toLowerCase()} packages</li>
                 <li>Emergency call-outs & repairs</li>
                 <li>Maintenance plans and seasonal care</li>
               </ul>
               <p>
-                Not sure where to start? Share a few details and we&apos;ll tailor
-                recommendations for your home.
+                Not sure where to start? Share a few details and we&apos;ll
+                tailor recommendations for your home.
               </p>
             </div>
           </aside>
@@ -103,7 +89,8 @@ export default async function CityServiceDetailPage(props: {
           <span className={styles.sectionEyebrow}>Featured provider</span>
           <h2 className={styles.sectionTitle}>Meet your local specialist</h2>
           <p className={styles.sectionLead}>
-            We partner with trusted pros who know {city.name} homes inside and out.
+            We partner with trusted pros who know {city.name} homes inside and
+            out.
           </p>
         </div>
         {listing ? (
@@ -126,8 +113,8 @@ export default async function CityServiceDetailPage(props: {
                   {listing.displayName || listing.company.name}
                 </h3>
                 <p className={styles.providerMeta}>
-                  Serving {city.name} • Licensed & insured • Local team you can reach
-                  directly
+                  Serving {city.name} • Licensed & insured • Local team you can
+                  reach directly
                 </p>
               </div>
             </div>
@@ -157,9 +144,9 @@ export default async function CityServiceDetailPage(props: {
         ) : (
           <div className={styles.providerFallback}>
             <p>
-              We’re currently onboarding a trusted {data.name.toLowerCase()} partner
-              in {city.name}. Share your project details and we’ll match you within
-              24 hours.
+              We’re currently onboarding a trusted {data.name.toLowerCase()}{" "}
+              partner in {city.name}. Share your project details and we’ll match
+              you within 24 hours.
             </p>
             <a href="#contact" className={styles.ctaPrimary}>
               Tell us about your project
@@ -172,18 +159,21 @@ export default async function CityServiceDetailPage(props: {
         <div className={styles.sectionHeader}>
           <span className={styles.sectionEyebrow}>Why homeowners trust us</span>
           <h2 className={styles.sectionTitle}>
-            A smoother {data.name.toLowerCase()} experience from hello to handover
+            A smoother {data.name.toLowerCase()} experience from hello to
+            handover
           </h2>
           <p className={styles.sectionLead}>
-            We curate the best local teams in {city.name}, so you can focus on the
-            results instead of the research.
+            We curate the best local teams in {city.name}, so you can focus on
+            the results instead of the research.
           </p>
         </div>
         <div className={styles.highlightGrid}>
           {[
             {
               title: "Vetted local pros",
-              copy: `Every specialist is licensed, insured, and hand-reviewed for ${data.name.toLowerCase()} work in ${city.name}.`,
+              copy: `Every specialist is licensed, insured, and hand-reviewed for ${data.name.toLowerCase()} work in ${
+                city.name
+              }.`,
             },
             {
               title: "Crystal-clear pricing",
@@ -220,7 +210,9 @@ export default async function CityServiceDetailPage(props: {
       <section className={styles.process}>
         <div className={styles.sectionHeader}>
           <span className={styles.sectionEyebrow}>How it works</span>
-          <h2 className={styles.sectionTitle}>Simple steps to a finished project</h2>
+          <h2 className={styles.sectionTitle}>
+            Simple steps to a finished project
+          </h2>
         </div>
         <ol className={styles.stepList}>
           {[

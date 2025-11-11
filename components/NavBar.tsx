@@ -8,6 +8,36 @@ import styles from "./NavBar.module.css";
 import SocialIcons from "./SocialIcons";
 import { usePathname } from "next/navigation";
 
+const STATIC_PREFIXES = new Set([
+  "",
+  "services",
+  "blog",
+  "admin",
+  "api",
+  "contact",
+  "privacy",
+  "terms",
+  "search",
+]);
+const DEFAULT_CITY = "calgary";
+const LOCAL_STORAGE_KEY = "home-improve:selected-city";
+
+function readCookie(name: string) {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(
+    new RegExp(`(?:^|;\\s*)${name}=([^;]+)`, "i")
+  );
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function getStoredCity() {
+  if (typeof window === "undefined") return null;
+  return (
+    window.localStorage.getItem(LOCAL_STORAGE_KEY) ||
+    window.localStorage.getItem("preferred-city")
+  );
+}
+
 export default function NavBar() {
   const [open, setOpen] = useState(false);
   const [citySlug, setCitySlug] = useState<string | null>(null);
@@ -25,38 +55,28 @@ export default function NavBar() {
   }, []);
 
   useEffect(() => {
-    const staticPrefixes = new Set([
-      "",
-      "services",
-      "blog",
-      "admin",
-      "api",
-      "contact",
-      "privacy",
-      "terms",
-      "search",
-    ]);
     const segments = pathname.split("/").filter(Boolean);
-    if (!segments.length) {
-      setCitySlug(null);
-      return;
+    if (segments.length) {
+      const candidate = segments[0];
+      if (!STATIC_PREFIXES.has(candidate)) {
+        setCitySlug(candidate);
+        return;
+      }
     }
-    const candidate = segments[0];
-    if (staticPrefixes.has(candidate)) {
-      setCitySlug(null);
-      return;
-    }
-    setCitySlug(candidate);
+    const cookieCity = readCookie("preferred-city");
+    const storedCity = getStoredCity();
+    setCitySlug(cookieCity || storedCity || DEFAULT_CITY);
   }, [pathname]);
 
-  const servicesHref = citySlug ? `/${citySlug}/services` : "/services";
+  const resolvedCity = citySlug || DEFAULT_CITY;
+  const servicesHref = `/${resolvedCity}/services`;
 
   return (
     <header className={styles.sticky}>
       <nav className={styles.nav}>
         <Link href="/" className={styles.brand}>
           <Image
-            src="/logo-svg.svg"
+            src="/logo3.svg"
             alt="Give It Charm logo"
             width={60}
             height={60}
@@ -66,10 +86,13 @@ export default function NavBar() {
         </Link>
 
         <div className={styles.menu}>
-          <Link href={servicesHref} className={styles.link}>
+          <Link
+            href={servicesHref}
+            className={`${styles.link} ${styles.brandLink}`}
+          >
             Services
           </Link>
-          <Link href="/blog" className={styles.link}>
+          <Link href="/blog" className={`${styles.link} ${styles.brandLink}`}>
             Blog
           </Link>
         </div>
@@ -103,10 +126,16 @@ export default function NavBar() {
 
         {/* Mobile drawer */}
         <div className={`${styles.drawer} ${open ? styles.drawerOpen : ""}`}>
-          <Link href={servicesHref} className={styles.drawerLink}>
+          <Link
+            href={servicesHref}
+            className={`${styles.drawerLink} ${styles.brandLink}`}
+          >
             Services
           </Link>
-          <Link href="/blog" className={styles.drawerLink}>
+          <Link
+            href="/blog"
+            className={`${styles.drawerLink} ${styles.brandLink}`}
+          >
             Blog
           </Link>
 

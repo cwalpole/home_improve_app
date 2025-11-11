@@ -10,7 +10,7 @@ export default function Footer() {
         {/* Brand */}
         <div className={styles.brand}>
           <Image
-            src="/logo-svg.svg"
+            src="/logo3.svg"
             alt="Give It Charm logo"
             width={40}
             height={40}

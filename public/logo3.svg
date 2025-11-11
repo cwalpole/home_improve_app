@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="1024" height="1024">
+  <defs>
+    <style>
+      .stroke { fill: none; stroke: #5f6c7b; stroke-width: 12; stroke-linecap: round; stroke-linejoin: round; }
+      .door { fill: #c9d3dc; stroke: #5f6c7b; stroke-width: 10; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <!-- Roof (separate from walls) -->
+  <path class="stroke" d="M60 112 L128 56 L196 112" />
+
+  <!-- Walls & base (gap above at y=124 to leave space from roof at y=112) -->
+  <path class="stroke" d="M72 212 H184 V124 H72 V212 Z" />
+
+  <!-- Front door (centered) -->
+  <rect x="114" y="162" width="28" height="50" rx="3" class="door" />
+</svg>

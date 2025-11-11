@@ -38,7 +38,6 @@ export default function ServiceList({ citySlug, services }: Props) {
           {standard.map((svc) => {
             const companyDisplay = svc.companyName ?? "Future Provider";
             const hasCompany = Boolean(svc.companyName);
-            const statusLabel = hasCompany ? "Expert" : "Open";
             const helperCopy = hasCompany
               ? `Our Trusted Professional`
               : "Join our network of experts";
@@ -64,23 +63,13 @@ export default function ServiceList({ citySlug, services }: Props) {
                   />
                 </div>
                 <div className={styles.body}>
-                  <div className={styles.metaRow}></div>
                   <h4 className={styles.title}>{svc.name}</h4>
                   <p className={companyClass} title={companyDisplay}>
                     {companyDisplay}
                   </p>
                   <p className={styles.description}>{helperCopy}</p>
                   <span className={styles.cardLink}>
-                    <span
-                      className={`${styles.metaBadge} ${
-                        hasCompany ? styles.metaBadgeSuccess : ""
-                      }`}
-                    >
-                      {statusLabel}
-                    </span>
-                    <span>
-                      View <span aria-hidden="true">→</span>
-                    </span>
+                    <span aria-hidden="true">→</span>
                   </span>
                 </div>
               </Link>

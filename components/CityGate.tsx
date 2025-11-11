@@ -76,6 +76,21 @@ export default function CityGate({ cities }: { cities: City[] }) {
     },
   ];
 
+  const heroStats = [
+    {
+      title: "4.9 ★ rating",
+      desc: "Average homeowner feedback across partnered cities.",
+    },
+    {
+      title: "48 hour quotes",
+      desc: "Get tailored plans fast, aligned with your schedule.",
+    },
+    {
+      title: "Local experts",
+      desc: "Licensed, insured crews ready for every project size.",
+    },
+  ];
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const stored = window.localStorage.getItem(STORAGE_KEY);
@@ -121,29 +136,15 @@ export default function CityGate({ cities }: { cities: City[] }) {
               </a>
             </div>
           </div>
-          <dl className={homeStyles.heroStats}>
-            <div>
-              <dt>4.9 ★ rating</dt>
-              <dd>Average homeowner feedback across partnered cities.</dd>
-            </div>
-            <div>
-              <dt>48 hour quotes</dt>
-              <dd>Get tailored plans fast, aligned with your schedule.</dd>
-            </div>
-            <div>
-              <dt>Local experts</dt>
-              <dd>Licensed, insured crews ready for every project size.</dd>
-            </div>
-          </dl>
         </div>
       </section>
 
       <section className={homeStyles.trustStrip}>
         <div className={homeStyles.trustInner}>
-          <p>
+          <div className={styles.trustCopy}>
             Great homes start with great partners. We blend craftsmanship,
             communication, and care for every project.
-          </p>
+          </div>
         </div>
       </section>
 
