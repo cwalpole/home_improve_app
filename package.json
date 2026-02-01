@@ -14,8 +14,11 @@
     "start": "node dist/scripts/start-prod.js",
     "dev": "next dev",
     "lint": "eslint",
-    "seed:db": "tsx prisma/seed.ts",
-    "seed:adminUser": "tsx prisma/seed-admin.ts"
+    "seed:db": "node -r dotenv/config node_modules/.bin/tsx prisma/seed.ts",
+    "seed:adminUser": "node -r dotenv/config node_modules/.bin/tsx prisma/seed-admin.ts",
+    "migrate:dev": "node -r dotenv/config node_modules/.bin/prisma migrate dev",
+    "migrate:deploy": "node -r dotenv/config node_modules/.bin/prisma migrate deploy",
+    "prisma:generate": "node -r dotenv/config node_modules/.bin/prisma generate"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.10",
