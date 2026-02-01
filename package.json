@@ -3,15 +3,14 @@
   "version": "0.1.0",
   "packageManager": "pnpm@10.17.0+sha512.fce8a3dd29a4ed2ec566fb53efbb04d8c44a0f05bc6f24a73046910fb9c3ce7afa35a0980500668fa3573345bd644644fa98338fa168235c80f4aa17aa17fbef",
   "engines": {
-    "node": "22.x",
-    "pnpm": "10.17.0"
+    "node": "22.x"
   },
   "scripts": {
     "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.17.0 --activate",
     "generate": "pnpm exec prisma generate",
     "migrate:deploy": "pnpm exec prisma migrate deploy",
     "build": "pnpm run generate && next build && tsc -p scripts/tsconfig.scripts.json",
-    "heroku-postbuild": "pnpm run generate && next build && tsc -p scripts/tsconfig.scripts.json && mkdir -p .next/standalone/.next && cp -R .next/static .next/standalone/.next/static && if [ -d public ]; then cp -R public .next/standalone/public; fi && pnpm prune --prod && rm -rf node_modules .next/cache node_modules/.pnpm-store",
+    "heroku-postbuild": "pnpm run generate && next build && tsc -p scripts/tsconfig.scripts.json && mkdir -p .next/standalone/.next && cp -R .next/static .next/standalone/.next/static && if [ -d public ]; then cp -R public .next/standalone/public; fi",
     "start": "node dist/scripts/start-prod.js",
     "dev": "next dev",
     "lint": "eslint",
