@@ -5,6 +5,15 @@ import { SignJWT } from "jose";
 
 const COOKIE_NAME = "session";
 
+function getOrigin(req: Request) {
+  const forwardedProto = req.headers.get("x-forwarded-proto");
+  const forwardedHost = req.headers.get("x-forwarded-host");
+  const host = forwardedHost || req.headers.get("host");
+  const proto = forwardedProto || (host?.startsWith("localhost") ? "http" : "https");
+  const fallback = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  return host ? `${proto}://${host}` : fallback;
+}
+
 async function getJwtSecret() {
   const secret = process.env.AUTH_SECRET;
   if (!secret) {
@@ -22,7 +31,7 @@ function wantsHtml(req: Request) {
 }
 
 function redirectWithError(req: Request, message: string) {
-  const url = new URL("/login", req.url);
+  const url = new URL("/login", getOrigin(req));
   url.searchParams.set("error", message);
   return NextResponse.redirect(url, { status: 303 });
 }
@@ -76,7 +85,7 @@ export async function POST(req: Request) {
     .sign(secret);
 
   const res = wantsHtml(req)
-    ? NextResponse.redirect(new URL("/admin", req.url), { status: 303 })
+    ? NextResponse.redirect(new URL("/admin", getOrigin(req)), { status: 303 })
     : NextResponse.json({ ok: true });
 
   res.cookies.set({
