@@ -34,6 +34,30 @@
   color: #fff;
 }
 
+.logoutForm {
+  margin-top: 6px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logoutButton {
+  width: fit-content;
+  text-align: left;
+  background: #1a1c22;
+  color: #cfd1d4;
+  border: 1px solid #2a2f3a;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.logoutButton:hover {
+  background: #151821;
+  color: #fff;
+  border-color: #4c5d73;
+}
+
 .main {
   padding: 24px 28px;
 }

@@ -19,6 +19,11 @@ export default function AdminNav() {
       <Link href="/admin/companyServiceCityMappings" className={styles.link}>
         Company ↔ ServiceCity
       </Link>
+      <form method="post" action="/api/auth/logout" className={styles.logoutForm}>
+        <button type="submit" className={`${styles.link} ${styles.logoutButton}`}>
+          Logout
+        </button>
+      </form>
     </nav>
   );
 }
