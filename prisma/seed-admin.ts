@@ -9,12 +9,23 @@ function readCliFlag(name: string): string | undefined {
   return arg ? arg.substring(prefix.length) : undefined;
 }
 
+function normalizeDbUrl(urlString: string) {
+  const url = new URL(urlString);
+  if (!url.searchParams.has("connectionLimit")) {
+    url.searchParams.set("connectionLimit", "2");
+  }
+  if (!url.searchParams.has("pool_timeout")) {
+    url.searchParams.set("pool_timeout", "10000");
+  }
+  return url.toString();
+}
+
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is required to run admin seed.");
 }
 
 const prisma = new PrismaClient({
-  adapter: new PrismaMariaDb(process.env.DATABASE_URL),
+  adapter: new PrismaMariaDb(normalizeDbUrl(process.env.DATABASE_URL)),
 });
 
 async function main() {

@@ -7,12 +7,23 @@ declare global {
   var prisma: PrismaClient | undefined;
 }
 
+function normalizeDbUrl(urlString: string) {
+  const url = new URL(urlString);
+  if (!url.searchParams.has("connectionLimit")) {
+    url.searchParams.set("connectionLimit", "2");
+  }
+  if (!url.searchParams.has("pool_timeout")) {
+    url.searchParams.set("pool_timeout", "10000");
+  }
+  return url.toString();
+}
+
 function buildAdapter() {
-  const url = process.env.DATABASE_URL;
-  if (!url) {
+  const raw = process.env.DATABASE_URL;
+  if (!raw) {
     throw new Error("DATABASE_URL is required to initialize PrismaClient.");
   }
-  return new PrismaMariaDb(url);
+  return new PrismaMariaDb(normalizeDbUrl(raw));
 }
 
 export const prisma =
