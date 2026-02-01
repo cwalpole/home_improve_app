@@ -4,13 +4,40 @@ import type { MetadataRoute } from "next";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://gothome.ca";
 
-  const [cities, services] = await Promise.all([
-    prisma.city.findMany({ select: { slug: true }, orderBy: { slug: "asc" } }),
-    prisma.service.findMany({
-      select: { slug: true },
-      orderBy: { order: "asc" },
-    }),
-  ]);
+  let cities: { slug: string }[] = [];
+  let services: { slug: string }[] = [];
+
+  async function withTimeout<T>(promise: Promise<T>, ms: number, label: string) {
+    return Promise.race([
+      promise,
+      new Promise<T>((_resolve, reject) =>
+        setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms)
+      ),
+    ]);
+  }
+
+  if (process.env.DATABASE_URL) {
+    try {
+      [cities, services] = await withTimeout(
+        Promise.all([
+          prisma.city.findMany({
+            select: { slug: true },
+            orderBy: { slug: "asc" },
+          }),
+          prisma.service.findMany({
+            select: { slug: true },
+            orderBy: { order: "asc" },
+          }),
+        ]),
+        1000,
+        "sitemap prisma queries"
+      );
+    } catch (err) {
+      console.warn("[sitemap] fallback to static entries:", err);
+    }
+  } else {
+    console.warn("[sitemap] DATABASE_URL not set; returning static entries only.");
+  }
 
   const global = [
     {

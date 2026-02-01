@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 // ---- generateMetadata (optional) ----
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;

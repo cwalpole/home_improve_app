@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
-export const dynamic = "force-static"; // global can be cached
+export const dynamic = "force-dynamic";
 
 export default async function ServicesPage() {
   const services = await prisma.service.findMany({

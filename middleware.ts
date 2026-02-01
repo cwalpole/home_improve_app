@@ -1,5 +1,6 @@
 // middleware.ts
 import { NextResponse, NextRequest } from "next/server";
+import { jwtVerify } from "jose";
 
 // ---- Config ----
 // Run on admin + global services + city services routes
@@ -14,29 +15,37 @@ export const config = {
 };
 
 const DEFAULT_CITY = "calgary";
+const SESSION_COOKIE = "session";
 
 // Safe, light normalizer
 function normalizeCity(input?: string | null) {
   return (input || "").toLowerCase().trim();
 }
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const { pathname } = url;
 
-  // --- 1) Admin Basic Auth ---
+  // --- 1) Admin auth via signed session cookie ---
   if (pathname.startsWith("/admin")) {
-    const creds = process.env.ADMIN_BASIC_AUTH; // "user:pass"
-    if (!creds) return NextResponse.next();
+    const token = req.cookies.get(SESSION_COOKIE)?.value;
+    const secret = process.env.AUTH_SECRET;
 
-    const header = req.headers.get("authorization") || ""; // e.g. "Basic dXNlcjpwYXNz"
-    const expected = "Basic " + btoa(creds); // Edge runtime has btoa
-    if (header === expected) return NextResponse.next();
+    if (!token || !secret) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
 
-    return new NextResponse("Auth required", {
-      status: 401,
-      headers: { "WWW-Authenticate": 'Basic realm="Admin"' },
-    });
+    try {
+      const { payload } = await jwtVerify(
+        token,
+        new TextEncoder().encode(secret)
+      );
+      if (payload.role !== "admin") {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
+    } catch {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
   }
 
   // --- 2) City resolution for services routes (no redirects) ---

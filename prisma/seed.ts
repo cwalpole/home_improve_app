@@ -1,6 +1,14 @@
 // prisma/seed.ts
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is required to run seeds.");
+}
+
+const prisma = new PrismaClient({
+  adapter: new PrismaMariaDb(process.env.DATABASE_URL),
+});
 
 async function main() {
   // Services (order defines display order)

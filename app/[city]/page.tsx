@@ -6,6 +6,8 @@ import ServiceList from "@/components/ServiceList";
 import SwitchCity from "@/components/SwitchCity";
 import { Marcellus_SC } from "next/font/google";
 
+export const dynamic = "force-dynamic";
+
 type GridItem = {
   id: number;
   name: string;
