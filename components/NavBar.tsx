@@ -25,7 +25,7 @@ const LOCAL_STORAGE_KEY = "home-improve:selected-city";
 function readCookie(name: string) {
   if (typeof document === "undefined") return null;
   const match = document.cookie.match(
-    new RegExp(`(?:^|;\\s*)${name}=([^;]+)`, "i")
+    new RegExp(`(?:^|;\\s*)${name}=([^;]+)`, "i"),
   );
   return match ? decodeURIComponent(match[1]) : null;
 }
@@ -76,13 +76,12 @@ export default function NavBar() {
       <nav className={styles.nav}>
         <Link href="/" className={styles.brand}>
           <Image
-            src="/logo3.svg"
+            src="/logo-design.svg"
             alt="Give It Charm logo"
-            width={60}
-            height={60}
+            width={182}
+            height={30}
             priority
           />
-          <span className={styles.brandText}>Give It Charm</span>
         </Link>
 
         <div className={styles.menu}>

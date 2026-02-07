@@ -190,20 +190,10 @@ export default async function CityHomePage(props: {
         <div className={styles.heroBg} aria-hidden="true" />
         <div className={styles.heroContent}>
           <div className={styles.heroCopy}>
-            <h1 className={`${styles.heroTitle} ${marcellus.className}`}>
-              Your Home, Our priority
-            </h1>
-            <p className={`${styles.heroLead} ${marcellus.className}`}>
+            <div className={`${styles.heroTitle}`}>Your Home, Our Priority</div>
+            <p className={`${styles.heroLead} `}>
               Making Homes Shine, One Service at a Time
             </p>
-            <div className={styles.heroActions}>
-              <a href="#services" className={styles.heroPrimary}>
-                View local services
-              </a>
-              <a href="#how-it-works" className={styles.heroSecondary}>
-                See how it works
-              </a>
-            </div>
           </div>
         </div>
       </section>
@@ -217,7 +207,7 @@ export default async function CityHomePage(props: {
         </div>
       </section>
 
-      <section className={styles.highlights}>
+      {/* <section className={styles.highlights}>
         <div className={styles.sectionIntro}>
           <span className={styles.sectionEyebrow}>
             Why homeowners choose us
@@ -236,7 +226,7 @@ export default async function CityHomePage(props: {
             </article>
           ))}
         </div>
-      </section>
+      </section> */}
 
       <Section
         id="services"

@@ -19,7 +19,7 @@
 .heroBg {
   position: absolute;
   inset: 0;
-  background-image: url("/hero-img.png");
+  background-image: url("/exterior-home.jpg");
   background-size: cover;
   background-position: center;
   filter: saturate(112%);
@@ -80,16 +80,14 @@
 .heroTitle {
   margin: 0;
   font-size: clamp(2.4rem, 5vw, 3.8rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #1e293b;
+  color: #eeeff2;
 }
 
 .heroLead {
   margin: 0;
   font-size: clamp(1.05rem, 2vw, 1.25rem);
   line-height: 1.7;
-  color: #1e293b;
+  color: #eeeff2;
 }
 
 .heroActions {
@@ -108,7 +106,10 @@
   border-radius: 999px;
   font-weight: 600;
   font-size: 0.95rem;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
   text-decoration: none;
   cursor: pointer;
 }
@@ -166,7 +167,7 @@
 }
 
 .trustStrip {
-  background: linear-gradient(135deg, rgba(226, 232, 240, 0.45), #ffffff);
+  background: #4c6580;
   border-top: 1px solid rgba(148, 163, 184, 0.25);
   border-bottom: 1px solid rgba(148, 163, 184, 0.25);
   padding: 0 24px;
@@ -179,7 +180,7 @@
   margin: 0 auto;
   text-align: center;
   font-size: 0.95rem;
-  color: #1e293b;
+  color: #eeeff2;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -229,7 +230,9 @@
   text-decoration: none;
   color: #1e293b;
   font-weight: 600;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .sectionLink:hover {
@@ -335,7 +338,8 @@
 .process {
   display: grid;
   gap: 32px;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       120% 120% at 50% 0%,
       rgba(76, 93, 115, 0.18),
       rgba(255, 255, 255, 0)

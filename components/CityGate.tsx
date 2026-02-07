@@ -99,27 +99,12 @@ export default function CityGate({ cities }: { cities: City[] }) {
         <div className={homeStyles.heroBg} aria-hidden="true" />
         <div className={homeStyles.heroContent}>
           <div className={homeStyles.heroCopy}>
-            <h1 className={`${homeStyles.heroTitle} ${marcellus.className}`}>
+            <h1 className={`${homeStyles.heroTitle}`}>
               Your Home, Our priority
             </h1>
             <p className={`${homeStyles.heroLead} ${marcellus.className}`}>
               Making Homes Shine, One Service at a Time
             </p>
-            <div className={homeStyles.heroActions}>
-              <button
-                type="button"
-                className={homeStyles.heroPrimary}
-                onClick={() => {
-                  setSelection("");
-                  setState("prompt");
-                }}
-              >
-                View local services
-              </button>
-              <a href="#how-it-works" className={homeStyles.heroSecondary}>
-                See how it works
-              </a>
-            </div>
           </div>
         </div>
       </section>

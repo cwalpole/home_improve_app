@@ -3,7 +3,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: linear-gradient(135deg, #e2e8f0, #ffffff);
+  background: #0b0c0b;
   border-bottom: 1px solid rgba(148, 163, 184, 0.25);
 }
 
@@ -13,7 +13,7 @@
   grid-template-columns: auto 1fr auto auto;
   align-items: center;
   gap: 14px;
-  padding: 10px 16px;
+  padding: 10px 50px 16px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -40,9 +40,10 @@
   gap: 20px;
   align-items: center;
   justify-content: center;
+  padding-top: 6px;
 }
 .link {
-  color: #1e293b;
+  color: #eeeff2;
   text-decoration: none;
   padding: 6px 10px;
   border-radius: 8px;
