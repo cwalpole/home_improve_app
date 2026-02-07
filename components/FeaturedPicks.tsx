@@ -27,7 +27,11 @@ export default function FeaturedPicks({
   if (!items?.length) return null;
 
   return (
-    <section className={styles.featuredSection} aria-label="Featured services">
+    <section
+      className={styles.featuredSection}
+      aria-label="Featured services"
+      id="featured-services"
+    >
       <header className={styles.featuredHeader}>
         <h2 className={styles.featuredTitle}>{title}</h2>
         {subtitle && <p className={styles.featuredSub}>{subtitle}</p>}
@@ -48,30 +52,12 @@ export default function FeaturedPicks({
                 slug={svc.slug}
                 alt={`${svc.name} image`}
                 fill
-                sizes="(max-width: 640px) 90vw, 320px"
+                sizes="(max-width: 640px) 90vw, 360px"
                 className={styles.featuredImg}
               />
             </div>
-            <div className={styles.featuredBody}>
-              <div className={styles.featuredName}>{svc.name}</div>
-              {svc.companyName && (
-                <div className={styles.featuredCompany}>{svc.companyName}</div>
-              )}
-              {svc.companyName ? (
-                <p className={styles.featuredHelper}>
-                  Our Trusted Professional
-                </p>
-              ) : (
-                <p className={styles.featuredHelperAlt}>
-                  Join our network of experts
-                </p>
-              )}
-              <span className={styles.featuredLink}>
-                <span aria-hidden="true">→</span>
-              </span>
-              <span className={styles.featuredBadge} aria-hidden="true">
-                Featured Expert
-              </span>
+            <div className={styles.featuredLabel}>
+              <span className={styles.featuredName}>{svc.name}</span>
             </div>
           </Link>
         ))}

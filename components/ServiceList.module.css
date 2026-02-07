@@ -145,10 +145,10 @@
 
 .card {
   display: grid;
-  grid-template-columns: 116px 1fr;
-  gap: 14px;
+  grid-template-columns: 1fr;
+  gap: 8px;
   align-items: center;
-  padding: 14px;
+  padding: 12px;
   position: relative;
   border: 1px solid rgba(148, 163, 184, 0.35);
   border-radius: 18px;
@@ -162,6 +162,16 @@
   box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
   transition: transform 160ms ease, box-shadow 160ms ease,
     border-color 160ms ease;
+  width: 100px;
+  height: 200px;
+}
+
+.card:nth-child(2n + 1) {
+  border-radius: 28px 0 0 0;
+}
+
+.card:nth-child(2n) {
+  border-radius: 0 28px 0 0;
 }
 
 .card:hover {
@@ -196,23 +206,18 @@
   color: rgba(15, 23, 42, 0.7);
 }
 
-.media {
-  position: relative;
-  width: 100%;
-  padding-top: 100%;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #e2e8f0;
-}
-
-.img {
-  object-fit: cover;
-}
 .body {
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: center;
+}
+
+.bodySolo {
+  display: grid;
+  place-items: center;
+  padding: 12px 0;
 }
 
 .metaLocation {

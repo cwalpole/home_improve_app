@@ -20,6 +20,8 @@ export default function Section({
   id,
   titleAside,
 }: Props) {
+  const hideTitleRow = !title;
+
   return (
     <section id={id} className={styles.section}>
       <header className={styles.sectionHead}>
@@ -27,13 +29,15 @@ export default function Section({
           {titleEyebrow ? (
             <span className={styles.sectionEyebrow}>{titleEyebrow}</span>
           ) : null}
-          <div className={styles.sectionTitleRow}>
-            <h2 className={styles.sectionTitle}>{title}</h2>
-            {titleAside ? (
-              <div className={styles.sectionTitleAside}>{titleAside}</div>
-            ) : null}
-          </div>
-          {desc ? <p className={styles.sectionDesc}>{desc}</p> : null}
+          {!hideTitleRow ? (
+            <div className={styles.sectionTitleRow}>
+              <h2 className={styles.sectionTitle}>{title}</h2>
+              {titleAside ? (
+                <div className={styles.sectionTitleAside}>{titleAside}</div>
+              ) : null}
+            </div>
+          ) : null}
+          {desc ? <div className={styles.sectionDesc}>{desc}</div> : null}
         </div>
         {right ? <div className={styles.sectionActions}>{right}</div> : null}
       </header>

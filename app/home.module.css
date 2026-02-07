@@ -1,6 +1,6 @@
 .main {
   display: grid;
-  gap: 72px;
+  gap: 10px;
   padding-bottom: 120px;
 }
 
@@ -9,17 +9,17 @@
   overflow: hidden;
   isolation: isolate;
   min-height: 70vh;
-  padding: clamp(96px, 16vw, 140px) 24px clamp(72px, 12vw, 120px);
+  padding-bottom: 40px;
   color: #f8fafc;
   border-bottom: 1px solid rgba(15, 23, 42, 0.15);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .heroBg {
   position: absolute;
   inset: 0;
-  background-image: url("/exterior-home.jpg");
+  background-image: url("/exterior-home.png");
   background-size: cover;
   background-position: center;
   filter: saturate(112%);
@@ -56,10 +56,10 @@
 .heroCopy {
   max-width: 800px;
   display: grid;
-  gap: 18px;
   text-align: center;
   justify-items: center;
-  margin-top: -60px;
+  margin-top: 50px;
+  gap: 28px;
 }
 
 .heroEyebrow {
@@ -81,13 +81,17 @@
   margin: 0;
   font-size: clamp(2.4rem, 5vw, 3.8rem);
   color: #eeeff2;
+  -webkit-text-stroke: 1px rgba(15, 23, 42, 0.25);
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.28),
+    0 0 1px rgba(15, 23, 42, 0.45);
 }
 
 .heroLead {
   margin: 0;
   font-size: clamp(1.05rem, 2vw, 1.25rem);
   line-height: 1.7;
-  color: #eeeff2;
+  color: #020303;
 }
 
 .heroActions {
@@ -167,11 +171,11 @@
 }
 
 .trustStrip {
-  background: #4c6580;
+  background: #7ca451;
   border-top: 1px solid rgba(148, 163, 184, 0.25);
   border-bottom: 1px solid rgba(148, 163, 184, 0.25);
   padding: 0 24px;
-  margin-top: -74px;
+  margin-top: -11px;
   min-height: 48px;
 }
 
@@ -180,7 +184,7 @@
   margin: 0 auto;
   text-align: center;
   font-size: 0.95rem;
-  color: #eeeff2;
+  color: #020303;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -241,8 +245,17 @@
 }
 
 .switchRow {
-  display: flex;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  align-items: center;
+  grid-auto-flow: column;
   justify-content: center;
+}
+
+.sectionLabel {
+  font-weight: 700;
+  color: #1e293b;
 }
 
 .highlights {

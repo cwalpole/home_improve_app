@@ -4,7 +4,6 @@ import Section from "@/components/Section";
 import Link from "next/link";
 import ServiceList from "@/components/ServiceList";
 import SwitchCity from "@/components/SwitchCity";
-import { Marcellus_SC } from "next/font/google";
 
 export const dynamic = "force-dynamic";
 
@@ -109,21 +108,6 @@ export default async function CityHomePage(props: {
     };
   });
 
-  const highlights = [
-    {
-      title: "Neighborhood Expertise",
-      copy: `We partner with professionals who live and work in ${city.name}, so your project benefits from local knowledge.`,
-    },
-    {
-      title: "Curated Service Lineup",
-      copy: "From emergency repairs to dream renovations, discover vetted specialists ready when you are.",
-    },
-    {
-      title: "Seamless Coordination",
-      copy: "We streamline planning, updates, and timelines so you can relax while the work gets done.",
-    },
-  ];
-
   const steps = [
     {
       number: "01",
@@ -191,19 +175,18 @@ export default async function CityHomePage(props: {
         <div className={styles.heroContent}>
           <div className={styles.heroCopy}>
             <div className={`${styles.heroTitle}`}>Your Home, Our Priority</div>
-            <p className={`${styles.heroLead} `}>
-              Making Homes Shine, One Service at a Time
-            </p>
+            <div className={styles.heroActions}>
+              <Link href="#featured-services" className={styles.heroPrimary}>
+                Choose Your Service
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       <section className={styles.trustStrip}>
         <div className={styles.trustInner}>
-          <div className={styles.trustCopy}>
-            Great homes start with great partners. We blend craftsmanship,
-            communication, and care for every project.
-          </div>
+          <div className={styles.trustCopy}>Making Homes Shine, One Service at a Time</div>
         </div>
       </section>
 
@@ -230,17 +213,18 @@ export default async function CityHomePage(props: {
 
       <Section
         id="services"
-        title={city.name}
-        titleEyebrow="Provided Services"
-        desc="Explore the categories locals trust most across the city."
+        title={null}
+        titleEyebrow={null}
+        desc={null}
       >
+        <ServiceList citySlug={city.slug} services={allServices} />
         <div className={styles.switchRow}>
+          <span className={styles.sectionLabel}>{city.name} Services · </span>
           <SwitchCity
             current={{ name: city.name, slug: city.slug }}
             cities={cities}
           />
         </div>
-        <ServiceList citySlug={city.slug} services={allServices} />
       </Section>
 
       <section id="how-it-works" className={styles.process}>
@@ -340,7 +324,3 @@ export default async function CityHomePage(props: {
     </main>
   );
 }
-const marcellus = Marcellus_SC({
-  subsets: ["latin"],
-  weight: "400",
-});

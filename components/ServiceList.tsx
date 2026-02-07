@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import styles from "./ServiceList.module.css";
-import ServiceImage from "./ServiceImage";
 import FeaturedPicks from "./FeaturedPicks";
 
 export type Item = {
@@ -35,14 +34,6 @@ export default function ServiceList({ citySlug, services }: Props) {
       <section className={styles.section} aria-label="All services">
         <div className={styles.grid}>
           {standard.map((svc) => {
-            const companyDisplay = svc.companyName ?? "Future Provider";
-            const hasCompany = Boolean(svc.companyName);
-            const helperCopy = hasCompany
-              ? `Our Trusted Professional`
-              : "Join our network of experts";
-            const companyClass = hasCompany
-              ? styles.company
-              : `${styles.company} ${styles.companyPlaceholder}`;
             return (
               <Link
                 key={svc.id}
@@ -52,24 +43,8 @@ export default function ServiceList({ citySlug, services }: Props) {
                   svc.companyName ? ` — ${svc.companyName}` : ""
                 }`}
               >
-                <div className={styles.media}>
-                  <ServiceImage
-                    slug={svc.slug}
-                    alt={`${svc.name} image`}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 400px"
-                    className={styles.img}
-                  />
-                </div>
-                <div className={styles.body}>
+                <div className={styles.bodySolo}>
                   <h4 className={styles.title}>{svc.name}</h4>
-                  <p className={companyClass} title={companyDisplay}>
-                    {companyDisplay}
-                  </p>
-                  <p className={styles.description}>{helperCopy}</p>
-                  <span className={styles.cardLink}>
-                    <span aria-hidden="true">→</span>
-                  </span>
                 </div>
               </Link>
             );
