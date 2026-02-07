@@ -119,15 +119,15 @@
 }
 
 .heroPrimary {
-  background: linear-gradient(135deg, #1f2d3d, #4c5d73);
+  background: #0d606c;
   color: #f8fafc;
   border: none;
-  box-shadow: 0 20px 44px rgba(31, 45, 61, 0.32);
+  box-shadow: 0 20px 44px rgba(13, 96, 108, 0.35);
 }
 
 .heroPrimary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 24px 50px rgba(47, 63, 84, 0.4);
+  box-shadow: 0 24px 50px rgba(13, 96, 108, 0.45);
 }
 
 .heroSecondary {
@@ -185,7 +185,7 @@
   text-align: center;
   font-size: 0.95rem;
   color: #020303;
-  font-weight: 500;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;

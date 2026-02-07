@@ -21,7 +21,6 @@ type Props = {
 export default function ServiceList({ citySlug, services }: Props) {
   const featured = services.filter((s) => !!s.featured);
   const standard = services
-    .filter((s) => !s.featured)
     .slice()
     .sort((a, b) =>
       a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
@@ -44,6 +43,7 @@ export default function ServiceList({ citySlug, services }: Props) {
                 }`}
               >
                 <div className={styles.bodySolo}>
+                  <span className={styles.logoMask} aria-hidden="true" />
                   <h4 className={styles.title}>{svc.name}</h4>
                 </div>
               </Link>

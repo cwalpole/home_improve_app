@@ -126,13 +126,14 @@
 /* Wider columns as requested earlier */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(6, minmax(140px, 1fr));
+  gap: 12px;
+  justify-items: start;
 }
 
 @media (max-width: 900px) {
   .grid {
-    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
   }
 }
 
@@ -148,36 +149,32 @@
   grid-template-columns: 1fr;
   gap: 8px;
   align-items: center;
-  padding: 12px;
+  padding: 8px;
   position: relative;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  border-radius: 18px;
-  background: radial-gradient(
-      140% 140% at 0% 0%,
-      rgba(226, 232, 240, 0.45),
-      rgba(255, 255, 255, 0)
-    ),
-    #ffffff;
+  border: none;
+  border-radius: 0;
+  background: transparent;
   text-decoration: none;
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
-  transition: transform 160ms ease, box-shadow 160ms ease,
-    border-color 160ms ease;
-  width: 100px;
-  height: 200px;
+  transition: transform 160ms ease;
+  width: 100%;
+  justify-self: start;
+  color: #0d606c; /* default, will be overridden by nth-child rules */
 }
 
-.card:nth-child(2n + 1) {
-  border-radius: 28px 0 0 0;
+.card:nth-child(3n + 1) {
+  color: #0d606c; /* teal */
 }
 
-.card:nth-child(2n) {
-  border-radius: 0 28px 0 0;
+.card:nth-child(3n + 2) {
+  color: #7ca451; /* green */
+}
+
+.card:nth-child(3n) {
+  color: #0f172a; /* near-black */
 }
 
 .card:hover {
   transform: translateY(-3px);
-  border-color: rgba(148, 163, 184, 0.6);
-  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.14);
 }
 
 .cardBadge {
@@ -212,12 +209,14 @@
   flex-direction: column;
   gap: 8px;
   align-items: center;
+  text-align: center;
 }
 
 .bodySolo {
   display: grid;
   place-items: center;
   padding: 12px 0;
+  gap: 12px;
 }
 
 .metaLocation {
@@ -230,9 +229,19 @@
 .title {
   font-size: 1.1rem;
   font-weight: 650;
-  color: #1e293b;
+  color: currentColor;
   line-height: 1.2;
   margin: 0;
+  text-align: center;
+}
+
+.logoMask {
+  width: 120px;
+  height: 140px;
+  mask: url('/logo-design-single.svg') center / contain no-repeat;
+  -webkit-mask: url('/logo-design-single.svg') center / contain no-repeat;
+  background: currentColor;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.22));
 }
 
 .company {
