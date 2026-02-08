@@ -3,6 +3,7 @@
 import Link from "next/link";
 import styles from "./ServiceList.module.css";
 import FeaturedPicks from "./FeaturedPicks";
+import ServiceImage from "./ServiceImage";
 
 export type Item = {
   id: number;
@@ -26,29 +27,206 @@ export default function ServiceList({ citySlug, services }: Props) {
       a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
     );
 
+  type LogoColor = "blue" | "green" | "black";
+  type RenderItem =
+    | { kind: "service"; item: Item; key: string }
+    | { kind: "logo"; key: string; color: LogoColor; spanFull?: boolean };
+
+  const buildPattern = (
+    pattern: Array<"svc" | LogoColor>,
+    spanFullLogo = false
+  ): RenderItem[] => {
+    const items: RenderItem[] = [];
+    let svcIndex = 0;
+    while (svcIndex < standard.length) {
+      for (const slot of pattern) {
+        if (slot === "svc") {
+          if (svcIndex < standard.length) {
+            const svc = standard[svcIndex++];
+            items.push({ kind: "service", item: svc, key: `svc-${svc.id}` });
+          }
+        } else {
+          items.push({
+            kind: "logo",
+            key: `logo-${items.length}`,
+            color: slot as LogoColor,
+            spanFull: spanFullLogo,
+          });
+        }
+      }
+    }
+    return items;
+  };
+
+  // Desktop: blue, svc, svc, green, svc, svc, black
+  const desktopItems = buildPattern([
+    "blue",
+    "svc",
+    "svc",
+    "green",
+    "svc",
+    "svc",
+    "black",
+  ]);
+
+  // Tablet: row1 svc svc blue svc svc, row2 svc svc green svc svc (repeat)
+  const tabletPattern: Array<"svc" | LogoColor> = [
+    "svc",
+    "svc",
+    "blue",
+    "svc",
+    "svc",
+    "svc",
+    "svc",
+    "green",
+    "svc",
+    "svc",
+  ];
+  const tabletItems = buildPattern(tabletPattern);
+
+  // Mobile: blue (centered), svc, svc, green (centered), svc, svc (repeat)
+  const mobilePattern: Array<"svc" | LogoColor> = [
+    "blue",
+    "svc",
+    "svc",
+    "green",
+    "svc",
+    "svc",
+  ];
+  const mobileItems = buildPattern(mobilePattern, true);
+
   return (
     <div>
       <FeaturedPicks citySlug={citySlug} items={featured} />
 
       <section className={styles.section} aria-label="All services">
-        <div className={styles.grid}>
-          {standard.map((svc) => {
-            return (
+        <div className={styles.gridDesktop}>
+          {desktopItems.map((entry) =>
+            entry.kind === "logo" ? (
+              <div
+                className={`${styles.logoCard} ${
+                  entry.color === "blue"
+                    ? styles.logoBlue
+                    : entry.color === "green"
+                      ? styles.logoGreen
+                      : styles.logoBlack
+                }`}
+                key={entry.key}
+                aria-hidden="true"
+              >
+                <span className={styles.logoMaskSmall} />
+              </div>
+            ) : (
               <Link
-                key={svc.id}
-                href={`/${citySlug}/services/${svc.slug}`}
+                key={entry.key}
+                href={`/${citySlug}/services/${entry.item.slug}`}
                 className={styles.card}
-                aria-label={`${svc.name}${
-                  svc.companyName ? ` — ${svc.companyName}` : ""
+                aria-label={`${entry.item.name}${
+                  entry.item.companyName ? ` — ${entry.item.companyName}` : ""
                 }`}
               >
                 <div className={styles.bodySolo}>
-                  <span className={styles.logoMask} aria-hidden="true" />
-                  <h4 className={styles.title}>{svc.name}</h4>
+                  <div className={styles.serviceThumb} aria-hidden="true">
+                    <ServiceImage
+                      slug={entry.item.slug}
+                      alt={`${entry.item.name} image`}
+                      width={92}
+                      height={72}
+                      className={styles.serviceImg}
+                      sizes="120px"
+                    />
+                  </div>
+                  <h4 className={styles.title}>{entry.item.name}</h4>
                 </div>
               </Link>
-            );
-          })}
+            )
+          )}
+        </div>
+
+        <div className={styles.gridTablet}>
+          {tabletItems.map((entry) =>
+            entry.kind === "logo" ? (
+              <div
+                className={`${styles.logoCard} ${
+                  entry.color === "blue"
+                    ? styles.logoBlue
+                    : entry.color === "green"
+                      ? styles.logoGreen
+                      : styles.logoBlack
+                }`}
+                key={entry.key}
+                aria-hidden="true"
+              >
+                <span className={styles.logoMaskSmall} />
+              </div>
+            ) : (
+              <Link
+                key={entry.key}
+                href={`/${citySlug}/services/${entry.item.slug}`}
+                className={styles.card}
+                aria-label={`${entry.item.name}${
+                  entry.item.companyName ? ` — ${entry.item.companyName}` : ""
+                }`}
+              >
+                <div className={styles.bodySolo}>
+                  <div className={styles.serviceThumb} aria-hidden="true">
+                    <ServiceImage
+                      slug={entry.item.slug}
+                      alt={`${entry.item.name} image`}
+                      width={92}
+                      height={72}
+                      className={styles.serviceImg}
+                      sizes="120px"
+                    />
+                  </div>
+                  <h4 className={styles.title}>{entry.item.name}</h4>
+                </div>
+              </Link>
+            )
+          )}
+        </div>
+
+        <div className={styles.gridMobile}>
+          {mobileItems.map((entry) =>
+            entry.kind === "logo" ? (
+              <div
+                className={`${styles.logoCard} ${
+                  entry.color === "blue"
+                    ? styles.logoBlue
+                    : entry.color === "green"
+                      ? styles.logoGreen
+                      : styles.logoBlack
+                } ${entry.spanFull ? styles.logoFullRow : ""}`}
+                key={entry.key}
+                aria-hidden="true"
+              >
+                <span className={styles.logoMaskSmall} />
+              </div>
+            ) : (
+              <Link
+                key={entry.key}
+                href={`/${citySlug}/services/${entry.item.slug}`}
+                className={styles.card}
+                aria-label={`${entry.item.name}${
+                  entry.item.companyName ? ` — ${entry.item.companyName}` : ""
+                }`}
+              >
+                <div className={styles.bodySolo}>
+                  <div className={styles.serviceThumb} aria-hidden="true">
+                    <ServiceImage
+                      slug={entry.item.slug}
+                      alt={`${entry.item.name} image`}
+                      width={92}
+                      height={72}
+                      className={styles.serviceImg}
+                      sizes="120px"
+                    />
+                  </div>
+                  <h4 className={styles.title}>{entry.item.name}</h4>
+                </div>
+              </Link>
+            )
+          )}
         </div>
       </section>
     </div>

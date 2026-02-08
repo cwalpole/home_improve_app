@@ -52,7 +52,9 @@
   background: #ffffff;
   text-decoration: none;
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
-  transition: transform 120ms ease, box-shadow 120ms ease,
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
     border-color 120ms ease;
 }
 
@@ -123,25 +125,76 @@
   margin: 0;
 }
 
-/* Wider columns as requested earlier */
-.grid {
+.gridDesktop {
   display: grid;
-  grid-template-columns: repeat(6, minmax(140px, 1fr));
+  grid-template-columns:
+    45px repeat(2, minmax(90px, 180px))
+    45px repeat(2, minmax(90px, 180px))
+    45px;
   gap: 12px;
-  justify-items: start;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (max-width: 900px) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(140px, 1fr));
+  .gridDesktop {
+    display: none;
   }
 }
 
 @media (max-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .gridDesktop {
+    display: none;
   }
+}
+
+.gridTablet {
+  display: none;
+  grid-template-columns:
+    repeat(2, minmax(90px, 180px))
+    45px
+    repeat(2, minmax(90px, 180px));
+  gap: 12px;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .gridTablet {
+    display: grid;
+  }
+}
+
+@media (max-width: 640px) {
+  .gridTablet {
+    display: none;
+  }
+}
+
+.gridMobile {
+  display: none;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  gap: 12px;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .gridMobile {
+    display: grid;
+  }
+
+  .logoCard {
+    padding-bottom: 0;
+  }
+}
+
+.logoFullRow {
+  grid-column: 1 / -1;
+  justify-self: center;
 }
 
 .card {
@@ -149,28 +202,16 @@
   grid-template-columns: 1fr;
   gap: 8px;
   align-items: center;
-  padding: 8px;
+  padding: 12px 10px;
   position: relative;
   border: none;
-  border-radius: 0;
+  border-radius: 12px;
   background: transparent;
   text-decoration: none;
   transition: transform 160ms ease;
   width: 100%;
   justify-self: start;
-  color: #0d606c; /* default, will be overridden by nth-child rules */
-}
-
-.card:nth-child(3n + 1) {
-  color: #0d606c; /* teal */
-}
-
-.card:nth-child(3n + 2) {
-  color: #7ca451; /* green */
-}
-
-.card:nth-child(3n) {
-  color: #0f172a; /* near-black */
+  color: #0f172a;
 }
 
 .card:hover {
@@ -227,21 +268,87 @@
 }
 
 .title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 650;
-  color: currentColor;
+  color: #0f172a;
   line-height: 1.2;
   margin: 0;
   text-align: center;
+  max-width: 180px;
+}
+
+@media (max-width: 640px) {
+  .title {
+    text-align: left;
+    max-width: none;
+    font-size: 1rem;
+  }
 }
 
 .logoMask {
   width: 120px;
   height: 140px;
-  mask: url('/logo-design-single.svg') center / contain no-repeat;
-  -webkit-mask: url('/logo-design-single.svg') center / contain no-repeat;
+  mask: url("/logo-design-single.svg") center / contain no-repeat;
+  -webkit-mask: url("/logo-design-single.svg") center / contain no-repeat;
   background: currentColor;
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.22));
+}
+
+.logoCard {
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #0d606c; /* base color, will be cycled */
+  align-self: center;
+  height: 100%;
+  padding-bottom: 45px;
+}
+
+.logoMaskSmall {
+  width: 34px; /* 56 * 0.6 */
+  height: 40px; /* 66 * 0.6 (rounded) */
+  mask: url("/logo-design-single.svg") center / contain no-repeat;
+  -webkit-mask: url("/logo-design-single.svg") center / contain no-repeat;
+  background: currentColor;
+  opacity: 0.95;
+}
+
+.logoBlue {
+  color: #0d606c;
+}
+
+.logoGreen {
+  color: #7ca451;
+}
+
+.logoBlack {
+  color: #0f172a;
+}
+
+@media (max-width: 640px) {
+  .logoCard {
+    padding-bottom: 0;
+  }
+}
+
+.serviceThumb {
+  width: 129px; /* 92 * 1.4 */
+  height: 101px; /* 72 * 1.4 (rounded) */
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e5e7eb;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.serviceImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .company {
