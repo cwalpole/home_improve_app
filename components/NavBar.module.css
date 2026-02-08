@@ -119,21 +119,22 @@
 .drawer {
   display: none;
   grid-column: 1 / -1;
-  background: #f1f5fb; /* very light blue */
-  border-top: 1px solid #d6e1ef;
-  padding: 10px 16px 14px;
+  background: #0d606c;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 16px 16px;
 }
 .drawerOpen {
   display: block;
 }
 .drawerLink {
   display: block;
-  color: #1e293b;
-  padding: 10px 0;
+  color: #f8fafc;
+  padding: 12px 0;
   text-decoration: none;
+  font-weight: 600;
 }
 .drawerLink:hover {
-  color: #1e293b;
+  color: #c9e4ff;
 }
 .drawerSearch {
   margin-top: 6px;
@@ -152,8 +153,12 @@
   }
   .burger {
     display: inline-block;
+    justify-self: end;
+    margin-left: auto;
   }
   .nav {
     grid-template-columns: auto 1fr auto;
+    padding-left: 18px;
+    padding-right: 18px;
   }
 }

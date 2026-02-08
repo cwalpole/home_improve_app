@@ -59,7 +59,8 @@ export default function ServiceList({ citySlug, services }: Props) {
   };
 
   // Desktop: blue, svc, svc, green, svc, svc, black
-  const desktopItems = buildPattern([
+  const desktopItems: RenderItem[] = [];
+  const desktopPattern: Array<"svc" | LogoColor> = [
     "blue",
     "svc",
     "svc",
@@ -67,22 +68,80 @@ export default function ServiceList({ citySlug, services }: Props) {
     "svc",
     "svc",
     "black",
-  ]);
+  ];
+  {
+    let svcIndex = 0;
+    while (svcIndex < standard.length) {
+      const rowItems: RenderItem[] = [];
+      let servicesInRow = 0;
+      for (const slot of desktopPattern) {
+        if (slot === "svc") {
+          if (svcIndex < standard.length) {
+            const svc = standard[svcIndex++];
+            rowItems.push({ kind: "service", item: svc, key: `svc-${svc.id}` });
+            servicesInRow += 1;
+          }
+        } else {
+          rowItems.push({
+            kind: "logo",
+            key: `logo-${desktopItems.length + rowItems.length}`,
+            color: slot,
+          });
+        }
+      }
+      // If this final row only has 2 or 3 services, drop the last logo
+      if (servicesInRow >= 2 && servicesInRow <= 3) {
+        for (let i = rowItems.length - 1; i >= 0; i--) {
+          if (rowItems[i].kind === "logo") {
+            rowItems.splice(i, 1);
+            break;
+          }
+        }
+      }
+      desktopItems.push(...rowItems);
+    }
+  }
 
   // Tablet: row1 svc svc blue svc svc, row2 svc svc green svc svc (repeat)
-  const tabletPattern: Array<"svc" | LogoColor> = [
-    "svc",
-    "svc",
-    "blue",
-    "svc",
-    "svc",
-    "svc",
-    "svc",
-    "green",
-    "svc",
-    "svc",
-  ];
-  const tabletItems = buildPattern(tabletPattern);
+  const tabletItems: RenderItem[] = [];
+  {
+    const rowPatterns: Array<Array<"svc" | LogoColor>> = [
+      ["svc", "svc", "blue", "svc", "svc"],
+      ["svc", "svc", "green", "svc", "svc"],
+    ];
+    let svcIndex = 0;
+    let row = 0;
+    while (svcIndex < standard.length) {
+      const pattern = rowPatterns[row % rowPatterns.length];
+      let servicesInRow = 0;
+      const rowItems: RenderItem[] = [];
+      for (const slot of pattern) {
+        if (slot === "svc") {
+          if (svcIndex < standard.length) {
+            const svc = standard[svcIndex++];
+            rowItems.push({ kind: "service", item: svc, key: `svc-${svc.id}` });
+            servicesInRow += 1;
+          }
+        } else {
+          // only place a logo if the row already has at least one service
+          if (servicesInRow > 0) {
+            rowItems.push({
+              kind: "logo",
+              key: `logo-${tabletItems.length + rowItems.length}`,
+              color: slot,
+            });
+          }
+        }
+      }
+      // only add the row if we placed at least one service
+      if (servicesInRow > 0) {
+        tabletItems.push(...rowItems);
+      } else {
+        break;
+      }
+      row += 1;
+    }
+  }
 
   // Mobile: blue (centered), svc, svc, green (centered), svc, svc (repeat)
   const mobilePattern: Array<"svc" | LogoColor> = [

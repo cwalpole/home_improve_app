@@ -188,7 +188,7 @@
   }
 
   .logoCard {
-    padding-bottom: 0;
+    padding: 0;
   }
 }
 
@@ -216,6 +216,12 @@
 
 .card:hover {
   transform: translateY(-3px);
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 0;
+  }
 }
 
 .cardBadge {
@@ -258,6 +264,12 @@
   place-items: center;
   padding: 12px 0;
   gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .bodySolo {
+    padding-bottom: 0;
+  }
 }
 
 .metaLocation {
@@ -330,7 +342,7 @@
 
 @media (max-width: 640px) {
   .logoCard {
-    padding-bottom: 0;
+    padding: 0;
   }
 }
 

@@ -147,35 +147,6 @@ export default function NavBar() {
             />
           </form>
 
-          <div className={styles.drawerSocials}>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.icon}
-              aria-label="Facebook"
-            >
-              F
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.icon}
-              aria-label="Instagram"
-            >
-              I
-            </a>
-            <a
-              href="https://pinterest.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.icon}
-              aria-label="Pinterest"
-            >
-              P
-            </a>
-          </div>
         </div>
       </nav>
     </header>
