@@ -110,19 +110,19 @@ export default async function CityHomePage(props: {
 
   const steps = [
     {
-      number: "01",
-      title: `Share your ${city.name} project`,
-      copy: "Tell us what you’re tackling, from timelines to must-haves. We’ll capture every detail.",
+      number: "1",
+      title: "Tell us what you need",
+      copy: "Share your project details, goals, and timing. We’ll make sure everything is clearly defined from the start.",
     },
     {
-      number: "02",
-      title: "Meet your local pro",
-      copy: "We pair you with the right specialist, align on scope, and build a plan tailored to your home.",
+      number: "2",
+      title: "Work with the city’s top provider",
+      copy: "We connect you directly with the single, vetted pro we trust for that service in your area — no guesswork, no competing bids.",
     },
     {
-      number: "03",
-      title: "Enjoy the finished result",
-      copy: "Stay in the loop with proactive updates and enjoy workmanship backed by our quality promise.",
+      number: "3",
+      title: "Get results you can trust",
+      copy: "Enjoy high-quality workmanship, clear communication, and results backed by our standard of excellence.",
     },
   ];
 
@@ -230,10 +230,12 @@ export default async function CityHomePage(props: {
       <section id="how-it-works" className={styles.process}>
         <div className={styles.sectionIntro}>
           <span className={styles.sectionEyebrow}>How it works</span>
-          <h2>Local pros, smooth delivery</h2>
+          <h2>One Trusted Pro</h2>
           <p>
-            We coordinate estimates, scheduling, and updates while you stay
-            focused on the results.
+            We don’t give you a list to compare. For each service in your city,
+            we partner with one proven, top-tier professional — selected for
+            quality, reliability, and consistency — so you can move forward with
+            confidence.
           </p>
         </div>
         <ol className={styles.processList}>
@@ -249,42 +251,10 @@ export default async function CityHomePage(props: {
         </ol>
       </section>
 
-      <section className={styles.testimonials}>
-        <div className={styles.sectionIntro}>
-          <span className={styles.sectionEyebrow}>Loved by locals</span>
-          <h2>What {city.name} homeowners are saying</h2>
-          <p>
-            We’re proud to help neighbors transform their spaces with trusted
-            pros who deliver on promises.
-          </p>
-        </div>
-        <div className={styles.testimonialGrid}>
-          {testimonials.map((testimonial) => (
-            <figure key={testimonial.name} className={styles.testimonialCard}>
-              <blockquote>“{testimonial.quote}”</blockquote>
-              <figcaption>{testimonial.name}</figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.closingCta}>
-        <div className={styles.closingContent}>
-          <h2>Ready to start your next {city.name} project?</h2>
-          <p>
-            Pick a service, tell us what you need, and we’ll connect you with
-            the right team sooner than you think.
-          </p>
-          <a href="#services" className={styles.heroPrimary}>
-            Explore services
-          </a>
-        </div>
-      </section>
-
       <section className={styles.blogSection}>
         <div className={styles.sectionIntro}>
           <span className={styles.sectionEyebrow}>From the blog</span>
-          <h2>Ideas, insights, and inspiration</h2>
+          <h2>Ideas, Insights, and Inspiration</h2>
           <p>
             Stories from our team and community to help you plan smarter and
             love your home even more.

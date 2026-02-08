@@ -219,7 +219,7 @@
 
 .sectionIntro p {
   margin: 0;
-  color: #3b5c93;
+  color: #0f172a;
   font-size: 1rem;
   line-height: 1.7;
 }
@@ -299,7 +299,7 @@
   gap: 24px;
   max-width: 1180px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 72px 24px 72px;
 }
 
 .blogGrid {
@@ -309,24 +309,25 @@
 }
 
 .blogCard {
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  border: 1px solid #111;
   border-radius: 24px;
   padding: 24px;
-  background: #ffffff;
-  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+  background: linear-gradient(180deg, #0b0c0f 0%, #0f172a 100%);
+  box-shadow: 0 22px 46px rgba(0, 0, 0, 0.24);
   display: grid;
-  gap: 10px;
+  gap: 12px;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
 .blogCard h3 {
   margin: 0;
   font-size: 1.2rem;
-  color: #0f172a;
+  color: #f8fafc;
 }
 
 .blogCard p {
   margin: 0;
-  color: #475569;
+  color: rgba(241, 245, 249, 0.86);
   line-height: 1.6;
 }
 
@@ -336,7 +337,7 @@
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(15, 23, 42, 0.65);
+  color: rgba(148, 163, 184, 0.75);
 }
 
 .blogLink {
@@ -344,8 +345,27 @@
   gap: 6px;
   align-items: center;
   font-weight: 600;
-  color: #0f172a;
+  color: #7ca451;
   text-decoration: none;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.blogLink span:last-child {
+  transition: transform 160ms ease;
+}
+
+.blogCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.32);
+  border-color: #1f2937;
+}
+
+.blogCard:hover .blogLink {
+  color: #9cd06a;
+}
+
+.blogCard:hover .blogLink span:last-child {
+  transform: translateX(4px);
 }
 
 .process {
@@ -393,8 +413,30 @@
   border-radius: 16px;
   background: linear-gradient(135deg, #1f2d3d, #4c5d73);
   color: #f8fafc;
-  font-weight: 700;
-  font-size: 1.2rem;
+  font-weight: 500;
+  font-size: 2.4rem;
+}
+
+/* Match featured card shape, but with the curve on the top-left corner for step 01 */
+.processItem:first-child .processNumber {
+  border-radius: 35px 0 0 0;
+  width: 64px;
+  height: 64px;
+  background: #0d606c;
+}
+
+.processItem:nth-child(2) .processNumber {
+  border-radius: 0 35px 0 0;
+  width: 64px;
+  height: 64px;
+  background: #7ca451;
+}
+
+.processItem:nth-child(3) .processNumber {
+  border-radius: 0 0 0 35px;
+  width: 64px;
+  height: 64px;
+  background: #0f172a;
 }
 
 .processItem h3 {
