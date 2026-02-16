@@ -126,47 +126,42 @@ export default async function CityHomePage(props: {
     },
   ];
 
-  const testimonials = [
-    {
-      quote:
-        "Our kitchen refresh stayed on schedule and the team left the space spotless every day. Couldn’t ask for better.",
-      name: "Morgan R.",
+  const blogPosts = await prisma.blogPost.findMany({
+    where: {
+      status: "PUBLISHED",
+      OR: [
+        { cities: { some: { cityId: city.id } } },
+        { cities: { none: {} } }, // global
+      ],
     },
-    {
-      quote:
-        "Transparent quotes and friendly crews. We’ve already recommended them to neighbors on our street.",
-      name: "Elena & Marcus L.",
+    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+    take: 3,
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      excerpt: true,
+      category: true,
+      publishedAt: true,
+      createdAt: true,
+      coverImageUrl: true,
     },
-    {
-      quote:
-        "It felt like a concierge experience. They handled the details so we could focus on the family.",
-      name: "Jia H.",
-    },
-  ];
+  });
 
-  const blogPosts = [
-    {
-      title: `Seasonal checklist for ${city.name} homeowners`,
-      excerpt:
-        "From gutter maintenance to HVAC tune-ups, here’s how to keep your home feeling fresh year-round.",
-      date: "May 28, 2024",
-      category: "Guides",
-    },
-    {
-      title: "Inside a whole-home refresh with our lead designer",
-      excerpt:
-        "We sat down with Avery Chang to walk through material selections, color palettes, and layout wins.",
-      date: "June 4, 2024",
-      category: "Spotlight",
-    },
-    {
-      title: "3 questions to ask every contractor before signing",
-      excerpt:
-        "Protect your timeline and budget with these conversation starters from our project concierge team.",
-      date: "June 12, 2024",
-      category: "Tips",
-    },
-  ];
+  const formatCategory = (cat: string) => {
+    if (cat === "PLANNING_GUIDE") return "Planning Guide";
+    if (cat === "HOMEOWNER_TIPS") return "Homeowner Tips";
+    if (cat === "EXPERT_SPOTLIGHT") return "Expert Spotlight";
+    return cat;
+  };
+  const fmtDate = (d?: Date | null) =>
+    d
+      ? new Date(d).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
+      : "";
 
   return (
     <main className={styles.main}>
@@ -252,28 +247,46 @@ export default async function CityHomePage(props: {
       </section>
 
       <section className={styles.blogSection}>
-        <div className={styles.sectionIntro}>
+        <div className={styles.blogHeader}>
           <span className={styles.sectionEyebrow}>From the blog</span>
           <h2>Ideas, Insights, and Inspiration</h2>
-          <p>
-            Stories from our team and community to help you plan smarter and
-            love your home even more.
+          <p className={styles.blogSubhead}>
+            Practical advice from our team and vetted professionals to help you plan smarter
+            and move forward with confidence.
+          </p>
+          <p className={styles.blogTrust}>
+            Written by our team and the professionals we partner with — not paid contributors.
           </p>
         </div>
+
         <div className={styles.blogGrid}>
           {blogPosts.map((post) => (
-            <article key={post.title} className={styles.blogCard}>
+            <article key={post.id} className={styles.blogCard}>
+              {post.coverImageUrl && (
+                <div className={styles.blogThumbSmall}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={post.coverImageUrl} alt="" />
+                </div>
+              )}
               <div className={styles.blogMeta}>
-                <span>{post.category}</span>
-                <span>{post.date}</span>
+                <span>{formatCategory(post.category)}</span>
+                <span>{fmtDate(post.publishedAt ?? post.createdAt)}</span>
               </div>
-              <h3>{post.title}</h3>
-              <p>{post.excerpt}</p>
-              <Link className={styles.blogLink} href="/blog">
+              <div className={styles.blogBody}>
+                <h3>{post.title}</h3>
+                <p>{post.excerpt}</p>
+              </div>
+              <Link className={styles.blogLink} href={`/${city.slug}/blog/${post.slug}`}>
                 Read article →
               </Link>
             </article>
           ))}
+        </div>
+
+        <div className={styles.blogCtaRow}>
+          <Link className={styles.blogCta} href={`/${city.slug}/blog`}>
+            Explore all homeowner guides →
+          </Link>
         </div>
       </section>
 

@@ -2,13 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 
-import { Marcellus_SC } from "next/font/google";
 import Footer from "@/components/Footer";
-const marcellus = Marcellus_SC({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-brand",
-});
 
 const siteName = "Give It Charm";
 const baseUrl = "https://www.giveitcharm.com";
@@ -33,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={marcellus.variable}>
+      <body>
         <NavBar />
         {children}
         <Footer />

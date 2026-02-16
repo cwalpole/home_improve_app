@@ -1,0 +1,89 @@
+.main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  background: #f4f6f3;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+  align-items: stretch;
+}
+
+.card {
+  display: grid;
+  gap: 12px;
+  padding: 22px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(180deg, #0d606c 0%, #0a4d57 100%);
+  border: 1px solid #0a3e46;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.32);
+  border-color: #1f2937;
+}
+
+.thumbWrap {
+  overflow: hidden;
+  border-radius: 14px;
+  background: #0b0c10;
+  aspect-ratio: 4 / 3;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.metaChip {
+  font-weight: 700;
+}
+
+.title {
+  margin: 4px 0 2px;
+  font-size: 20px;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.excerpt {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.6;
+  opacity: 0.9;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cta {
+  color: #7ca451;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 4px;
+}

@@ -6,7 +6,12 @@ export type ServiceListing = {
   isFeatured: boolean;
   companyId: number;
   serviceCityId: number;
-  company: { name: string; url: string | null; logoUrl: string | null };
+  company: {
+    name: string;
+    url: string | null;
+    logoUrl: string | null;
+    logoPublicId: string | null;
+  };
 };
 
 export type ServiceDetail = {
@@ -68,7 +73,14 @@ export async function getServiceDetailForCityId(
               isFeatured: true,
               companyId: true,
               serviceCityId: true,
-              company: { select: { name: true, url: true, logoUrl: true } },
+              company: {
+                select: {
+                  name: true,
+                  url: true,
+                  logoUrl: true,
+                  logoPublicId: true,
+                },
+              },
             },
           },
         },

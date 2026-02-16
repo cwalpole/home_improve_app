@@ -10,12 +10,11 @@ export default function Footer() {
         {/* Brand */}
         <div className={styles.brand}>
           <Image
-            src="/logo3.svg"
+            src="/logo-design.svg"
             alt="Give It Charm logo"
-            width={40}
-            height={40}
+            width={160}
+            height={26}
           />
-          <span className={styles.brandName}>Give It Charm</span>
         </div>
 
         {/* Navigation */}
@@ -26,7 +25,9 @@ export default function Footer() {
         </nav>
 
         {/* Social Icons */}
-        <SocialIcons />
+        <div className={styles.footerSocials}>
+          <SocialIcons />
+        </div>
 
         {/* Meta */}
         <div className={styles.meta}>

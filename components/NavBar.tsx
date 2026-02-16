@@ -70,6 +70,7 @@ export default function NavBar() {
 
   const resolvedCity = citySlug || DEFAULT_CITY;
   const servicesHref = `/${resolvedCity}/services`;
+  const blogHref = `/${resolvedCity}/blog`;
 
   return (
     <header className={styles.sticky}>
@@ -91,7 +92,7 @@ export default function NavBar() {
           >
             Services
           </Link>
-          <Link href="/blog" className={`${styles.link} ${styles.brandLink}`}>
+          <Link href={blogHref} className={`${styles.link} ${styles.brandLink}`}>
             Blog
           </Link>
         </div>
@@ -131,10 +132,7 @@ export default function NavBar() {
           >
             Services
           </Link>
-          <Link
-            href="/blog"
-            className={`${styles.drawerLink} ${styles.brandLink}`}
-          >
+          <Link href={blogHref} className={`${styles.drawerLink} ${styles.brandLink}`}>
             Blog
           </Link>
 

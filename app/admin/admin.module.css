@@ -34,6 +34,21 @@
   color: #fff;
 }
 
+.groupLabel {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8e95a3;
+}
+
+.groupRule {
+  height: 1px;
+  width: 100%;
+  background: #1a1c22;
+  margin: 4px 0 6px;
+}
+
 .logoutForm {
   margin-top: 6px;
   display: flex;
@@ -58,8 +73,119 @@
   border-color: #4c5d73;
 }
 
+.formStack {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+  max-width: 70%;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.inlineField {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.inlineField .input {
+  flex: 1 1 520px;
+}
+.actionsRow {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.checkboxRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #cfd1d4;
+}
+
+.checkboxList {
+  display: grid;
+  gap: 6px;
+  align-items: start;
+}
+
+.checkboxListPadded {
+  padding-top: 10px;
+}
+
+.outlineSection {
+  border: 1px solid #1a1c22;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #0b0c0f;
+}
+
+.uploadRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.errorText {
+  color: #f87171;
+  font-size: 0.9rem;
+}
+
+.helperText {
+  color: #8e95a3;
+  font-size: 0.9rem;
+  margin: 4px 0 0;
+}
+
+.select[multiple] {
+  min-height: 140px;
+  background-image: none;
+  padding-right: 12px;
+}
+
+.table {
+  display: grid;
+  gap: 6px;
+}
+
+.tableHead,
+.tableRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  background: #0f1117;
+  border: 1px solid #1a1c22;
+  border-radius: 10px;
+}
+
+.tableHead {
+  font-weight: 700;
+  color: #cfd1d4;
+}
+
+.rowActions {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.emptyState {
+  grid-column: 1 / -1;
+  padding: 14px;
+  color: #8e95a3;
+}
 .main {
   padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .section {
@@ -167,8 +293,27 @@
   background: #0b0c0f;
   border: 1px solid #2a2f3a;
   color: #e8e8ea;
-  padding: 8px 10px;
+  padding: 8px 12px;
+  padding-right: 12px;
   border-radius: 8px;
+}
+
+/* Single selects: add custom caret spacing */
+.select {
+  appearance: none;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23e8e8ea' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 7px;
+  width: 100%;
+}
+
+/* Light calendar icon on datetime inputs */
+.input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.9;
+  cursor: pointer;
 }
 
 .btn {
@@ -197,6 +342,7 @@
   display: grid;
   gap: 6px;
   min-width: 260px;
+  width: 100%;
 }
 
 .editorLabel {
@@ -207,11 +353,12 @@
 
 .editor {
   display: grid;
+  width: 100%;
 }
 
 .editorToolbar {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 6px;
   align-items: center;
   background: #0b0c0f;
@@ -219,6 +366,7 @@
   border-bottom: none;
   border-radius: 8px 8px 0 0;
   padding: 6px;
+  overflow-x: auto;
 }
 
 .editorToolbarDivider {
@@ -297,6 +445,22 @@
 
 .editorContent :global(strong) {
   font-weight: 600;
+}
+
+.modalForm {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.field.halfWidth {
+  max-width: 50%;
 }
 
 .editorLoading {
@@ -429,11 +593,11 @@
 }
 
 .modalPanel {
-  width: min(440px, 100%);
+  width: min(380px, 100%);
   background: #0f1117;
   border: 1px solid #1a1c22;
   border-radius: 14px;
-  padding: 20px;
+  padding: 24px;
   box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
   display: grid;
   gap: 16px;
@@ -484,6 +648,56 @@
     grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
     align-items: start;
   }
+}
+
+.companyMappings {
+  border: 1px solid #1a1c22;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #0d0f16;
+  display: grid;
+  gap: 12px;
+}
+
+.companyMappingsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.mappingsList {
+  display: grid;
+  gap: 10px;
+}
+
+.mappingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid #1f2430;
+  border-radius: 10px;
+  background: #0b0c12;
+}
+
+.mappingTitle {
+  font-weight: 600;
+  color: #e8e8ea;
+}
+
+.mappingMeta {
+  color: #9aa0ab;
+  font-size: 0.9rem;
+}
+
+.mappingMetaSmall {
+  color: #6f7684;
+  font-size: 0.85rem;
+}
+
+.muted {
+  color: #8a91a0;
+  font-size: 0.9rem;
 }
 
 .companyFormCard {

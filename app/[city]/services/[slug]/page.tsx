@@ -12,6 +12,16 @@ function normalizeExternalUrl(u?: string | null) {
   return `https://${s}`;
 }
 
+function cloudinaryUrl(publicId?: string | null, fallback?: string | null) {
+  if (publicId) {
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    if (cloudName) {
+      return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/${publicId}`;
+    }
+  }
+  return fallback || undefined;
+}
+
 export default async function CityServiceDetailPage(props: {
   params: Promise<{ city: string; slug: string }>;
 }) {
@@ -100,7 +110,12 @@ export default async function CityServiceDetailPage(props: {
               {listing.company.logoUrl ? (
                 <div className={styles.providerLogoImageWrap}>
                   <Image
-                    src={listing.company.logoUrl}
+                    src={
+                      cloudinaryUrl(
+                        listing.company.logoPublicId,
+                        listing.company.logoUrl
+                      ) || "/logo-placeholder.png"
+                    }
                     alt={`${listing.displayName || listing.company.name} logo`}
                     fill
                     sizes="220px"

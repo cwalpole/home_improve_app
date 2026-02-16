@@ -19,12 +19,32 @@ export default async function CompanyDetailPage(props: {
 
   const company = await prisma.company.findUnique({
     where: { id: companyId },
-    select: { id: true, name: true, url: true, createdAt: true, logoUrl: true },
+    select: {
+      id: true,
+      name: true,
+      url: true,
+      createdAt: true,
+      logoUrl: true,
+      logoPublicId: true,
+    },
   });
 
   if (!company) {
     notFound();
   }
+
+  const mappings = await prisma.companyServiceCity.findMany({
+    where: { companyId },
+    include: {
+      serviceCity: {
+        include: {
+          service: { select: { name: true } },
+          city: { select: { name: true, regionCode: true } },
+        },
+      },
+    },
+    orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
+  });
 
   return (
     <AdminSection
@@ -42,7 +62,41 @@ export default async function CompanyDetailPage(props: {
           url={company.url}
         />
 
-        <CompanyLogoForm companyId={company.id} logoUrl={company.logoUrl} />
+        <CompanyLogoForm
+          companyId={company.id}
+          logoUrl={company.logoUrl}
+          logoPublicId={company.logoPublicId}
+        />
+
+        <div className={styles.companyMappings}>
+          <div className={styles.companyMappingsHeader}>
+            <h3>Service · City mappings</h3>
+            <span className={styles.muted}>
+              {mappings.length ? `${mappings.length} attached` : "No mappings yet"}
+            </span>
+          </div>
+          {mappings.length ? (
+            <div className={styles.mappingsList}>
+              {mappings.map((m) => (
+                <div key={`${m.companyId}-${m.serviceCityId}`} className={styles.mappingRow}>
+                  <div>
+                    <div className={styles.mappingTitle}>{m.serviceCity.service.name}</div>
+                    <div className={styles.mappingMeta}>
+                      {m.serviceCity.city.name}
+                      {m.serviceCity.city.regionCode ? `, ${m.serviceCity.city.regionCode}` : ""}
+                      {m.isFeatured ? " • Featured" : ""}
+                    </div>
+                  </div>
+                  <div className={styles.mappingMetaSmall}>
+                    Added {m.createdAt.toISOString().slice(0, 10)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className={styles.muted}>No mappings attached to this company.</p>
+          )}
+        </div>
 
         <div className={styles.companyDangerZone}>
           <div className={styles.companyDangerCopy}>

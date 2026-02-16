@@ -33,7 +33,7 @@ export default function CreateCompanyServiceCityMappingModal({
         <div className={styles.modalBackdrop} role="dialog" aria-modal="true">
           <div className={styles.modalPanel}>
             <div className={styles.modalHeader}>
-              <h3 className={styles.modalTitle}>Create company mapping</h3>
+              <h3 className={styles.modalTitle}>Create Company Mapping</h3>
               <button
                 type="button"
                 className={styles.modalClose}
@@ -47,7 +47,7 @@ export default function CreateCompanyServiceCityMappingModal({
               Assign a company to a service-city pair.
             </p>
 
-            <form action={mapCompanyToServiceCity} className={styles.formInline} style={{ flexDirection: "column", gap: 12 }}>
+            <form action={mapCompanyToServiceCity} className={styles.formInline} style={{ flexDirection: "column", gap: 12, alignItems: "stretch" }}>
               <select name="companyId" className={styles.select} required>
                 <option value="">Select company</option>
                 {companies.map((company) => (
@@ -68,17 +68,12 @@ export default function CreateCompanyServiceCityMappingModal({
                 ))}
               </select>
 
-              <input
-                name="displayName"
-                placeholder="Display name (optional)"
-                className={styles.input}
-              />
               <select name="isFeatured" className={styles.select}>
                 <option value="false">Featured: No</option>
                 <option value="true">Featured: Yes</option>
               </select>
 
-              <div style={{ display: "flex", gap: 12, justifyContent: "flex-end" }}>
+              <div className={styles.modalActions}>
                 <button
                   type="button"
                   className={`${styles.btn} ${styles.secondary}`}
@@ -87,7 +82,7 @@ export default function CreateCompanyServiceCityMappingModal({
                   Cancel
                 </button>
                 <button className={styles.btn} type="submit" disabled={!hasPairs}>
-                  Save mapping
+                  Save Mapping
                 </button>
               </div>
             </form>

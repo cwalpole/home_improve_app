@@ -25,7 +25,7 @@ export default function CreateServiceCityMappingModal({ services, cities }: Prop
 
       {open ? (
         <div className={styles.modalBackdrop} role="dialog" aria-modal="true">
-          <div className={styles.modalPanel} style={{ maxWidth: 600 }}>
+          <div className={styles.modalPanel}>
             <div className={styles.modalHeader}>
               <h3 className={styles.modalTitle}>Create service → city mapping</h3>
               <button
@@ -41,7 +41,7 @@ export default function CreateServiceCityMappingModal({ services, cities }: Prop
               Select a service and city to create or update the mapping content.
             </p>
 
-            <form action={mapServiceToCity} className={styles.formInline} style={{ flexDirection: "column", gap: 12 }}>
+            <form action={mapServiceToCity} className={styles.modalForm}>
               <select name="serviceId" className={styles.select} required disabled={!hasServices}>
                 <option value="">
                   {hasServices ? "Select Service" : "All services mapped"}
@@ -70,7 +70,7 @@ export default function CreateServiceCityMappingModal({ services, cities }: Prop
                 helpText="Leave blank to use the default template."
               />
 
-              <div style={{ display: "flex", gap: 12, justifyContent: "flex-end" }}>
+              <div className={styles.modalActions}>
                 <button
                   type="button"
                   className={`${styles.btn} ${styles.secondary}`}
@@ -79,7 +79,7 @@ export default function CreateServiceCityMappingModal({ services, cities }: Prop
                   Cancel
                 </button>
                 <button className={styles.btn} type="submit" disabled={!hasServices}>
-                  Save mapping
+                  Save Mapping
                 </button>
               </div>
             </form>

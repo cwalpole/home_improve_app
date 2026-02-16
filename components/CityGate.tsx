@@ -4,18 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import homeStyles from "@/app/home.module.css";
 import styles from "./CityGate.module.css";
-import { Marcellus_SC } from "next/font/google";
 
 type City = { name: string; slug: string };
 
 const STORAGE_KEY = "home-improve:selected-city";
 
 type State = "checking" | "prompt";
-
-const marcellus = Marcellus_SC({
-  subsets: ["latin"],
-  weight: "400",
-});
 
 export default function CityGate({ cities }: { cities: City[] }) {
   const router = useRouter();
@@ -102,7 +96,7 @@ export default function CityGate({ cities }: { cities: City[] }) {
             <h1 className={`${homeStyles.heroTitle}`}>
               Your Home, Our priority
             </h1>
-            <p className={`${homeStyles.heroLead} ${marcellus.className}`}>
+            <p className={homeStyles.heroLead}>
               Making Homes Shine, One Service at a Time
             </p>
           </div>

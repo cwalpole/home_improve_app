@@ -1,19 +1,24 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState, useRef } from "react";
 import Image from "next/image";
 import styles from "../admin.module.css";
 import { updateCompanyLogo, type ActionState } from "../actions/companies";
+import CoverUpload from "../blogs/components/CoverUpload";
 
 const initialState: ActionState = { ok: false, error: null };
 
 type Props = {
   companyId: number;
   logoUrl: string | null;
+  logoPublicId?: string | null;
 };
 
-export default function CompanyLogoForm({ companyId, logoUrl }: Props) {
+export default function CompanyLogoForm({ companyId, logoUrl, logoPublicId }: Props) {
   const [state, formAction] = useActionState(updateCompanyLogo, initialState);
+  const [url, setUrl] = useState(logoUrl || "");
+  const [publicId, setPublicId] = useState(logoPublicId || "");
+  const originalPublicId = useRef(logoPublicId || "");
 
   return (
     <form action={formAction} className={`${styles.companyFormCard} ${styles.logoForm}`}>
@@ -25,7 +30,7 @@ export default function CompanyLogoForm({ companyId, logoUrl }: Props) {
       </div>
       <div className={styles.companyLogoPreview}>
         <Image
-          src={logoUrl || "/logo-placeholder.png"}
+          src={url || "/logo-placeholder.png"}
           alt="Company logo"
           width={160}
           height={160}
@@ -34,14 +39,25 @@ export default function CompanyLogoForm({ companyId, logoUrl }: Props) {
         />
       </div>
       <input type="hidden" name="companyId" value={companyId} />
-      <input
-        name="logo"
-        type="file"
-        accept="image/*"
-        className={styles.input}
-        aria-label="Upload company logo"
-        required
-      />
+      <input type="hidden" name="existingLogoPublicId" value={originalPublicId.current} />
+      {/* submit the current logo URL */}
+      <input type="hidden" name="logoUrl" value={url} />
+      <input type="hidden" name="logoPublicId" value={publicId} />
+      <div className={styles.inlineField}>
+        <input
+          name="logoUrl"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          className={styles.input}
+          placeholder="https://...logo.png"
+        />
+        <CoverUpload
+          onUploaded={({ url, publicId }) => {
+            setUrl(url);
+            setPublicId(publicId);
+          }}
+        />
+      </div>
       <div className={styles.formActions}>
         <button className={styles.btn} type="submit">
           Upload logo
