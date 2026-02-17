@@ -104,11 +104,7 @@ export default function SubscriptionForm({
           name="startedAt"
           type="date"
           className={`${styles.input} ${styles.dateInput}`}
-          defaultValue={
-            currentSubscription?.startedAt
-              ? new Date(currentSubscription.startedAt).toISOString().slice(0, 10)
-              : ""
-          }
+          defaultValue=""
         />
       </div>
       <div className={styles.field}>
@@ -143,7 +139,7 @@ export default function SubscriptionForm({
             id="tier"
             name="tier"
             className={styles.select}
-            defaultValue={currentSubscription?.tier || ""}
+            defaultValue=""
           >
             <option value="">—</option>
             {Object.values(SubscriptionTier).map((tierOption) => (
@@ -162,7 +158,7 @@ export default function SubscriptionForm({
             id="interval"
             name="interval"
             className={styles.select}
-            defaultValue={currentSubscription?.interval || ""}
+            defaultValue=""
           >
             <option value="">—</option>
             {Object.values(BillingInterval).map((intervalOption) => (
@@ -186,11 +182,7 @@ export default function SubscriptionForm({
             step="0.01"
             min="0"
             className={styles.input}
-            defaultValue={
-              currentSubscription
-                ? (currentSubscription.priceCents / 100).toFixed(2)
-                : ""
-            }
+            defaultValue=""
             placeholder="format: 25.00"
           />
         </div>
@@ -212,7 +204,7 @@ export default function SubscriptionForm({
           name="customLabel"
           type="text"
           className={styles.input}
-          defaultValue={currentSubscription?.customLabel || ""}
+          defaultValue=""
           placeholder="e.g. Enterprise agreement"
         />
       </div>
