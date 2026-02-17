@@ -43,14 +43,14 @@ export default function UpdateCompanyForm(props: {
         />
       </label>
 
-      <div className={styles.formActions}>
-        <button className={styles.btn}>Save details</button>
+      <div className={styles.actionsRow}>
         {state.ok && !state.error ? (
-          <span className={styles.statusPositive}>Saved</span>
+          <span className={styles.savedMessage}>Saved</span>
         ) : null}
         {state.error ? (
-          <span className={styles.statusNegative}>{state.error}</span>
+          <span className={styles.errorMessage}>{state.error}</span>
         ) : null}
+        <button className={styles.btn}>Save details</button>
       </div>
     </form>
   );

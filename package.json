@@ -8,17 +8,17 @@
   "scripts": {
     "heroku-prebuild": "corepack enable && corepack prepare pnpm@10.17.0 --activate",
     "generate": "pnpm exec prisma generate",
-    "migrate:deploy": "pnpm exec prisma migrate deploy",
     "build": "pnpm run generate && next build && tsc -p scripts/tsconfig.scripts.json",
     "heroku-postbuild": "pnpm run generate && next build && tsc -p scripts/tsconfig.scripts.json && mkdir -p .next/standalone/.next && cp -R .next/static .next/standalone/.next/static && if [ -d public ]; then cp -R public .next/standalone/public; fi",
     "start": "node dist/scripts/start-prod.js",
     "dev": "next dev",
     "lint": "eslint",
-    "seed:db": "node -r dotenv/config node_modules/.bin/tsx prisma/seed.ts",
-    "seed:adminUser": "node -r dotenv/config node_modules/.bin/tsx prisma/seed-admin.ts",
-    "migrate:dev": "node -r dotenv/config node_modules/.bin/prisma migrate dev",
-    "migrate:deploy": "node -r dotenv/config node_modules/.bin/prisma migrate deploy",
-    "prisma:generate": "node -r dotenv/config node_modules/.bin/prisma generate"
+    "seed:db": "dotenv -e .env -- node node_modules/.bin/tsx prisma/seed.ts",
+    "seed:adminUser": "dotenv -e .env -- node node_modules/.bin/tsx prisma/seed-admin.ts",
+    "migrate:dev": "dotenv -e .env -- prisma migrate dev",
+    "migrate:deploy": "dotenv -e .env -- prisma migrate deploy",
+    "prisma:generate": "dotenv -e .env -- prisma generate",
+    "studio": "dotenv -e .env -- prisma studio"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.10",

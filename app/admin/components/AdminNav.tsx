@@ -14,6 +14,14 @@ export default function AdminNav() {
         Companies
       </Link>
       <div className={styles.groupRule} aria-hidden="true" />
+      <div className={styles.groupLabel}>Subscriptions</div>
+      <Link href="/admin/subscriptions" className={styles.link}>
+        Plans
+      </Link>
+      <Link href="/admin/subscriptions/current" className={styles.link}>
+        Current Subscriptions
+      </Link>
+      <div className={styles.groupRule} aria-hidden="true" />
       <div className={styles.groupLabel}>Mappings</div>
       <Link href="/admin/serviceCityMappings" className={styles.link}>
         Service ↔ City

@@ -51,7 +51,7 @@ export default function CoverUpload({ onUploaded }: Props) {
         onClick={() => inputRef.current?.click()}
         disabled={loading}
       >
-        {loading ? "Uploading..." : "Upload Image"}
+        {loading ? "Uploading..." : "Select"}
       </button>
       {error && <span className={styles.errorText}>{error}</span>}
     </div>

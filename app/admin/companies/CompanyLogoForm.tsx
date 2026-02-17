@@ -24,9 +24,6 @@ export default function CompanyLogoForm({ companyId, logoUrl, logoPublicId }: Pr
     <form action={formAction} className={`${styles.companyFormCard} ${styles.logoForm}`}>
       <div className={styles.companyFormIntro}>
         <h2 className={styles.companyFormTitle}>Logo</h2>
-        <p className={styles.companyFormHint}>
-          Recommended square PNG, SVG, or WEBP up to 1 MB.
-        </p>
       </div>
       <div className={styles.companyLogoPreview}>
         <Image

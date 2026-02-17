@@ -36,6 +36,7 @@ model Company {
   updatedAt   DateTime @updatedAt
 
   listings    CompanyServiceCity[] // opt-ins per service+city
+  subscriptions Subscription[]
 }
 
 model Service {
@@ -123,6 +124,75 @@ enum BlogStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+enum SubscriptionTier {
+  FREE
+  PRO
+  FEATURED
+  CUSTOM
+}
+
+enum BillingInterval {
+  MONTH
+  YEAR
+}
+
+enum SubscriptionStatus {
+  INACTIVE
+  ACTIVE
+  CANCELLED
+}
+
+model Plan {
+  id          Int               @id @default(autoincrement())
+  tier        SubscriptionTier
+  interval    BillingInterval
+  currency    String            @default("CAD")
+  priceCents  Int
+
+  isPublic    Boolean           @default(true)
+
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  subscriptions Subscription[]
+
+  @@unique([tier, interval, currency])
+  @@index([tier, interval])
+}
+
+model Subscription {
+  id                Int                 @id @default(autoincrement())
+  companyId         Int
+  company           Company             @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  tier              SubscriptionTier
+  interval          BillingInterval
+  status            SubscriptionStatus  @default(INACTIVE)
+
+  currency          String              @default("CAD")
+  priceCents        Int
+
+  planId            Int?
+  plan              Plan?               @relation(fields: [planId], references: [id], onDelete: SetNull)
+
+  customLabel       String?
+
+  isCurrent         Boolean             @default(true)
+
+  startedAt         DateTime            @default(now())
+  currentPeriodStart DateTime?
+  currentPeriodEnd  DateTime?
+  cancelAtPeriodEnd Boolean             @default(false)
+  canceledAt        DateTime?
+
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@unique([companyId, isCurrent])
+  @@index([companyId])
+  @@index([tier, status])
 }
 
 model BlogPost {

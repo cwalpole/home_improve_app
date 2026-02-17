@@ -6,6 +6,10 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { deleteCompany } from "../../actions/companies";
 import CompanyLogoForm from "../CompanyLogoForm";
+import ConfirmDeleteButton from "../components/ConfirmDeleteButton";
+import SubscriptionForm from "../components/SubscriptionForm";
+
+export const dynamic = "force-dynamic";
 
 export default async function CompanyDetailPage(props: {
   params: Promise<{ id: string }>;
@@ -46,6 +50,24 @@ export default async function CompanyDetailPage(props: {
     orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
   });
 
+  const plans = await prisma.plan.findMany({
+    orderBy: [{ tier: "asc" }, { interval: "asc" }, { priceCents: "asc" }],
+  });
+
+  const currentSubscription = await prisma.subscription.findFirst({
+    where: { companyId, isCurrent: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  async function deleteCompanyAction() {
+    "use server";
+    await deleteCompany(companyId);
+    redirect("/admin/companies");
+  }
+
+  const currentPrice =
+    currentSubscription ? currentSubscription.priceCents / 100 : 0;
+
   return (
     <AdminSection
       title={`Company · ${company.name}`}
@@ -67,6 +89,39 @@ export default async function CompanyDetailPage(props: {
           logoUrl={company.logoUrl}
           logoPublicId={company.logoPublicId}
         />
+
+        <div className={styles.companySubscription}>
+          <div className={styles.companySubscriptionHeader}>
+            <h3>Subscription</h3>
+          </div>
+          {currentSubscription ? (
+            <div className={styles.subscriptionSummary}>
+              <div>
+                <div className={styles.subscriptionSummaryTitle}>
+                  {currentSubscription.tier} · {currentSubscription.interval}
+                </div>
+                <div className={styles.subscriptionSummaryMeta}>
+                  {currentSubscription.status} · {currentSubscription.currency}{" "}
+                  {currentPrice.toFixed(2)}
+                  {currentSubscription.planId ? " · Plan" : " · Custom"}
+                </div>
+              </div>
+              <div className={styles.subscriptionSummaryMeta}>
+                Started{" "}
+                {currentSubscription.startedAt.toISOString().slice(0, 10)}
+              </div>
+            </div>
+          ) : (
+            <p className={styles.muted}>Assign a subscription below.</p>
+          )}
+
+          <SubscriptionForm
+            companyId={companyId}
+            plans={plans}
+            currentSubscription={currentSubscription}
+            formId="company-subscription-form"
+          />
+        </div>
 
         <div className={styles.companyMappings}>
           <div className={styles.companyMappingsHeader}>
@@ -108,15 +163,11 @@ export default async function CompanyDetailPage(props: {
           </div>
           <form
             className={styles.companyDangerAction}
-            action={async () => {
-              "use server";
-              await deleteCompany(company.id);
-              redirect("/admin/companies");
-            }}
+            action={deleteCompanyAction}
           >
-            <button type="submit" className={`${styles.btn} ${styles.danger}`}>
+            <ConfirmDeleteButton className={`${styles.btn} ${styles.danger}`}>
               Delete company
-            </button>
+            </ConfirmDeleteButton>
           </form>
         </div>
       </div>
