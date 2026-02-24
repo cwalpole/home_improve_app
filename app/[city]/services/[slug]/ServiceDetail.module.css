@@ -856,6 +856,7 @@
   -webkit-appearance: none;
   appearance: none;
   padding-right: 36px;
+  height: 42px;
 }
 
 .input:focus,

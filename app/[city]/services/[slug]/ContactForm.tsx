@@ -95,7 +95,7 @@ export default function ContactForm({
         </label>
 
         <label className={styles.label}>
-          Preferred date (optional)
+          Preferred Date (Optional)
           <input
             ref={dateInputRef}
             name="date"
@@ -106,7 +106,7 @@ export default function ContactForm({
         </label>
 
         <label className={`${styles.label} ${styles.colSpan}`}>
-          Project details
+          Project Details
           <textarea
             name="message"
             rows={5}
