@@ -20,15 +20,10 @@ export async function assignCompanySubscription(
     const status = (formData.get("status")?.toString() ||
       "ACTIVE") as SubscriptionStatus;
 
-    let tier = (formData.get("tier")?.toString() ||
-      "FREE") as SubscriptionTier;
-    let interval = (formData.get("interval")?.toString() ||
-      "MONTH") as BillingInterval;
+    let tier = SubscriptionTier.FREE;
+    let interval = BillingInterval.MONTH;
     let currency = "CAD";
-    const priceDollarsRaw = formData.get("priceDollars")?.toString();
-    let priceCents = priceDollarsRaw
-      ? Math.round(Number(priceDollarsRaw) * 100)
-      : NaN;
+    let priceCents = 0;
     const customLabel = formData.get("customLabel")?.toString().trim() || null;
     const startedAtRaw = formData.get("startedAt")?.toString().trim() || "";
     const startedAt = startedAtRaw ? new Date(startedAtRaw) : null;
@@ -81,19 +76,6 @@ export async function assignCompanySubscription(
 
       revalidatePath(`/admin/companies/${companyId}`);
       return { ok: true, error: null, status };
-    }
-
-    if (tier === SubscriptionTier.FREE) {
-      priceCents = 0;
-      currency = "CAD";
-    }
-
-    if (!Number.isFinite(priceCents)) {
-      return { ok: false, error: "Price is required.", status };
-    }
-
-    if (tier !== SubscriptionTier.FREE && priceCents <= 0) {
-      return { ok: false, error: "Price must be greater than 0.", status };
     }
 
     const existing = await prisma.subscription.findFirst({

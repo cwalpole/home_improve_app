@@ -16,6 +16,7 @@ type HtmlEditorProps = {
   defaultValue?: string | null;
   placeholder?: string;
   helpText?: string;
+  onDirty?: () => void;
 };
 
 export default function HtmlEditor({
@@ -25,6 +26,7 @@ export default function HtmlEditor({
   defaultValue,
   placeholder,
   helpText,
+  onDirty,
 }: HtmlEditorProps) {
   const [value, setValue] = useState(defaultValue ?? "");
   const componentId = useId();
@@ -57,6 +59,9 @@ export default function HtmlEditor({
       onUpdate: ({ editor: instance }) => {
         const html = instance.getHTML();
         setValue(html === "<p></p>" ? "" : html);
+        if (instance.isFocused) {
+          onDirty?.();
+        }
       },
       editorProps: {
         attributes: {

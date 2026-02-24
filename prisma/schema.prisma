@@ -21,6 +21,7 @@ model Company {
   name        String
   tagline     String?
   url         String?
+  companySummary String? @db.Text
 
   phone       String?
   email       String?
@@ -31,6 +32,11 @@ model Company {
   country     String?
   logoUrl     String?  @db.LongText
   logoPublicId String?
+  heroImageUrl String? @db.LongText
+  heroImagePublicId String?
+  galleryImages Json?
+  galleryFeaturedIndex Int?
+  servicesOffered Json?
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

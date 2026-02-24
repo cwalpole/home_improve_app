@@ -9,8 +9,15 @@ export type ServiceListing = {
   company: {
     name: string;
     url: string | null;
+    tagline: string | null;
+    companySummary: string | null;
     logoUrl: string | null;
     logoPublicId: string | null;
+    heroImageUrl: string | null;
+    heroImagePublicId: string | null;
+    galleryImages: unknown | null;
+    galleryFeaturedIndex: number | null;
+    servicesOffered: unknown | null;
   };
 };
 
@@ -77,8 +84,15 @@ export async function getServiceDetailForCityId(
                 select: {
                   name: true,
                   url: true,
+                  tagline: true,
+                  companySummary: true,
                   logoUrl: true,
                   logoPublicId: true,
+                  heroImageUrl: true,
+                  heroImagePublicId: true,
+                  galleryImages: true,
+                  galleryFeaturedIndex: true,
+                  servicesOffered: true,
                 },
               },
             },

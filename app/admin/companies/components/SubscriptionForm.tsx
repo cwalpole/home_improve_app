@@ -6,11 +6,7 @@ import {
   assignCompanySubscription,
   type SubscriptionActionState,
 } from "../../actions/companySubscriptions";
-import {
-  BillingInterval,
-  SubscriptionStatus,
-  SubscriptionTier,
-} from "@prisma/client";
+import { SubscriptionStatus } from "@prisma/client";
 import styles from "../../admin.module.css";
 
 type PlanOption = {
@@ -109,7 +105,7 @@ export default function SubscriptionForm({
       </div>
       <div className={styles.field}>
         <label className={styles.label} htmlFor="planId">
-          Assign from plan (recommended)
+          Subscription Plan
         </label>
         <select
           id="planId"
@@ -125,79 +121,11 @@ export default function SubscriptionForm({
             </option>
           ))}
         </select>
-        <p className={styles.helperText}>
-          Choosing a plan will override tier, interval, and price fields below.
-        </p>
-      </div>
-
-      <div className={styles.subscriptionGrid}>
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="tier">
-            Tier
-          </label>
-          <select
-            id="tier"
-            name="tier"
-            className={styles.select}
-            defaultValue=""
-          >
-            <option value="">—</option>
-            {Object.values(SubscriptionTier).map((tierOption) => (
-              <option key={tierOption} value={tierOption}>
-                {tierOption}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="interval">
-            Interval
-          </label>
-          <select
-            id="interval"
-            name="interval"
-            className={styles.select}
-            defaultValue=""
-          >
-            <option value="">—</option>
-            {Object.values(BillingInterval).map((intervalOption) => (
-              <option key={intervalOption} value={intervalOption}>
-                {intervalOption}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className={styles.subscriptionGrid}>
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="priceDollars">
-            Price (CAD dollars)
-          </label>
-          <input
-            id="priceDollars"
-            name="priceDollars"
-            type="number"
-            step="0.01"
-            min="0"
-            className={styles.input}
-            defaultValue=""
-            placeholder="format: 25.00"
-          />
-        </div>
-
-        <div className={styles.field}>
-          <label className={styles.label}>Currency</label>
-          <div className={styles.input} aria-readonly="true">
-            CAD
-          </div>
-        </div>
       </div>
 
       <div className={styles.field}>
         <label className={styles.label} htmlFor="customLabel">
-          Custom label (optional)
+          Custom Label (Optional)
         </label>
         <input
           id="customLabel"

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import styles from "./ServiceDetail.module.css";
 import { findCityBySlug } from "@/lib/city";
 import { getServiceDetailForCityId } from "@/lib/queries";
@@ -22,6 +21,59 @@ function cloudinaryUrl(publicId?: string | null, fallback?: string | null) {
   return fallback || undefined;
 }
 
+type GalleryImage = { url: string; publicId?: string | null };
+
+type ServiceItem = { html: string };
+
+function parseGalleryImages(input: unknown): GalleryImage[] {
+  if (!input) return [];
+  if (Array.isArray(input)) {
+    return input
+      .map((item) => {
+        if (!item || typeof item !== "object") return null;
+        const record = item as { url?: unknown; publicId?: unknown };
+        const url = typeof record.url === "string" ? record.url.trim() : "";
+        const publicId =
+          typeof record.publicId === "string" ? record.publicId.trim() : null;
+        if (!url) return null;
+        return { url, publicId };
+      })
+      .filter((item): item is GalleryImage => Boolean(item));
+  }
+  if (typeof input === "string") {
+    try {
+      const parsed = JSON.parse(input);
+      return parseGalleryImages(parsed);
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
+function parseServiceItems(input: unknown): ServiceItem[] {
+  if (!input) return [];
+  if (Array.isArray(input)) {
+    return input
+      .map((item) => {
+        if (typeof item !== "string") return null;
+        const html = item.trim();
+        if (!html) return null;
+        return { html };
+      })
+      .filter((item): item is ServiceItem => Boolean(item));
+  }
+  if (typeof input === "string") {
+    try {
+      const parsed = JSON.parse(input);
+      return parseServiceItems(parsed);
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
 export default async function CityServiceDetailPage(props: {
   params: Promise<{ city: string; slug: string }>;
 }) {
@@ -34,6 +86,36 @@ export default async function CityServiceDetailPage(props: {
 
   // There should be exactly one listing for this Service•City
   const listing = data.listings[0] ?? null;
+  const companyName = listing?.displayName || listing?.company.name;
+  const companyUrl = normalizeExternalUrl(listing?.company.url);
+  const companyTagline = listing?.company.tagline?.trim();
+  const companySummary = listing?.company.companySummary?.trim();
+  const serviceLower = data.name.toLowerCase();
+
+  const galleryImages = parseGalleryImages(listing?.company.galleryImages);
+  const featuredIndexRaw = listing?.company.galleryFeaturedIndex;
+  const featuredIndex =
+    typeof featuredIndexRaw === "number" ? featuredIndexRaw : 0;
+  const orderedGallery = galleryImages.length
+    ? [
+        ...(galleryImages[featuredIndex]
+          ? [galleryImages[featuredIndex]]
+          : []),
+        ...galleryImages.filter((_, idx) => idx !== featuredIndex),
+      ]
+    : [];
+
+  const servicesOfferedItems = parseServiceItems(
+    listing?.company.servicesOffered
+  );
+
+  const heroImageUrl =
+    cloudinaryUrl(
+      listing?.company.heroImagePublicId,
+      listing?.company.heroImageUrl || undefined
+    ) ||
+    listing?.company.logoUrl ||
+    "/logo-placeholder.png";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -52,230 +134,175 @@ export default async function CityServiceDetailPage(props: {
 
   return (
     <main className={styles.main}>
-      <section className={styles.hero}>
-        <div className={styles.heroGradient} aria-hidden="true" />
-        <div className={styles.heroContent}>
-          <div className={styles.heroCopy}>
-            <h1 className={styles.title}>
-              {data.name} experts serving {city.name}
-            </h1>
-            <p className={styles.lead}>
-              Partner with vetted specialists who deliver premium{" "}
-              {data.name.toLowerCase()} results, flexible scheduling, and clear
-              communication from the first call to final walk-through.
-            </p>
-
-            <div className={styles.ctaRow}>
-              <a href="#contact" className={styles.ctaPrimary}>
-                Book your free quote
-              </a>
-              <Link href={`/${city.slug}/services`} className={styles.ctaGhost}>
-                Browse all services
-              </Link>
+      <div className={styles.heroGroup}>
+        <section className={styles.hero}>
+          <div className={styles.heroBg}>
+            <Image
+              src={heroImageUrl}
+              alt={`${companyName ?? data.name} hero`}
+              fill
+              sizes="100vw"
+              className={styles.heroBgImage}
+              priority
+            />
+          </div>
+          <div className={styles.heroOverlay} aria-hidden="true" />
+          <div className={styles.heroContent}>
+            <div className={styles.heroCopy}>
+              <Image
+                src={
+                  cloudinaryUrl(
+                    listing?.company.logoPublicId,
+                    listing?.company.logoUrl
+                  ) || "/logo-placeholder.png"
+                }
+                alt={`${companyName ?? data.name} logo`}
+                width={200}
+                height={200}
+                className={styles.heroTitleLogo}
+              />
+              <div className={styles.heroText}>
+                <h1 className={styles.heroTitle}>
+                  <span className={styles.heroTitleName}>
+                    {companyName ?? data.name}
+                  </span>
+                </h1>
+                <p className={styles.heroLead}>
+                  Premium {serviceLower} upgrades built for {city.name} homes.
+                </p>
+                <div className={styles.heroCtas}>
+                  <a href="#contact" className={styles.ctaPrimary}>
+                    Start Your Project
+                  </a>
+                  <a href="#gallery" className={styles.ctaSecondary}>
+                    View Recent Work
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
+        </section>
 
-          <aside className={styles.heroAside}>
-            <div className={styles.heroAsideCard}>
-              <h3>
-                Popular {data.name.toLowerCase()} projects in {city.name}
-              </h3>
-              <ul>
-                <li>Complete {data.name.toLowerCase()} packages</li>
-                <li>Emergency call-outs & repairs</li>
-                <li>Maintenance plans and seasonal care</li>
-              </ul>
-              <p>
-                Not sure where to start? Share a few details and we&apos;ll
-                tailor recommendations for your home.
-              </p>
+        {companyTagline ? (
+          <section className={styles.trustStrip}>
+            <div className={styles.trustInner}>
+              <p className={styles.trustCopy}>{companyTagline}</p>
             </div>
-          </aside>
+          </section>
+        ) : null}
+      </div>
+
+      <section className={styles.meet}>
+        <div className={styles.meetSplit}>
+          <div className={styles.meetText}>
+            <h2>
+              {city.name}&apos;s Featured {data.name} Specialist
+            </h2>
+            <p>
+              {companySummary ||
+                `${companyName ?? data.name} has helped ${city.name} homeowners transform their ${serviceLower} for over 15 years. From epoxy flooring to full storage systems and door replacements, the team is known for durable results, clean craftsmanship, and clear communication.`}
+            </p>
+            {companyUrl ? (
+              <a
+                href={companyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.meetLinkInline}
+              >
+                Visit Company Website
+              </a>
+            ) : null}
+          </div>
+
+          <div className={styles.meetLogoRow}>
+            <div className={styles.logoBadgeCard}>
+              {listing?.company.logoUrl ? (
+                <Image
+                  src={
+                    cloudinaryUrl(
+                      listing.company.logoPublicId,
+                      listing.company.logoUrl
+                    ) || "/logo-placeholder.png"
+                  }
+                  alt={`${companyName ?? data.name} logo`}
+                  width={260}
+                  height={160}
+                  className={styles.meetLogo}
+                />
+              ) : (
+                <div className={styles.meetLogoFallback}>
+                  {companyName ?? data.name}
+                </div>
+              )}
+              <span className={styles.partnerBadge}>
+                A Trusted Give It Charm Partner
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div id="gallery" className={`${styles.galleryGrid} ${styles.anchorTarget}`}>
+          {orderedGallery.length ? (
+            orderedGallery.slice(0, 5).map((image, index) => (
+              <div key={`${image.url}-${index}`} className={styles.galleryItem}>
+                <Image
+                  src={cloudinaryUrl(image.publicId, image.url) || image.url}
+                  alt={`${companyName ?? data.name} project ${index + 1}`}
+                  fill
+                  sizes="(max-width: 900px) 92vw, 320px"
+                  className={styles.galleryImage}
+                />
+              </div>
+            ))
+          ) : (
+            <div className={styles.galleryEmpty}>
+              Gallery images are coming soon.
+            </div>
+          )}
         </div>
       </section>
 
-      <section className={styles.providerSection}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>Featured provider</span>
-          <h2 className={styles.sectionTitle}>Meet your local specialist</h2>
-          <p className={styles.sectionLead}>
-            We partner with trusted pros who know {city.name} homes inside and
-            out.
-          </p>
-        </div>
-        {listing ? (
-          <article className={styles.providerCard}>
-            <div className={styles.providerBadge}>Preferred partner</div>
-            <div className={styles.providerHeader}>
-              {listing.company.logoUrl ? (
-                <div className={styles.providerLogoImageWrap}>
-                  <Image
-                    src={
-                      cloudinaryUrl(
-                        listing.company.logoPublicId,
-                        listing.company.logoUrl
-                      ) || "/logo-placeholder.png"
-                    }
-                    alt={`${listing.displayName || listing.company.name} logo`}
-                    fill
-                    sizes="220px"
-                    className={styles.providerLogoImage}
+      <section className={styles.servicesQuote}>
+        <div className={styles.servicesCard}>
+          <div className={styles.sectionIntro}>
+            <span className={styles.sectionEyebrow}>
+              {companyName ?? data.name}
+            </span>
+            <h2>Our Expertise</h2>
+          </div>
+          <div className={styles.servicesGrid}>
+            {servicesOfferedItems.length ? (
+              servicesOfferedItems.map((service, index) => (
+                <div key={`${index}`} className={styles.serviceItem}>
+                  <div className={styles.serviceIcon} aria-hidden="true" />
+                  <div
+                    className={styles.serviceItemContent}
+                    dangerouslySetInnerHTML={{ __html: service.html }}
                   />
                 </div>
-              ) : null}
-              <div>
-                <h3 className={styles.providerName}>
-                  {listing.displayName || listing.company.name}
-                </h3>
-                <p className={styles.providerMeta}>
-                  Serving {city.name} • Licensed & insured • Local team you can
-                  reach directly
-                </p>
+              ))
+            ) : (
+              <div className={styles.servicesEmpty}>
+                Services will be listed here soon.
               </div>
-            </div>
-
-            <ul className={styles.providerPoints}>
-              <li>Upfront proposals and detailed progress updates</li>
-              <li>Respectful crews that keep your home tidy</li>
-              <li>Work backed by a satisfaction guarantee</li>
-            </ul>
-
-            <div className={styles.providerActions}>
-              <a href="#contact" className={styles.ctaPrimary}>
-                Start your project
-              </a>
-              {listing.company.url && (
-                <a
-                  href={normalizeExternalUrl(listing.company.url)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.ctaGhost}
-                >
-                  Visit website
-                </a>
-              )}
-            </div>
-          </article>
-        ) : (
-          <div className={styles.providerFallback}>
-            <p>
-              We’re currently onboarding a trusted {data.name.toLowerCase()}{" "}
-              partner in {city.name}. Share your project details and we’ll match
-              you within 24 hours.
-            </p>
-            <a href="#contact" className={styles.ctaPrimary}>
-              Tell us about your project
-            </a>
-          </div>
-        )}
-      </section>
-
-      <section className={styles.highlights}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>Why homeowners trust us</span>
-          <h2 className={styles.sectionTitle}>
-            A smoother {data.name.toLowerCase()} experience from hello to
-            handover
-          </h2>
-          <p className={styles.sectionLead}>
-            We curate the best local teams in {city.name}, so you can focus on
-            the results instead of the research.
-          </p>
-        </div>
-        <div className={styles.highlightGrid}>
-          {[
-            {
-              title: "Vetted local pros",
-              copy: `Every specialist is licensed, insured, and hand-reviewed for ${data.name.toLowerCase()} work in ${
-                city.name
-              }.`,
-            },
-            {
-              title: "Crystal-clear pricing",
-              copy: "Expect transparent estimates, detailed scopes, and easy scheduling without the back-and-forth.",
-            },
-            {
-              title: "Service that stands out",
-              copy: "Dedicated project support, proactive communication, and workmanship we stand behind.",
-            },
-          ].map((card) => (
-            <article key={card.title} className={styles.highlightCard}>
-              <h3>{card.title}</h3>
-              <p>{card.copy}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {data.contentHtml ? (
-        <section className={styles.story}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionEyebrow}>In-depth guide</span>
-            <h2 className={styles.sectionTitle}>
-              {city.name}&apos;s take on {data.name.toLowerCase()}
-            </h2>
-          </div>
-          <div
-            className={styles.richText}
-            dangerouslySetInnerHTML={{ __html: data.contentHtml }}
-          />
-        </section>
-      ) : null}
-
-      <section className={styles.process}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>How it works</span>
-          <h2 className={styles.sectionTitle}>
-            Simple steps to a finished project
-          </h2>
-        </div>
-        <ol className={styles.stepList}>
-          {[
-            {
-              title: "Share your vision",
-              copy: `Tell us about your ${data.name.toLowerCase()} goals and timeline. It takes less than two minutes.`,
-            },
-            {
-              title: "Receive a tailored plan",
-              copy: "We pair you with the right crew, outline the scope, and schedule a site visit if needed.",
-            },
-            {
-              title: "Relax while we get it done",
-              copy: "Your dedicated pro keeps you updated, respects your home, and delivers the finish you expect.",
-            },
-          ].map((step, index) => (
-            <li key={step.title}>
-              <span className={styles.stepNumber}>{index + 1}</span>
-              <div>
-                <h3>{step.title}</h3>
-                <p>{step.copy}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section id="contact" className={styles.contactSection}>
-        <div className={styles.contactInner}>
-          <div className={styles.contactCopy}>
-            <span className={styles.sectionEyebrow}>Get your free quote</span>
-            <h2 className={styles.sectionTitle}>
-              Ready to start your {data.name.toLowerCase()} project?
-            </h2>
-            <p className={styles.sectionLead}>
-              Tell us a few details and we’ll connect you with{" "}
-              {listing
-                ? listing.displayName || listing.company.name
-                : "a vetted local pro"}{" "}
-              for a fast, friendly estimate.
-            </p>
-            <ul className={styles.contactPerks}>
-              <li>No-obligation, personalized quotes</li>
-              <li>Friendly follow-up—no spam</li>
-              <li>Local experts who respect your home</li>
-            </ul>
+            )}
           </div>
 
+          <figure className={styles.testimonialCard}>
+            <blockquote>
+              “{companyName ?? data.name} transformed our cold, cracked {serviceLower} into a
+              space we actually use every day. Professional team with great attention
+              to detail.”
+            </blockquote>
+            <figcaption>— Sarah R., {city.name}</figcaption>
+          </figure>
+        </div>
+
+        <div id="contact" className={`${styles.quoteCard} ${styles.anchorTarget}`}>
+          <div className={styles.quoteHeader}>
+            <h2>Contact {companyName ?? data.name}</h2>
+            <p>Tell us about your project and their team will reach out directly.</p>
+          </div>
           <ContactForm
             city={city.name}
             citySlug={city.slug}
@@ -284,6 +311,11 @@ export default async function CityServiceDetailPage(props: {
             providerCompanyId={listing?.companyId ?? null}
             serviceCityId={listing?.serviceCityId ?? null}
           />
+          <ul className={styles.quotePerks}>
+            <li>No obligation</li>
+            <li>Fast response</li>
+            <li>Local experts</li>
+          </ul>
         </div>
       </section>
 

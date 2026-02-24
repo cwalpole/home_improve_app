@@ -172,12 +172,13 @@
 }
 
 .trustStrip {
-  background: #7ca451;
-  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  background: linear-gradient(90deg, #6f9846 0%, #7ca451 55%, #88b15a 100%);
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
   border-bottom: 1px solid rgba(148, 163, 184, 0.25);
   padding: 0 24px;
   margin-top: -11px;
   min-height: 48px;
+  box-shadow: 0 -6px 16px rgba(15, 23, 42, 0.18);
 }
 
 .trustInner {

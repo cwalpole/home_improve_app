@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./ServiceDetail.module.css";
 
 type Props = {
@@ -23,6 +23,17 @@ export default function ContactForm({
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">(
     "idle"
   );
+  const dateInputRef = useRef<HTMLInputElement | null>(null);
+
+  const openDatePicker = () => {
+    const input = dateInputRef.current;
+    if (!input) return;
+    if (typeof input.showPicker === "function") {
+      input.showPicker();
+    } else {
+      input.focus();
+    }
+  };
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -85,7 +96,13 @@ export default function ContactForm({
 
         <label className={styles.label}>
           Preferred date (optional)
-          <input name="date" type="date" className={styles.input} />
+          <input
+            ref={dateInputRef}
+            name="date"
+            type="date"
+            className={styles.input}
+            onClick={openDatePicker}
+          />
         </label>
 
         <label className={`${styles.label} ${styles.colSpan}`}>

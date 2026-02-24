@@ -6,6 +6,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { deleteCompany } from "../../actions/companies";
 import CompanyLogoForm from "../CompanyLogoForm";
+import CompanyHeroForm from "../CompanyHeroForm";
+import CompanyMediaForm from "../CompanyMediaForm";
 import ConfirmDeleteButton from "../components/ConfirmDeleteButton";
 import SubscriptionForm from "../components/SubscriptionForm";
 
@@ -26,10 +28,17 @@ export default async function CompanyDetailPage(props: {
     select: {
       id: true,
       name: true,
+      tagline: true,
       url: true,
+      companySummary: true,
       createdAt: true,
       logoUrl: true,
       logoPublicId: true,
+      heroImageUrl: true,
+      heroImagePublicId: true,
+      galleryImages: true,
+      galleryFeaturedIndex: true,
+      servicesOffered: true,
     },
   });
 
@@ -78,79 +87,104 @@ export default async function CompanyDetailPage(props: {
       }
     >
       <div className={`${styles.detailCard} ${styles.companyDetailGrid}`}>
-        <UpdateCompanyForm
-          id={company.id}
-          name={company.name}
-          url={company.url}
-        />
+        <div className={styles.companyDetailColumns}>
+          <div className={styles.companyDetailColumn}>
+            <UpdateCompanyForm
+              id={company.id}
+              name={company.name}
+              tagline={company.tagline}
+              url={company.url}
+              companySummary={company.companySummary}
+              servicesOffered={company.servicesOffered}
+            />
 
-        <CompanyLogoForm
-          companyId={company.id}
-          logoUrl={company.logoUrl}
-          logoPublicId={company.logoPublicId}
-        />
-
-        <div className={styles.companySubscription}>
-          <div className={styles.companySubscriptionHeader}>
-            <h3>Subscription</h3>
-          </div>
-          {currentSubscription ? (
-            <div className={styles.subscriptionSummary}>
-              <div>
-                <div className={styles.subscriptionSummaryTitle}>
-                  {currentSubscription.tier} · {currentSubscription.interval}
-                </div>
-                <div className={styles.subscriptionSummaryMeta}>
-                  {currentSubscription.status} · {currentSubscription.currency}{" "}
-                  {currentPrice.toFixed(2)}
-                  {currentSubscription.planId ? " · Plan" : " · Custom"}
-                </div>
+            <div className={styles.companyMappings}>
+              <div className={styles.companyMappingsHeader}>
+                <h3>Mappings: Service · City</h3>
+                <span className={styles.muted}>
+                  {mappings.length ? `${mappings.length} attached` : "No mappings yet"}
+                </span>
               </div>
-              <div className={styles.subscriptionSummaryMeta}>
-                Started{" "}
-                {currentSubscription.startedAt.toISOString().slice(0, 10)}
-              </div>
+              {mappings.length ? (
+                <div className={styles.mappingsList}>
+                  {mappings.map((m) => (
+                    <div key={`${m.companyId}-${m.serviceCityId}`} className={styles.mappingRow}>
+                      <div>
+                        <div className={styles.mappingTitle}>
+                          {m.serviceCity.service.name}
+                        </div>
+                        <div className={styles.mappingMeta}>
+                          {m.serviceCity.city.name}
+                          {m.serviceCity.city.regionCode
+                            ? `, ${m.serviceCity.city.regionCode}`
+                            : ""}
+                          {m.isFeatured ? " • Featured" : ""}
+                        </div>
+                      </div>
+                      <div className={styles.mappingMetaSmall}>
+                        Added {m.createdAt.toISOString().slice(0, 10)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className={styles.muted}>No mappings attached to this company.</p>
+              )}
             </div>
-          ) : (
-            <p className={styles.muted}>Assign a subscription below.</p>
-          )}
 
-          <SubscriptionForm
-            companyId={companyId}
-            plans={plans}
-            currentSubscription={currentSubscription}
-            formId="company-subscription-form"
-          />
-        </div>
-
-        <div className={styles.companyMappings}>
-          <div className={styles.companyMappingsHeader}>
-            <h3>Service · City mappings</h3>
-            <span className={styles.muted}>
-              {mappings.length ? `${mappings.length} attached` : "No mappings yet"}
-            </span>
-          </div>
-          {mappings.length ? (
-            <div className={styles.mappingsList}>
-              {mappings.map((m) => (
-                <div key={`${m.companyId}-${m.serviceCityId}`} className={styles.mappingRow}>
+            <div className={styles.companySubscription}>
+              <div className={styles.companySubscriptionHeader}>
+                <h3>Subscription</h3>
+              </div>
+              {currentSubscription ? (
+                <div className={styles.subscriptionSummary}>
                   <div>
-                    <div className={styles.mappingTitle}>{m.serviceCity.service.name}</div>
-                    <div className={styles.mappingMeta}>
-                      {m.serviceCity.city.name}
-                      {m.serviceCity.city.regionCode ? `, ${m.serviceCity.city.regionCode}` : ""}
-                      {m.isFeatured ? " • Featured" : ""}
+                    <div className={styles.subscriptionSummaryTitle}>
+                      {currentSubscription.tier} · {currentSubscription.interval}
+                    </div>
+                    <div className={styles.subscriptionSummaryMeta}>
+                      {currentSubscription.status} · {currentSubscription.currency}{" "}
+                      {currentPrice.toFixed(2)}
+                      {currentSubscription.planId ? " · Plan" : " · Custom"}
                     </div>
                   </div>
-                  <div className={styles.mappingMetaSmall}>
-                    Added {m.createdAt.toISOString().slice(0, 10)}
+                  <div className={styles.subscriptionSummaryMeta}>
+                    Started{" "}
+                    {currentSubscription.startedAt.toISOString().slice(0, 10)}
                   </div>
                 </div>
-              ))}
+              ) : (
+                <p className={styles.muted}>Assign a subscription below.</p>
+              )}
+
+              <SubscriptionForm
+                companyId={companyId}
+                plans={plans}
+                currentSubscription={currentSubscription}
+                formId="company-subscription-form"
+              />
             </div>
-          ) : (
-            <p className={styles.muted}>No mappings attached to this company.</p>
-          )}
+          </div>
+
+          <div className={styles.companyDetailColumn}>
+            <CompanyLogoForm
+              companyId={company.id}
+              logoUrl={company.logoUrl}
+              logoPublicId={company.logoPublicId}
+            />
+
+            <CompanyHeroForm
+              companyId={company.id}
+              heroImageUrl={company.heroImageUrl}
+              heroImagePublicId={company.heroImagePublicId}
+            />
+
+        <CompanyMediaForm
+          companyId={company.id}
+          galleryImages={company.galleryImages}
+          galleryFeaturedIndex={company.galleryFeaturedIndex}
+        />
+          </div>
         </div>
 
         <div className={styles.companyDangerZone}>
@@ -166,7 +200,7 @@ export default async function CompanyDetailPage(props: {
             action={deleteCompanyAction}
           >
             <ConfirmDeleteButton className={`${styles.btn} ${styles.danger}`}>
-              Delete company
+              Delete Company
             </ConfirmDeleteButton>
           </form>
         </div>

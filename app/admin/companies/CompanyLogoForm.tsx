@@ -24,6 +24,9 @@ export default function CompanyLogoForm({ companyId, logoUrl, logoPublicId }: Pr
     <form action={formAction} className={`${styles.companyFormCard} ${styles.logoForm}`}>
       <div className={styles.companyFormIntro}>
         <h2 className={styles.companyFormTitle}>Logo</h2>
+        <p className={styles.companyFormHint}>
+          Ideal size: 800×800px (square PNG).
+        </p>
       </div>
       <div className={styles.companyLogoPreview}>
         <Image
@@ -57,7 +60,7 @@ export default function CompanyLogoForm({ companyId, logoUrl, logoPublicId }: Pr
       </div>
       <div className={styles.formActions}>
         <button className={styles.btn} type="submit">
-          Upload logo
+          Save Logo
         </button>
         {state.ok && !state.error ? (
           <span className={styles.statusPositive}>Saved</span>
