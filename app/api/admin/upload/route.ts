@@ -16,26 +16,12 @@ export async function POST(req: Request) {
   const cloudName = parsed?.hostname || "";
   const apiKey = parsed?.username || "";
   const apiSecret = parsed?.password || "";
-  console.error("[cloudinary] config", {
-    hasCloudinaryUrl: Boolean(cloudinaryUrl),
-    cloudName: cloudName || null,
-    hasApiKey: Boolean(apiKey),
-  });
   const formData = await req.formData();
   const file = formData.get("file");
 
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "Missing file" }, { status: 400 });
   }
-
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  console.error("[cloudinary] upload payload", {
-    filename: file.name,
-    type: file.type,
-    size: file.size,
-    bufferLength: buffer.length,
-  });
 
   try {
     if (!cloudName || !apiKey || !apiSecret) {
@@ -67,7 +53,10 @@ export async function POST(req: Request) {
 
     const text = await response.text();
     if (!response.ok) {
-      console.error("[cloudinary] http error", response.status, text);
+      console.error("[cloudinary] upload failed", {
+        status: response.status,
+        body: text.slice(0, 500),
+      });
       return NextResponse.json(
         { error: `Cloudinary error ${response.status}` },
         { status: 500 }
@@ -76,7 +65,10 @@ export async function POST(req: Request) {
 
     const data = JSON.parse(text) as CloudinaryUploadResponse;
     if (!data.secure_url || !data.public_id) {
-      console.error("[cloudinary] unexpected response", data);
+      console.error("[cloudinary] unexpected response", {
+        hasSecureUrl: Boolean(data.secure_url),
+        hasPublicId: Boolean(data.public_id),
+      });
       return NextResponse.json({ error: "Upload failed" }, { status: 500 });
     }
 

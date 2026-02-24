@@ -2,8 +2,8 @@ import { findCityBySlug } from "@/lib/city";
 import { getServicesForCityId } from "@/lib/queries";
 import type { Metadata } from "next";
 import Link from "next/link";
-import ServiceImage from "@/components/ServiceImage";
 import styles from "./ServicesPage.module.css";
+import ServiceCards from "./ServiceCards";
 
 export async function generateMetadata(props: {
   params: Promise<{ city: string }>;
@@ -32,6 +32,15 @@ export default async function CityServicesPage(props: {
   const alphabetical = services
     .slice()
     .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+  const servicesWithSummaries = services.map((service) => ({
+    ...service,
+    summaryText: service.contentHtml
+      ? service.contentHtml
+          .replace(/<[^>]+>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+      : "",
+  }));
 
   return (
     <main className={styles.main}>
@@ -39,9 +48,11 @@ export default async function CityServicesPage(props: {
         <div className={styles.heroGradient} aria-hidden="true" />
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
-            <h1 className={styles.title}>
-              Home services crafted for {city.name}
-            </h1>
+            <div className={styles.heroTitleRow}>
+              <span className={styles.heroTitleIcon} aria-hidden="true" />
+              <h1 className={styles.title}>Services</h1>
+            </div>
+            <div className={styles.heroCity}>{city.name}</div>
             <p className={styles.subtitle}>
               {hasServices
                 ? `Choose from ${totalServices} vetted service${totalServices === 1 ? "" : "s"} — from essential repairs to dream renovations. Our local partners respond quickly and are held to the Home Improve quality standard.`
@@ -51,7 +62,7 @@ export default async function CityServicesPage(props: {
           {hasServices ? (
             <div className={styles.quickLinks}>
               <div className={styles.quickHead}>
-                <h2 className={styles.quickTitle}>Quick links</h2>
+                <h2 className={styles.quickTitle}>Quick Links</h2>
                 <p className={styles.quickDesc}>
                   Already know what you need? Jump straight to a service page and
                   request your quote.
@@ -87,35 +98,7 @@ export default async function CityServicesPage(props: {
               </div>
             </div>
 
-            <div className={styles.grid}>
-              {services.map((service) => (
-                <article key={service.slug} className={styles.card}>
-                  <div className={styles.cardMedia}>
-                    <ServiceImage
-                      slug={service.slug}
-                      alt={`${service.name} hero`}
-                      fill
-                      sizes="(max-width: 768px) 90vw, (max-width: 1200px) 33vw, 280px"
-                      className={styles.cardImage}
-                    />
-                  </div>
-                  <div className={styles.cardBody}>
-                    <h3 className={styles.cardTitle}>{service.name}</h3>
-                    <p className={styles.cardSummary}>
-                      Trusted {service.name.toLowerCase()} pros delivering quick
-                      scheduling, clear pricing, and workmanship that stands up
-                      to {city.name}&apos;s standards.
-                    </p>
-                    <Link
-                      href={`/${cityParam}/services/${service.slug}`}
-                      className={styles.cardLink}
-                    >
-                      View
-                    </Link>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <ServiceCards citySlug={cityParam} services={servicesWithSummaries} />
           </section>
         </>
       ) : null}

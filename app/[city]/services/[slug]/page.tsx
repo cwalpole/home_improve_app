@@ -101,8 +101,9 @@ export default async function CityServiceDetailPage(props: {
               </div>
               <div className={styles.serviceIntroNote}>
                 <p>
-                  We’re currently vetting experienced roofing professionals who
-                  meet our quality standards.
+                  We’re currently vetting experienced{" "}
+                  {data.name.toLowerCase()} professionals who meet our quality
+                  standards.
                 </p>
                 <p>
                   Check back soon — or submit your project details and we’ll

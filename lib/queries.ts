@@ -33,6 +33,7 @@ export type CityServiceItem = {
   name: string;
   slug: string;
   heroImage: string | null;
+  contentHtml: string | null;
 };
 
 export async function getServicesForCityId(
@@ -45,11 +46,25 @@ export async function getServicesForCityId(
   });
   if (!city) return [];
 
-  return prisma.service.findMany({
+  const services = await prisma.service.findMany({
     where: { serviceCities: { some: { cityId: city.id } } },
     orderBy: { order: "asc" },
-    select: { name: true, slug: true, heroImage: true },
+    select: {
+      name: true,
+      slug: true,
+      heroImage: true,
+      serviceCities: {
+        where: { cityId: city.id },
+        select: { contentHtml: true },
+      },
+    },
   });
+  return services.map((service) => ({
+    name: service.name,
+    slug: service.slug,
+    heroImage: service.heroImage,
+    contentHtml: service.serviceCities[0]?.contentHtml ?? null,
+  }));
 }
 
 /**
