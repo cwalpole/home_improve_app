@@ -23,6 +23,12 @@ export async function POST(req: Request) {
 
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
+  console.error("[cloudinary] upload payload", {
+    filename: file.name,
+    type: file.type,
+    size: file.size,
+    bufferLength: buffer.length,
+  });
 
   try {
     const result = await new Promise<UploadApiResponse>((resolve, reject) => {
