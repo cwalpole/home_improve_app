@@ -852,6 +852,12 @@
   cursor: pointer;
 }
 
+.input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 36px;
+}
+
 .input:focus,
 .textarea:focus {
   outline: none;

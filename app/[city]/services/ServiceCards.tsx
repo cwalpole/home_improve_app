@@ -67,7 +67,7 @@ export default function ServiceCards({ citySlug, services }: Props) {
                       className={styles.readMore}
                       onClick={() => setActive(service)}
                     >
-                      Overview
+                      Full Description
                     </button>
                   ) : (
                     <span />

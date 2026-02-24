@@ -58,6 +58,13 @@ export default function ServiceList({ citySlug, services }: Props) {
     return items;
   };
 
+  const desiredLogosForRow = (servicesInRow: number) => {
+    if (servicesInRow <= 1) return 1;
+    if (servicesInRow === 2) return 2;
+    if (servicesInRow === 3) return 2;
+    return 3;
+  };
+
   // Desktop: blue, svc, svc, green, svc, svc, black
   const desktopItems: RenderItem[] = [];
   const desktopPattern: Array<"svc" | LogoColor> = [
@@ -89,11 +96,13 @@ export default function ServiceList({ citySlug, services }: Props) {
           });
         }
       }
-      // If this final row only has 2 or 3 services, drop the last logo
-      if (servicesInRow >= 2 && servicesInRow <= 3) {
+      const desiredLogos = desiredLogosForRow(servicesInRow);
+      let logoCount = rowItems.filter((item) => item.kind === "logo").length;
+      while (logoCount > desiredLogos) {
         for (let i = rowItems.length - 1; i >= 0; i--) {
           if (rowItems[i].kind === "logo") {
             rowItems.splice(i, 1);
+            logoCount -= 1;
             break;
           }
         }
