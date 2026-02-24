@@ -1115,6 +1115,28 @@
   flex-wrap: wrap;
 }
 
+.mediaUrlRow {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.mediaCopy {
+  background: #1a1c22;
+  color: #cfd1d4;
+  border: 1px solid #2a2f3a;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.mediaCopy:hover {
+  background: #151821;
+  color: #fff;
+}
+
 .companyDangerZone {
   grid-column: 1 / -1;
   border: 1px solid rgba(248, 113, 113, 0.25);

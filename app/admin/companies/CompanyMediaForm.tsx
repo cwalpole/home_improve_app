@@ -41,6 +41,16 @@ function normalizeGalleryImages(input: unknown): GalleryImage[] {
   return [];
 }
 
+function cloudinaryUrl(publicId?: string | null, fallback?: string | null) {
+  if (publicId) {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    if (cloudName) {
+      return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/${publicId}`;
+    }
+  }
+  return fallback || "";
+}
+
 export default function CompanyMediaForm({
   companyId,
   galleryImages,
@@ -57,6 +67,7 @@ export default function CompanyMediaForm({
   const [featuredIndex, setFeaturedIndex] = useState(
     typeof galleryFeaturedIndex === "number" ? galleryFeaturedIndex : 0
   );
+  const [galleryUrl, setGalleryUrl] = useState("");
 
   const maxGalleryImages = 5;
   const gallerySlotsLeft = Math.max(0, maxGalleryImages - gallery.length);
@@ -101,6 +112,19 @@ export default function CompanyMediaForm({
                   className={styles.mediaThumbImage}
                   unoptimized
                 />
+                <div className={styles.mediaUrlRow}>
+                  <button
+                    type="button"
+                    className={styles.mediaCopy}
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        cloudinaryUrl(img.publicId, img.url)
+                      )
+                    }
+                  >
+                    Copy URL
+                  </button>
+                </div>
                 <button
                   type="button"
                   className={styles.mediaRemove}
@@ -140,6 +164,30 @@ export default function CompanyMediaForm({
           )}
         </div>
         <div className={styles.mediaGalleryActions}>
+          <div className={styles.inlineField}>
+            <input
+              value={galleryUrl}
+              onChange={(event) => setGalleryUrl(event.target.value)}
+              className={styles.input}
+              placeholder="https://...image.jpg"
+            />
+            <button
+              type="button"
+              className={styles.btn}
+              onClick={() => {
+                const nextUrl = galleryUrl.trim();
+                if (!nextUrl || gallery.length >= maxGalleryImages) return;
+                setGallery((prev) => [...prev, { url: nextUrl, publicId: null }]);
+                setGalleryUrl("");
+                setDirty(true);
+                if (!gallery.length) {
+                  setFeaturedIndex(0);
+                }
+              }}
+            >
+              Add URL
+            </button>
+          </div>
           <CoverUpload
             onUploaded={({ url, publicId }) => {
               if (gallery.length >= maxGalleryImages) return;
