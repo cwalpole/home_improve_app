@@ -6,6 +6,9 @@ cloudinary.config({
 });
 
 export async function POST(req: Request) {
+  if (!process.env.CLOUDINARY_URL) {
+    console.error("[cloudinary] CLOUDINARY_URL is not set");
+  }
   const formData = await req.formData();
   const file = formData.get("file");
 
@@ -36,6 +39,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ url: result.secure_url, publicId: result.public_id });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Upload failed";
+    console.error("[cloudinary] upload failed", err);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

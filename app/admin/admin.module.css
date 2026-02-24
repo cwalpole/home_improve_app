@@ -746,6 +746,7 @@
 .companyDetailColumn {
   display: grid;
   gap: 16px;
+  min-width: 0;
 }
 
 .companyMappings {
@@ -876,6 +877,7 @@
   padding: 18px;
   display: grid;
   gap: 14px;
+  width: 100%;
 }
 
 .companyFormIntro {
