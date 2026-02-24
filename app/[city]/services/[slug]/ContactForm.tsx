@@ -24,6 +24,7 @@ export default function ContactForm({
     "idle"
   );
   const dateInputRef = useRef<HTMLInputElement | null>(null);
+  const [loadedAt] = useState(() => Date.now());
 
   const openDatePicker = () => {
     const input = dateInputRef.current;
@@ -46,6 +47,7 @@ export default function ContactForm({
     body.set("citySlug", citySlug);
     body.set("service", service);
     body.set("serviceSlug", serviceSlug);
+    body.set("loadedAt", String(loadedAt));
 
     try {
       const res = await fetch("/api/contact", { method: "POST", body });
@@ -63,6 +65,15 @@ export default function ContactForm({
       <input type="hidden" name="citySlug" value={citySlug} />
       <input type="hidden" name="service" value={service} />
       <input type="hidden" name="serviceSlug" value={serviceSlug} />
+      <input type="hidden" name="loadedAt" value={loadedAt} />
+      <input
+        type="text"
+        name="companyWebsite"
+        autoComplete="off"
+        tabIndex={-1}
+        className={styles.honeypot}
+        aria-hidden="true"
+      />
       {providerCompanyId != null && (
         <input
           type="hidden"

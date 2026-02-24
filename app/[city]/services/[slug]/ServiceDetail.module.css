@@ -904,6 +904,15 @@
   border: 1px solid #fca5a5;
 }
 
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 @media (max-width: 900px) {
   .meetSplit {
     grid-template-columns: 1fr;
