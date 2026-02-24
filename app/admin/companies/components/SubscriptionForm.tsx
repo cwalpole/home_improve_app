@@ -6,7 +6,11 @@ import {
   assignCompanySubscription,
   type SubscriptionActionState,
 } from "../../actions/companySubscriptions";
-import { SubscriptionStatus } from "@prisma/client";
+import {
+  BillingInterval,
+  SubscriptionStatus,
+  SubscriptionTier,
+} from "@prisma/client";
 import styles from "../../admin.module.css";
 
 type PlanOption = {

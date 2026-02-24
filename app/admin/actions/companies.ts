@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { deleteImage } from "@/lib/cloudinary";
 
@@ -43,7 +44,9 @@ export async function updateCompany(
       url,
       tagline,
       companySummary,
-      servicesOffered: servicesOffered.length ? servicesOffered : null,
+      servicesOffered: servicesOffered.length
+        ? servicesOffered
+        : Prisma.DbNull,
     },
   });
   revalidatePath("/admin/companies");
@@ -104,7 +107,7 @@ export async function updateCompanyMedia(
   await prisma.company.update({
     where: { id },
     data: {
-      galleryImages: galleryImages.length ? galleryImages : null,
+      galleryImages: galleryImages.length ? galleryImages : Prisma.DbNull,
       galleryFeaturedIndex: galleryImages.length
         ? Math.min(featuredIndex, galleryImages.length - 1)
         : null,

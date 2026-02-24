@@ -122,7 +122,7 @@ export default function ContactForm({
           type="submit"
           disabled={status === "sending"}
         >
-          {status === "sending" ? "Sending…" : "Request free quote"}
+          {status === "sending" ? "Sending…" : "Request Free Quote"}
         </button>
         <span className={styles.formNote}>
           By submitting, you agree to be contacted about your request.

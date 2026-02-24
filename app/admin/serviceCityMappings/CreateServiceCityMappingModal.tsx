@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import styles from "../admin.module.css";
-import HtmlEditor from "../components/HtmlEditor";
 import { mapServiceToCity } from "../actions/mappings";
 
 type CityOption = { id: number; name: string; slug: string };
@@ -38,7 +37,7 @@ export default function CreateServiceCityMappingModal({ services, cities }: Prop
               </button>
             </div>
             <p className={styles.modalDescription}>
-              Select a service and city to create or update the mapping content.
+              Select a service and city to create the mapping content.
             </p>
 
             <form action={mapServiceToCity} className={styles.modalForm}>
@@ -48,7 +47,7 @@ export default function CreateServiceCityMappingModal({ services, cities }: Prop
                 </option>
                 {services.map((s) => (
                   <option key={s.id} value={s.id}>
-                    {s.name} — {s.slug}
+                    {s.name}
                   </option>
                 ))}
               </select>
@@ -57,18 +56,10 @@ export default function CreateServiceCityMappingModal({ services, cities }: Prop
                 <option value="">Select City</option>
                 {cities.map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.name} — {c.slug}
+                    {c.name}
                   </option>
                 ))}
               </select>
-
-              <HtmlEditor
-                id="service-city-modal-content"
-                name="contentHtml"
-                label="Service page content (optional)"
-                placeholder="Paste or write HTML content that should appear on the service page."
-                helpText="Leave blank to use the default template."
-              />
 
               <div className={styles.modalActions}>
                 <button

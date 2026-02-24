@@ -1,6 +1,6 @@
 .main {
   display: grid;
-  gap: 96px;
+  gap: 24px;
   padding-bottom: 96px;
   background: #f5f6f8;
   color: #0f172a;
@@ -120,17 +120,23 @@
   font-size: 0.95rem;
   text-decoration: none;
   transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  cursor: pointer;
 }
 
 .ctaPrimary {
-  background: #0d606c;
+  background: #7ca451;
   color: #f8fafc;
-  box-shadow: 0 20px 44px rgba(13, 96, 108, 0.35);
+  border: none;
 }
 
 .ctaPrimary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 24px 50px rgba(13, 96, 108, 0.45);
+  opacity: 0.95;
+}
+
+.ctaPrimary:focus-visible {
+  outline: 2px solid rgba(124, 164, 81, 0.6);
+  outline-offset: 2px;
 }
 
 .ctaSecondary {
@@ -339,12 +345,164 @@
   grid-template-columns: 1fr;
 }
 
-.sectionIntro {
+@media (max-width: 980px) {
+  .servicesQuote {
+    grid-template-columns: 1fr;
+  }
+}
+
+.serviceContent {
+  max-width: 900px;
+  margin: 60px auto 0;
+  padding: 24px 24px 80px;
+  display: grid;
+  gap: 24px;
+  background: #f4f6f3;
+  border-radius: 18px;
+}
+
+.serviceContent h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: #111827;
+}
+
+.serviceContentBody {
+  display: grid;
+  gap: 16px;
+  color: #1f2937;
+  line-height: 1.7;
+}
+
+.sectionIntro + .serviceContentBody {
+  margin-top: 24px;
+}
+
+.serviceContentBody :global(p) {
+  margin: 0;
+}
+
+.serviceContentBody :global(h1),
+.serviceContentBody :global(h2),
+.serviceContentBody :global(h3) {
+  margin: 0;
+  color: #111827;
+}
+
+.serviceContentBody :global(hr) {
+  border: none;
+  border-top: 1px solid rgba(148, 163, 184, 0.6);
+  margin: 12px 0;
+}
+
+.serviceContentAfter {
+  width: min(900px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 24px 24px 24px;
+  background: #f4f6f3;
+  border-radius: 18px;
+}
+
+.serviceContentEmpty {
+  margin: 0;
+  color: #4b5563;
+}
+
+.partnerCta {
+  padding: clamp(48px, 8vw, 72px) 28px;
+  background: linear-gradient(180deg, #0b0c0f 0%, #0f172a 100%);
+  border: 1px solid #1a1c22;
+  border-radius: 28px;
+  width: 100%;
+  box-shadow:
+    0 22px 46px rgba(0, 0, 0, 0.28),
+    0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.partnerContent {
   max-width: 720px;
   margin: 0 auto;
+  display: grid;
+  gap: 14px;
   text-align: center;
+}
+
+.partnerContent h2 {
+  margin: 0;
+  color: #ffffff;
+}
+
+.partnerContent p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.8;
+}
+
+.partnerContent .sectionEyebrow {
+  color: #7ca451;
+  letter-spacing: 0.08em;
+}
+
+.partnerCtaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  width: fit-content;
+  background: #0d606c;
+  color: #f8fafc;
+  border: none;
+  box-shadow: 0 20px 44px rgba(13, 96, 108, 0.35);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.partnerCtaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 50px rgba(13, 96, 108, 0.45);
+}
+
+@media (max-width: 640px) {
+  .partnerCta {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.partnerContactRow {
+  max-width: 1180px;
+  margin: 0 auto 96px;
+  padding: 0 24px;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.partnerContactForm {
+  width: 100%;
+  margin: 0;
+}
+
+.sectionIntro {
+  max-width: 720px;
+  margin: 0;
+  text-align: left;
   display: grid;
   gap: 12px;
+}
+
+.sectionIntroCentered {
+  text-align: center;
+  justify-items: center;
 }
 
 .sectionEyebrow {
@@ -363,6 +521,53 @@
   letter-spacing: -0.01em;
 }
 
+.serviceTitle {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.sectionIntro .serviceTitle + * {
+  margin-top: 12px;
+}
+
+.serviceTitleIcon {
+  width: 28px;
+  height: 32px;
+  background: #0d606c;
+  mask: url("/logo-design-single.svg") center / contain no-repeat;
+  -webkit-mask: url("/logo-design-single.svg") center / contain no-repeat;
+}
+
+.serviceCity {
+  font-size: 1rem;
+  color: #475569;
+  margin-top: 12px;
+}
+
+.serviceIntroNote {
+  display: grid;
+  gap: 2px;
+  margin-top: 12px;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.serviceIntroNote p {
+  margin: 0;
+}
+
+.servicesIntro {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
 .servicesCard {
   padding: 0;
   background: transparent;
@@ -370,6 +575,7 @@
   box-shadow: none;
   display: grid;
   gap: 20px;
+  justify-items: center;
 }
 
 .servicesCard h2 {
@@ -378,19 +584,21 @@
 
 .servicesGrid {
   display: grid;
-  gap: 14px;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 .serviceItem {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 16px;
   padding: 24px;
   border-radius: 20px;
   background: #ffffff;
   border: 1px solid rgba(148, 163, 184, 0.25);
   box-shadow: 0 18px 32px rgba(15, 23, 42, 0.08);
   align-items: start;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
 .serviceIcon {
@@ -409,6 +617,16 @@
   font-weight: 700;
   font-size: 1.6rem;
   line-height: 1;
+}
+
+.serviceItem:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.12);
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+.serviceItem:hover .serviceIcon {
+  background: #0f172a;
 }
 
 .serviceItem:nth-child(1) .serviceIcon {
@@ -473,11 +691,12 @@
 }
 
 .servicesEmpty {
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px dashed rgba(255, 255, 255, 0.35);
-  background: rgba(11, 12, 16, 0.6);
-  color: rgba(255, 255, 255, 0.72);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px dashed rgba(148, 163, 184, 0.35);
+  background: #ffffff;
+  text-align: center;
+  color: #64748b;
 }
 
 .testimonialCard {
@@ -510,7 +729,7 @@
     0 2px 6px rgba(0, 0, 0, 0.04);
   display: grid;
   gap: 18px;
-  width: 60%;
+  width: min(650px, 100%);
   margin: 0 auto;
 }
 

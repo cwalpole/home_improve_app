@@ -4,6 +4,7 @@ import AdminSection from "../components/AdminSection";
 import styles from "../admin.module.css";
 import { unstable_noStore as noStore } from "next/cache";
 import CreateServiceCityMappingModal from "./CreateServiceCityMappingModal";
+import ServiceCityFilter from "./ServiceCityFilter";
 
 export default async function ServiceCityMappingsPage(props: {
   searchParams?: Promise<{ city?: string }>;
@@ -52,28 +53,7 @@ export default async function ServiceCityMappingsPage(props: {
       title="Service → City mappings"
       right={<CreateServiceCityMappingModal services={selectableServices} cities={cities} />}
     >
-      <form
-        method="get"
-        className={`${styles.formInline} ${styles.filterControls}`}
-        style={{ marginBottom: 16 }}
-      >
-        <select name="city" className={styles.select} defaultValue={selectedCitySlug}>
-          <option value="">All cities</option>
-          {cities.map((city) => (
-            <option key={city.id} value={city.slug}>
-              {city.name}
-            </option>
-          ))}
-        </select>
-        <button className={styles.btn} type="submit">
-          Filter
-        </button>
-        {selectedCitySlug ? (
-          <Link className={`${styles.btn} ${styles.secondary}`} href="/admin/serviceCityMappings">
-            Clear
-          </Link>
-        ) : null}
-      </form>
+      <ServiceCityFilter cities={cities} selectedCitySlug={selectedCitySlug} />
 
       {filteredServiceCities.length ? (
         <ul className={styles.companyList}>

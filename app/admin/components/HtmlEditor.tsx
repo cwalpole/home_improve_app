@@ -191,6 +191,14 @@ export default function HtmlEditor({
               >
                 •
               </button>
+              <button
+                type="button"
+                onClick={() => editor.chain().focus().setHorizontalRule().run()}
+                className={styles.editorButton}
+                aria-label="Insert line"
+              >
+                Line
+              </button>
               <div className={styles.editorToolbarDivider} aria-hidden="true" />
               <button
                 type="button"

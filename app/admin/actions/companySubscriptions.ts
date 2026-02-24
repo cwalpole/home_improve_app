@@ -20,8 +20,8 @@ export async function assignCompanySubscription(
     const status = (formData.get("status")?.toString() ||
       "ACTIVE") as SubscriptionStatus;
 
-    let tier = SubscriptionTier.FREE;
-    let interval = BillingInterval.MONTH;
+    let tier: SubscriptionTier = SubscriptionTier.FREE;
+    let interval: BillingInterval = BillingInterval.MONTH;
     let currency = "CAD";
     let priceCents = 0;
     const customLabel = formData.get("customLabel")?.toString().trim() || null;

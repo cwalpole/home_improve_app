@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import HtmlEditor from "../components/HtmlEditor";
 import styles from "../admin.module.css";
 import {
@@ -23,9 +23,29 @@ export default function ServiceCityContentForm({
     updateServiceCityContent,
     initialState
   );
+  const [showSaved, setShowSaved] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (state.ok && !state.error) {
+      setShowSaved(true);
+    }
+    if (state.ok || state.error) {
+      setIsSubmitting(false);
+    }
+  }, [state.ok, state.error]);
+
+  const markDirty = () => {
+    if (isSubmitting) return;
+    setShowSaved(false);
+  };
 
   return (
-    <form action={formAction} className={styles.contentForm}>
+    <form
+      action={formAction}
+      className={styles.contentForm}
+      onSubmit={() => setIsSubmitting(true)}
+    >
       <input type="hidden" name="serviceCityId" value={mappingId} />
       <HtmlEditor
         id={`service-city-${mappingId}-content-detail`}
@@ -34,12 +54,13 @@ export default function ServiceCityContentForm({
         defaultValue={defaultContent ?? ""}
         placeholder="Paste or write HTML content that should appear on the service page."
         helpText="Remove all content to fall back to the default template."
+        onDirty={markDirty}
       />
       <div className={styles.formActions}>
         <button className={styles.btn} type="submit">
           Save
         </button>
-        {state.ok && !state.error ? (
+        {showSaved && !state.error ? (
           <span style={{ color: "#86efac" }}>Saved</span>
         ) : null}
         {state.error ? (

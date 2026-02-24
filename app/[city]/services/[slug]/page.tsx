@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./ServiceDetail.module.css";
 import { findCityBySlug } from "@/lib/city";
 import { getServiceDetailForCityId } from "@/lib/queries";
@@ -28,17 +29,17 @@ type ServiceItem = { html: string };
 function parseGalleryImages(input: unknown): GalleryImage[] {
   if (!input) return [];
   if (Array.isArray(input)) {
-    return input
-      .map((item) => {
-        if (!item || typeof item !== "object") return null;
-        const record = item as { url?: unknown; publicId?: unknown };
-        const url = typeof record.url === "string" ? record.url.trim() : "";
-        const publicId =
-          typeof record.publicId === "string" ? record.publicId.trim() : null;
-        if (!url) return null;
-        return { url, publicId };
-      })
-      .filter((item): item is GalleryImage => Boolean(item));
+    const results: GalleryImage[] = [];
+    for (const item of input) {
+      if (!item || typeof item !== "object") continue;
+      const record = item as { url?: unknown; publicId?: unknown };
+      const url = typeof record.url === "string" ? record.url.trim() : "";
+      const publicId =
+        typeof record.publicId === "string" ? record.publicId.trim() : null;
+      if (!url) continue;
+      results.push({ url, publicId });
+    }
+    return results;
   }
   if (typeof input === "string") {
     try {
@@ -84,6 +85,87 @@ export default async function CityServiceDetailPage(props: {
   const data = await getServiceDetailForCityId(slug, city.id);
   if (!data) return <div>Service not found</div>;
 
+  if (!data.listings.length) {
+    const contentHtml = data.contentHtml?.trim();
+    return (
+      <main className={styles.main}>
+        <section>
+          <div className={styles.serviceContent}>
+            <div className={styles.sectionIntro}>
+              <h2 className={styles.serviceTitle}>
+                <span className={styles.serviceTitleIcon} aria-hidden="true" />
+                {data.name}
+              </h2>
+              <div className={styles.serviceCity}>
+                We’re Expanding to {city.name}!
+              </div>
+              <div className={styles.serviceIntroNote}>
+                <p>
+                  We’re currently vetting experienced roofing professionals who
+                  meet our quality standards.
+                </p>
+                <p>
+                  Check back soon — or submit your project details and we’ll
+                  follow up once a partner is available.
+                </p>
+              </div>
+            </div>
+            {contentHtml ? (
+              <div
+                className={styles.serviceContentBody}
+                dangerouslySetInnerHTML={{ __html: contentHtml }}
+              />
+            ) : (
+              <p className={styles.serviceContentEmpty}>
+                Service details are coming soon.
+              </p>
+            )}
+          </div>
+        </section>
+
+        <section className={styles.partnerContactRow}>
+          <div className={styles.partnerCta}>
+            <div className={styles.partnerContent}>
+              <span className={styles.sectionEyebrow}>Partner with us</span>
+              <h2>Want to join the {city.name} provider network?</h2>
+              <p>
+                We’re always looking for licensed, insured crews who care about
+                craftsmanship and communication. Tell us about your services and
+                we’ll reach out with next steps.
+              </p>
+              <Link href="/contact" className={styles.partnerCtaButton}>
+                Become a Partner
+              </Link>
+            </div>
+          </div>
+
+          <div className={`${styles.quoteCard} ${styles.partnerContactForm}`}>
+            <div className={styles.quoteHeader}>
+              <h2>Contact Give It Charm</h2>
+              <p>
+                Tell us about your project and we’ll follow up once a partner
+                is available.
+              </p>
+            </div>
+            <ContactForm
+              city={city.name}
+              citySlug={city.slug}
+              service={data.name}
+              serviceSlug={slug}
+              providerCompanyId={null}
+              serviceCityId={null}
+            />
+            <ul className={styles.quotePerks}>
+              <li>No obligation</li>
+              <li>Fast response</li>
+              <li>Local experts</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   // There should be exactly one listing for this Service•City
   const listing = data.listings[0] ?? null;
   const companyName = listing?.displayName || listing?.company.name;
@@ -108,6 +190,7 @@ export default async function CityServiceDetailPage(props: {
   const servicesOfferedItems = parseServiceItems(
     listing?.company.servicesOffered
   );
+  const hasCompanyLogo = Boolean(listing?.company.logoUrl);
 
   const heroImageUrl =
     cloudinaryUrl(
@@ -116,6 +199,10 @@ export default async function CityServiceDetailPage(props: {
     ) ||
     listing?.company.logoUrl ||
     "/logo-placeholder.png";
+  const heroLogoUrl = cloudinaryUrl(
+    listing?.company.logoPublicId,
+    listing?.company.logoUrl
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -149,18 +236,15 @@ export default async function CityServiceDetailPage(props: {
           <div className={styles.heroOverlay} aria-hidden="true" />
           <div className={styles.heroContent}>
             <div className={styles.heroCopy}>
-              <Image
-                src={
-                  cloudinaryUrl(
-                    listing?.company.logoPublicId,
-                    listing?.company.logoUrl
-                  ) || "/logo-placeholder.png"
-                }
-                alt={`${companyName ?? data.name} logo`}
-                width={200}
-                height={200}
-                className={styles.heroTitleLogo}
-              />
+              {heroLogoUrl ? (
+                <Image
+                  src={heroLogoUrl}
+                  alt={`${companyName ?? data.name} logo`}
+                  width={200}
+                  height={200}
+                  className={styles.heroTitleLogo}
+                />
+              ) : null}
               <div className={styles.heroText}>
                 <h1 className={styles.heroTitle}>
                   <span className={styles.heroTitleName}>
@@ -214,14 +298,14 @@ export default async function CityServiceDetailPage(props: {
             ) : null}
           </div>
 
-          <div className={styles.meetLogoRow}>
-            <div className={styles.logoBadgeCard}>
-              {listing?.company.logoUrl ? (
+          {hasCompanyLogo ? (
+            <div className={styles.meetLogoRow}>
+              <div className={styles.logoBadgeCard}>
                 <Image
                   src={
                     cloudinaryUrl(
-                      listing.company.logoPublicId,
-                      listing.company.logoUrl
+                      listing?.company.logoPublicId,
+                      listing?.company.logoUrl
                     ) || "/logo-placeholder.png"
                   }
                   alt={`${companyName ?? data.name} logo`}
@@ -229,16 +313,12 @@ export default async function CityServiceDetailPage(props: {
                   height={160}
                   className={styles.meetLogo}
                 />
-              ) : (
-                <div className={styles.meetLogoFallback}>
-                  {companyName ?? data.name}
-                </div>
-              )}
-              <span className={styles.partnerBadge}>
-                A Trusted Give It Charm Partner
-              </span>
+                <span className={styles.partnerBadge}>
+                  A Trusted Give It Charm Partner
+                </span>
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
 
         <div id="gallery" className={`${styles.galleryGrid} ${styles.anchorTarget}`}>
@@ -264,11 +344,14 @@ export default async function CityServiceDetailPage(props: {
 
       <section className={styles.servicesQuote}>
         <div className={styles.servicesCard}>
-          <div className={styles.sectionIntro}>
+          <div className={`${styles.sectionIntro} ${styles.sectionIntroCentered}`}>
             <span className={styles.sectionEyebrow}>
               {companyName ?? data.name}
             </span>
             <h2>Our Expertise</h2>
+            <p className={styles.servicesIntro}>
+              A focused lineup of premium services tailored to your project.
+            </p>
           </div>
           <div className={styles.servicesGrid}>
             {servicesOfferedItems.length ? (
@@ -288,14 +371,6 @@ export default async function CityServiceDetailPage(props: {
             )}
           </div>
 
-          <figure className={styles.testimonialCard}>
-            <blockquote>
-              “{companyName ?? data.name} transformed our cold, cracked {serviceLower} into a
-              space we actually use every day. Professional team with great attention
-              to detail.”
-            </blockquote>
-            <figcaption>— Sarah R., {city.name}</figcaption>
-          </figure>
         </div>
 
         <div id="contact" className={`${styles.quoteCard} ${styles.anchorTarget}`}>
@@ -318,6 +393,21 @@ export default async function CityServiceDetailPage(props: {
           </ul>
         </div>
       </section>
+
+      {data.contentHtml ? (
+        <section className={styles.serviceContentAfter}>
+          <div className={styles.sectionIntro}>
+            <h2 className={styles.serviceTitle}>
+              <span className={styles.serviceTitleIcon} aria-hidden="true" />
+              {data.name}
+            </h2>
+          </div>
+          <div
+            className={styles.serviceContentBody}
+            dangerouslySetInnerHTML={{ __html: data.contentHtml }}
+          />
+        </section>
+      ) : null}
 
       <script
         type="application/ld+json"

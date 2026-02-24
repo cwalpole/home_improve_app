@@ -1,14 +1,10 @@
-import { prisma } from "@/lib/prisma";
-import CityGate from "@/components/CityGate";
-
-export const revalidate = 60;
-export const dynamic = "force-dynamic";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function HomePage() {
-  const cities = await prisma.city.findMany({
-    select: { name: true, slug: true },
-    orderBy: { name: "asc" },
-  });
+  const cookieStore = await cookies();
+  const preferredCity =
+    cookieStore.get("preferred-city")?.value?.trim().toLowerCase() || "calgary";
 
-  return <CityGate cities={cities} />;
+  redirect(`/${preferredCity}`);
 }
