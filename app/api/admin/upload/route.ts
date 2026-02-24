@@ -9,6 +9,11 @@ export async function POST(req: Request) {
   if (!process.env.CLOUDINARY_URL) {
     console.error("[cloudinary] CLOUDINARY_URL is not set");
   }
+  const cfg = cloudinary.config();
+  console.error("[cloudinary] config", {
+    hasCloudinaryUrl: Boolean(process.env.CLOUDINARY_URL),
+    cloudName: cfg.cloud_name || null,
+  });
   const formData = await req.formData();
   const file = formData.get("file");
 
