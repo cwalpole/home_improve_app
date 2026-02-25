@@ -60,3 +60,18 @@
 .form button:hover {
   background: #5a6b83;
 }
+
+.helpLinks {
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.helpLinks a {
+  color: #9ca3af;
+  text-decoration: none;
+}
+
+.helpLinks a:hover {
+  color: #e5e7eb;
+  text-decoration: underline;
+}

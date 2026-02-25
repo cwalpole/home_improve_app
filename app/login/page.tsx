@@ -28,6 +28,9 @@ export default async function LoginPage({
           </label>
           <button type="submit">Sign in</button>
         </form>
+        <div className={styles.helpLinks}>
+          <a href="/reset-password">Reset Password</a>
+        </div>
       </div>
     </div>
   );
